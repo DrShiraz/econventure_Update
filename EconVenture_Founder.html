@@ -1159,7 +1159,7 @@ const QUIZ=[
    `google.script.run` exists and we use it to log results and read the class
    leaderboard. As a plain double-clicked file it is absent, so everything
    degrades to offline (download + code) with zero errors. */
-const CLASS_URL='';  /* faculty pastes their Apps Script /exec URL here to enable classroom mode from any host */
+const CLASS_URL="https://script.google.com/macros/s/AKfycbzhbpfJRDByctZkOpcxMh9mq5otcRRmYaAvxMAWolbyiy1noAoCLvllgTabSU59Pwm9/exec";
 const NET={
   url(){ return (CLASS_URL||'').trim(); },
   gsrun(){ try{ return !!(typeof google!=='undefined' && google.script && google.script.run); }catch(e){ return false; } },
