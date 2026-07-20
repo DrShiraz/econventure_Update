@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>EconVenture · Level 2 · Act 7</title>
+<style>
+:root{
+  --bg:#081321;--panel:#0e2038;--panel2:#122a49;--line:#1e3a5f;
+  --ink:#e8eef7;--muted:#93a7c4;--gold:#e0b54a;--gold2:#f0cf7a;
+  --basic:#6f97c4;--mid:#4a90d9;--prem:#e0b54a;--good:#43b581;--bad:#e5594d;--info:#4a90d9;--warn:#e8a33d;
+  --shadow:0 6px 24px rgba(0,0,0,.35);
+}
+*{box-sizing:border-box}html,body{margin:0;padding:0}
+body{background:radial-gradient(1100px 560px at 72% -12%,#0d2540 0,var(--bg) 55%),var(--bg);
+  color:var(--ink);font-family:"Segoe UI",system-ui,-apple-system,Roboto,Helvetica,Arial,sans-serif;
+  font-size:15px;line-height:1.55;-webkit-font-smoothing:antialiased}
+.wrap{max-width:960px;margin:0 auto;padding:16px 16px 64px}
+h1,h2,h3{margin:0 0 .4em;font-weight:700;letter-spacing:.2px}h1{font-size:23px}h2{font-size:18px}h3{font-size:15px}
+.gold{color:var(--gold)}.muted{color:var(--muted)}.small{font-size:13px}.tiny{font-size:12px}.mono{font-variant-numeric:tabular-nums}
+a{color:var(--gold2);cursor:pointer}
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:12px 16px;background:linear-gradient(180deg,#0f2542,#0b1c33);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);margin-bottom:16px}
+.brand{display:flex;align-items:center;gap:10px}.brand .dot{width:11px;height:11px;border-radius:50%;background:var(--gold);box-shadow:0 0 12px var(--gold)}
+.brand b{font-size:17px;letter-spacing:.4px}.step{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.8px}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:20px;box-shadow:var(--shadow);margin-bottom:16px}
+.grid{display:grid;gap:14px}
+@media(min-width:780px){.grid.cols2{grid-template-columns:1fr 1fr}.grid.cols3{grid-template-columns:1fr 1fr 1fr}}
+.card{background:var(--panel2);border:1px solid var(--line);border-radius:11px;padding:13px}
+.card .l{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.6px;margin-bottom:3px}
+.card .v{font-size:20px;font-weight:700}
+.speak{border-left:3px solid var(--gold);background:rgba(224,181,74,.07);padding:10px 14px;border-radius:0 8px 8px 0;font-size:14px;margin:12px 0;color:#dbe6f5}
+.who{color:var(--gold2);font-weight:700}
+.example{display:flex;gap:10px;flex-wrap:wrap;margin:12px 0}
+.example .ex{flex:1;min-width:150px;background:#0a1c33;border:1px solid var(--line);border-radius:10px;padding:11px 13px;font-size:13px}
+.example .ex b{color:var(--gold2)}
+label.field{display:block;margin:6px 0 2px}
+label.field .cap{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:7px}
+label.field .cap b{font-size:14px}label.field .cap .val{font-variant-numeric:tabular-nums;color:var(--gold);font-weight:700;font-size:16px}
+input[type=range]{-webkit-appearance:none;width:100%;height:7px;border-radius:6px;background:linear-gradient(90deg,var(--tint,var(--gold)) 0%,var(--tint,var(--gold)) var(--fill,40%),#20375a var(--fill,40%));outline:none}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;background:#fff;border:3px solid var(--tint,var(--gold));cursor:pointer;box-shadow:0 2px 6px rgba(0,0,0,.4)}
+input[type=range]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;background:#fff;border:3px solid var(--tint,var(--gold));cursor:pointer}
+.hint{font-size:12.5px;color:var(--muted);margin-top:7px}
+.btn{display:inline-flex;align-items:center;gap:8px;justify-content:center;cursor:pointer;padding:13px 22px;border-radius:10px;border:1px solid var(--line);background:var(--panel2);color:var(--ink);font-size:15px;font-weight:600;transition:transform .05s,filter .15s}
+.btn:hover{filter:brightness(1.12)}.btn:active{transform:translateY(1px)}
+.btn.primary{background:linear-gradient(180deg,var(--gold2),var(--gold));color:#2a1e04;border-color:var(--gold)}
+.btn.ghost{background:transparent}.btn.wide{width:100%}
+.btnrow{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
+.work{background:#0a1830;border:1px solid var(--line);border-radius:10px;padding:12px 14px;margin-top:12px;font-size:12.5px;line-height:1.7;font-variant-numeric:tabular-nums}
+.work .row{color:#cfe0f5}.work b{color:var(--gold2)}
+.reinforce{background:var(--panel2);border:1px solid var(--line);border-left:4px solid var(--info);border-radius:11px;padding:16px;margin-top:14px}
+.reinforce h3{color:var(--gold2)}
+.chips{display:flex;gap:7px;flex-wrap:wrap;margin-top:10px}.chip{font-size:12px;padding:4px 11px;border-radius:20px;background:#0a1c33;border:1px solid var(--line);color:var(--muted)}
+.flag{border-radius:9px;padding:11px 14px;font-size:13.5px;margin:10px 0}
+.flag.ok{background:rgba(67,181,129,.12);border:1px solid rgba(67,181,129,.35)}
+.flag.info{background:rgba(74,144,217,.12);border:1px solid rgba(74,144,217,.35)}
+.flag.bad{background:rgba(229,89,77,.12);border:1px solid rgba(229,89,77,.35)}
+.flag.warn{background:rgba(232,163,61,.12);border:1px solid rgba(232,163,61,.35)}
+.mppbar{display:flex;align-items:flex-end;gap:16px;height:150px;padding:10px 6px 0;border-bottom:1px solid var(--line)}
+.mppbar .col{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%}
+.mppbar .bar{width:60%;border-radius:6px 6px 0 0;transition:height .12s}
+.mppbar .lab{font-size:11px;color:var(--muted);margin-top:6px}
+.recap{display:flex;flex-direction:column;gap:6px;margin-top:8px}
+.recap .r{display:flex;gap:10px;align-items:baseline;font-size:13px}
+.recap .r b{color:var(--gold2);min-width:74px}
+svg{display:block;width:100%;height:auto}.center{text-align:center}
+
+/* =====================================================================
+   BUILD VISUAL LAYER (shared across Level 2 acts) — appended; original
+   stylesheet untouched. Market-terminal identity matching the rest of the
+   course. Charts draw their lines in on entry, then fills and points settle.
+   Dependency-free; reduced motion and keyboard focus honoured at the bottom.
+   ===================================================================== */
+:root{
+  --bg:#081321;--panel:#102647;--panel2:#153059;--line:#213f6b;--line2:#2e568f;
+  --ink:#eaf1fb;--muted:#93abcd;--faint:#647fa6;
+  --gold:#e7bd54;--gold2:#f2d585;--gold-soft:rgba(231,189,84,.14);
+  --grid:rgba(120,160,215,.10);
+  --shadow:0 18px 44px -22px rgba(0,0,0,.75),0 3px 10px -4px rgba(0,0,0,.5);
+  --shadow-sm:0 8px 22px -14px rgba(0,0,0,.7);
+  --ease:cubic-bezier(.22,.7,.2,1);
+}
+body{background:
+    radial-gradient(1200px 620px at 72% -12%, #123055 0%, rgba(18,48,85,0) 60%),
+    linear-gradient(180deg,#0a1727 0%, var(--bg) 55%);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+  background-size:52px 52px;-webkit-mask-image:radial-gradient(1000px 700px at 72% 0%,#000 0%,transparent 78%);
+          mask-image:radial-gradient(1000px 700px at 72% 0%,#000 0%,transparent 78%);opacity:.5}
+.wrap{position:relative;z-index:1}
+.mono,.card .v,.work,label.field .cap .val,.chip,.small,.tiny{font-variant-numeric:tabular-nums}
+.topbar{background:linear-gradient(180deg,rgba(12,24,42,.94),rgba(12,24,42,.72));border-color:var(--line);box-shadow:0 1px 0 rgba(120,160,215,.05),var(--shadow-sm)}
+.brand .dot{box-shadow:0 0 12px var(--gold);animation:tick 2.4s var(--ease) infinite}
+.step{color:var(--muted)}
+.panel{position:relative;overflow:hidden;
+  background:linear-gradient(180deg,rgba(255,255,255,.02),rgba(255,255,255,0) 30%),linear-gradient(180deg,var(--panel) 0%,#0c1d34 100%);
+  border-color:var(--line);border-radius:16px;box-shadow:var(--shadow);animation:panelIn .5s var(--ease) both}
+.panel::before{content:"";position:absolute;left:16px;right:16px;top:0;height:1px;background:linear-gradient(90deg,transparent,rgba(160,195,245,.25),transparent)}
+h1,h2{letter-spacing:-.01em}
+.card{background:linear-gradient(180deg,#0e2340,#0b1d38);border-color:var(--line);box-shadow:var(--shadow-sm);
+  transition:transform .16s var(--ease),border-color .16s var(--ease);animation:cardIn .42s var(--ease) both}
+.card:hover{transform:translateY(-2px);border-color:var(--line2)}
+.grid .card:nth-child(1){animation-delay:.04s}.grid .card:nth-child(2){animation-delay:.1s}.grid .card:nth-child(3){animation-delay:.16s}
+.card .v{text-shadow:0 0 18px rgba(231,189,84,.14)}
+label.field .cap .val{text-shadow:0 0 16px rgba(231,189,84,.3)}
+input[type=range]{border:1px solid var(--line)}
+input[type=range]::-webkit-slider-thumb{box-shadow:0 0 0 4px rgba(231,189,84,.16),0 3px 8px rgba(0,0,0,.5);transition:box-shadow .15s var(--ease)}
+input[type=range]:hover::-webkit-slider-thumb{box-shadow:0 0 0 6px rgba(231,189,84,.22),0 3px 10px rgba(0,0,0,.55)}
+input[type=range]:active::-webkit-slider-thumb{box-shadow:0 0 0 8px rgba(231,189,84,.26)}
+.work{background:linear-gradient(180deg,#0a1b33,#081627);box-shadow:inset 0 1px 0 rgba(160,195,245,.04)}
+.reinforce{box-shadow:var(--shadow-sm);animation:reveal .5s var(--ease) both}
+.flag{animation:reveal .4s var(--ease) both}
+.chip{background:var(--gold-soft);transition:transform .15s var(--ease)}.chip:hover{transform:translateY(-1px)}
+.example .ex{box-shadow:var(--shadow-sm)}
+.speak{background:var(--gold-soft)}
+.btn{border-radius:10px;transition:transform .12s var(--ease),filter .15s var(--ease),box-shadow .15s var(--ease)}
+.btn:hover{transform:translateY(-1px)}.btn:active{transform:translateY(0) scale(.985)}
+.btn.primary{box-shadow:0 10px 24px -12px rgba(231,189,84,.6),inset 0 1px 0 rgba(255,255,255,.35)}
+:focus-visible{outline:2px solid var(--gold);outline-offset:2px;border-radius:8px}
+svg circle{filter:drop-shadow(0 0 4px currentColor)}
+svg text{font-variant-numeric:tabular-nums}
+svg.chartIn{animation:fadeIn .3s var(--ease) both}
+svg.chartIn path[fill="none"]{stroke-dasharray:2200;stroke-dashoffset:2200;animation:draw .85s var(--ease) .08s forwards}
+svg.chartIn polygon,svg.chartIn path[fill]:not([fill="none"]){opacity:0;animation:fadeIn .55s var(--ease) .5s forwards}
+svg.chartIn circle{opacity:0;animation:fadeIn .4s var(--ease) .62s forwards}
+svg.chartIn line[stroke="#fff"]{opacity:0;animation:fadeIn .4s var(--ease) .58s forwards}
+@keyframes panelIn{from{opacity:0;transform:translateY(10px) scale(.994)}to{opacity:1;transform:none}}
+@keyframes cardIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@keyframes reveal{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes draw{to{stroke-dashoffset:0}}
+@keyframes tick{0%{box-shadow:0 0 0 0 rgba(231,189,84,.55),0 0 12px var(--gold)}70%{box-shadow:0 0 0 7px rgba(231,189,84,0),0 0 12px var(--gold)}100%{box-shadow:0 0 0 0 rgba(231,189,84,0),0 0 12px var(--gold)}}
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important}
+  svg.chartIn path[fill="none"]{stroke-dashoffset:0!important}
+  svg.chartIn polygon,svg.chartIn path[fill]:not([fill="none"]),svg.chartIn circle,svg.chartIn line[stroke="#fff"]{opacity:1!important}
+  body::before{opacity:.32}.brand .dot{animation:none}
+}
+
+
+/* bespoke widget polish: equimarginal bars that glide toward level */
+.mppbar{height:164px}
+.mppbar .bar{transition:height .34s var(--ease);box-shadow:inset 0 1px 0 rgba(255,255,255,.2),0 -3px 10px -4px rgba(0,0,0,.4);border-radius:7px 7px 0 0}
+#mpavg{transition:bottom .34s var(--ease)}
+
+/* bespoke widgets for Act 7 (payoff grid, history strip, structure spectrum) */
+.pgrid{display:grid;grid-template-columns:96px 1fr 1fr;gap:8px;align-items:stretch}
+.phdr{display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:var(--muted);text-align:center;padding:6px}
+.phdr.side{writing-mode:horizontal-tb}
+.pcorner{}
+.pcell{position:relative;background:linear-gradient(180deg,#0e2340,#0b1d38);border:1px solid var(--line);border-radius:11px;padding:14px 12px;box-shadow:var(--shadow-sm);transition:transform .16s var(--ease),border-color .16s var(--ease),box-shadow .16s var(--ease)}
+.pcell .big{font-size:17px;font-weight:700;color:var(--ink);font-variant-numeric:tabular-nums}
+.pcell .sub{font-size:11.5px;color:var(--muted);margin-top:2px;font-variant-numeric:tabular-nums}
+.pcell.nash{border-color:var(--gold);box-shadow:0 0 0 1px rgba(231,189,84,.3),var(--shadow-sm)}
+.pcell.hot{transform:translateY(-2px);border-color:var(--gold2);box-shadow:0 0 0 2px rgba(231,189,84,.45),0 10px 22px -12px rgba(231,189,84,.5)}
+.pcell-badge{position:absolute;top:-9px;right:10px;font-size:10px;font-weight:700;letter-spacing:.5px;background:linear-gradient(180deg,var(--gold2),var(--gold));color:#2a1e04;padding:2px 8px;border-radius:20px}
+.coop-badge{position:absolute;top:-9px;right:10px;font-size:10px;font-weight:700;letter-spacing:.5px;background:rgba(67,181,129,.25);color:#8ff0c0;border:1px solid rgba(67,181,129,.5);padding:2px 8px;border-radius:20px}
+.hstrip{display:flex;gap:6px;flex-wrap:wrap;margin-top:4px;min-height:34px}
+.hround{display:flex;flex-direction:column;gap:3px;align-items:center}
+.hdot{width:22px;height:22px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#08131f;animation:cardIn .3s var(--ease) both}
+.hdot.H{background:linear-gradient(180deg,#5fd6a0,#43b581)}
+.hdot.C{background:linear-gradient(180deg,#ef8178,#e5594d)}
+.hlbl{font-size:9px;color:var(--faint)}
+.specbar{position:relative;height:16px;border-radius:9px;background:linear-gradient(90deg,#e5594d,#e8a33d 46%,#43b581);box-shadow:inset 0 1px 3px rgba(0,0,0,.45);margin:10px 0 4px}
+.specmark{position:absolute;top:-5px;width:4px;height:26px;border-radius:3px;background:#fff;box-shadow:0 0 8px rgba(255,255,255,.7);transition:left .34s var(--ease)}
+.specends{display:flex;justify-content:space-between;font-size:11px;color:var(--muted)}
+.tally{display:flex;gap:10px;flex-wrap:wrap}
+.tally .t{flex:1;min-width:120px;background:linear-gradient(180deg,#0e2340,#0b1d38);border:1px solid var(--line);border-radius:11px;padding:11px 13px}
+.tally .t .l{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.6px}
+.tally .t .v{font-size:19px;font-weight:700;font-variant-numeric:tabular-nums;transition:color .2s}
+.movebtns{display:flex;gap:10px;margin:12px 0}
+.movebtn{flex:1;padding:15px;border-radius:11px;font-size:15px;font-weight:700;cursor:pointer;border:1px solid var(--line);transition:transform .12s var(--ease),filter .15s}
+.movebtn:hover{transform:translateY(-1px);filter:brightness(1.1)}.movebtn:active{transform:translateY(0)}
+.movebtn.hold{background:linear-gradient(180deg,rgba(67,181,129,.22),rgba(67,181,129,.1));border-color:rgba(67,181,129,.5);color:#8ff0c0}
+.movebtn.cheat{background:linear-gradient(180deg,rgba(229,89,77,.22),rgba(229,89,77,.1));border-color:rgba(229,89,77,.5);color:#f2a59d}
+
+/* persistent hub link */
+.hublink{margin-left:auto;font-size:11px;color:var(--muted);text-decoration:none;padding:5px 11px;border:1px solid var(--line);border-radius:20px;transition:color .15s,border-color .15s,background .15s}
+.hublink:hover{color:var(--gold2);border-color:var(--gold);background:rgba(231,189,84,.06)}
+</style>
+<script>window.__L2QB={"open": {"q": "In a Cournot oligopoly, as the number of firms rises, the market price:", "opts": ["Rises toward monopoly", "Falls toward marginal cost", "Stays fixed", "Becomes infinite"], "a": 1}, "close": {"q": "In the repeated Prisoner\u2019s Dilemma against a tit-for-tat rival, always cheating gets you LESS than always cooperating because:", "opts": ["Cheating is illegal", "Punishment in later rounds costs more than the one-round gain from cheating", "Cooperation is a Nash equilibrium of one-shot play", "Tit-for-tat cooperates unconditionally"], "a": 1}};</script>
+</head>
+<body>
+<div class="wrap">
+  <div class="topbar">
+    <div class="brand"><span class="dot"></span><b>EconVenture <span class="gold">Level 2</span></b></div>
+    <div class="step">Act 8 · A handful of rivals</div><a class="hublink" href="EconVenture_Hub.html" title="Back to hub">◄ Hub</a></div>
+  <div id="app"></div>
+  <div class="center tiny muted" style="margin-top:18px">Level 2, Act 8 · offline single file · oligopoly: where a few firms set the price by watching each other.</div>
+</div>
+
+<script>
+/* EconVenture classroom helper — must be identical across every act.
+   Enforces the faculty gate for THIS act (network required; fail-closed after a grace period)
+   and reports position + completion to the classroom backend. */
+const CLASS_URL='';  /* faculty pastes the same Apps Script /exec URL used by Hub/Founder */
+const CLS={
+  cfg:{ actIdx:-1, actKind:'act', graceMs:15000, pollMs:6000, pingMs:20000 },
+  state:{ code:'', sid:'', name:'', gate:null, lastOk:0, tries:0, active:false },
+  init(){ try{ const r=localStorage.getItem('econventure_class_v1'); if(r){ const c=JSON.parse(r)||{}; this.state.code=c.code||''; this.state.sid=c.sid||''; this.state.name=c.name||''; } }catch(e){} },
+  online(){ return !!(CLASS_URL||'').trim(); },
+  call(params, cb){
+    if(!this.online()){ cb&&cb(null); return; }
+    try{
+      const qs=Object.keys(params).map(k=>k+'='+encodeURIComponent(params[k])).join('&');
+      fetch((CLASS_URL||'').trim()+'?api=1&'+qs,{cache:'no-store'})
+        .then(r=>r.json()).then(j=>cb&&cb(j))
+        .catch(()=>cb&&cb(null));
+    }catch(e){ cb&&cb(null); }
+  },
+  isOpenForMe(){
+    const g=this.state.gate; if(!g) return false;
+    if(g.paused) return false;
+    if(!g.paced) return true;                     // teacher turned pacing off => everyone can proceed
+    if(this.cfg.actKind==='act'){
+      return Array.isArray(g.open) && g.open.indexOf(this.cfg.actIdx)>=0;
+    }
+    return Array.isArray(g.l1open) && g.l1open.indexOf(this.cfg.actIdx)>=0;
+  },
+  showGate(msg, sub){
+    if(this._gateEl){ this._gateEl.remove(); this._gateEl=null; }
+    const el=document.createElement('div');
+    el.id='__cls_gate';
+    el.style.cssText='position:fixed;inset:0;z-index:99999;background:rgba(8,19,33,.97);display:flex;align-items:center;justify-content:center;padding:24px;backdrop-filter:blur(6px);font:15px/1.5 system-ui,Segoe UI,Roboto,sans-serif;color:#eef4fb';
+    el.innerHTML='<div style="max-width:520px;text-align:center;padding:28px 32px;background:linear-gradient(180deg,#0d1f38,#0b1d38);border:1px solid #1d3a5f;border-radius:16px;box-shadow:0 22px 44px -18px rgba(0,0,0,.7)">'+
+      '<div style="font-size:11px;letter-spacing:1px;text-transform:uppercase;color:#93abcd;margin-bottom:8px">Paced by your teacher</div>'+
+      '<div style="font-size:22px;font-weight:700;margin-bottom:10px">'+msg+'</div>'+
+      '<div style="font-size:14px;color:#93abcd">'+sub+'</div>'+
+      '</div>';
+    document.body.appendChild(el); this._gateEl=el;
+  },
+  hideGate(){ if(this._gateEl){ this._gateEl.remove(); this._gateEl=null; } },
+  refreshGate(cb){
+    if(!this.state.code){ this.showGate('Sign in through the Hub first', 'This act only opens when you are joined to your teacher\u2019s classroom. Return to the Hub, enter your name, roll and the class code, then come back.'); cb&&cb(false); return; }
+    if(!this.online()){ this.showGate('This game is not connected to a class', 'The classroom server is not configured on this page. Ask your teacher.'); cb&&cb(false); return; }
+    this.call({action:'gate',code:this.state.code}, g=>{
+      this.state.tries++;
+      if(g && g.ok!==false){
+        this.state.gate=g; this.state.lastOk=Date.now(); this.state.tries=0;
+        if(this.isOpenForMe()){ this.hideGate(); cb&&cb(true); }
+        else {
+          const name=(g.name||this.state.code);
+          this.showGate(g.paused?('Class '+name+' is on hold'):('Waiting for your teacher to open this stage'), g.paused?'Your teacher paused the class. You will unlock when they resume.':'You are ahead of the class, or your teacher has not opened this stage yet. It will open automatically the moment they do.');
+          cb&&cb(false);
+        }
+      } else {
+        const age=Date.now()-this.state.lastOk;
+        if(this.state.lastOk && age<this.cfg.graceMs){ /* recent good state, no scary UI */ cb&&cb(this.isOpenForMe()); }
+        else { this.showGate('Reconnecting to your class', 'Your device lost the classroom server. This will retry automatically. If it stays down for a minute, tell your teacher.'); cb&&cb(false); }
+      }
+    });
+  },
+  start(actIdx, actKind){
+    this.cfg.actIdx=actIdx; this.cfg.actKind=actKind||'act';
+    this.init();
+    if(this.state.active) return; this.state.active=true;
+    this.refreshGate();
+    this._poll=setInterval(()=>this.refreshGate(),this.cfg.pollMs);
+    this._ping=setInterval(()=>{ this._doPing(); },this.cfg.pingMs);
+    this._doPing();  /* immediate so roster shows position instantly */
+    if(this._initCloudSave) this._initCloudSave();
+  },
+  _doPing(){
+    if(!this.state.code || !this.state.sid) return;
+    this.call({action:'ping',sid:this.state.sid,pos:(this.cfg.actKind==='act'?'A:':'L1:')+this.cfg.actIdx}, r=>{
+      if(!r || !r.directive) return;
+      this._handleDirective(r.directive);
+    });
+  },
+  _handleDirective(d){
+    if(!d || !d.kind) return;
+    if(d.kind==='kick'){
+      try{ localStorage.removeItem('econventure_class_v1'); }catch(e){}
+      this.showGate('You have been removed from this class', 'Your teacher removed you from the classroom. Return to the Hub if you want to rejoin with a new code.');
+      return;
+    }
+    if(d.kind==='goto'){
+      const kind = d.posKind==='act'?'act':'concept';
+      const pos = Number(d.pos)||0;
+      // If the target IS this file's own act at same kind, just clear the gate wall (they're already here).
+      if(kind==='act' && this.cfg.actKind==='act' && pos===this.cfg.actIdx){ this.hideGate(); return; }
+      // Otherwise navigate to the Hub target file. Same-directory relative link.
+      const files = ['EconVenture_L1_Aggregation.html','EconVenture_Founder.html','EconVenture_L2_Act1.html','EconVenture_L2_Act2.html','EconVenture_L2_Act3.html','EconVenture_L2_Act4.html','EconVenture_L2_Act5.html','EconVenture_L2_Act6.html','EconVenture_L2_Act7.html','EconVenture_L2_Act8.html','EconVenture_Live.html'];
+      if(kind==='act' && files[pos]){
+        try{ location.href=files[pos]; }catch(e){}
+        return;
+      }
+      if(kind==='concept'){
+        // Send them into Founder at that concept. Founder reads its own directive on boot.
+        try{ localStorage.setItem('econventure_pending_goto', JSON.stringify({posKind:'concept',pos:pos,at:Date.now()})); }catch(e){}
+        try{ location.href='EconVenture_Founder.html'; }catch(e){}
+      }
+    }
+  },
+  complete(){ if(!this.state.code || !this.state.sid) return;
+    this.call({action:'quiz',code:this.state.code,sid:this.state.sid,concept:100+this.cfg.actIdx,phase:'post',score:1,total:1},()=>{}); },
+  needsClassroom(){ return !this.state.code; }
+};
+
+/* Cloud save: bundle every econventure_* localStorage key, ship on change (debounced).
+   Called by CLS.start automatically once we have code + uid. Fetch on Hub finish (Hub side). */
+CLS._saveKey='econventure_cloudsave_lasthash';
+CLS._collectBundle=function(){
+  const bundle={};
+  try{
+    for(let i=0;i<localStorage.length;i++){
+      const k=localStorage.key(i);
+      if(!k) continue;
+      if(k.indexOf('econventure_')!==0) continue;
+      if(k==='econventure_cloudsave_lasthash') continue;    /* housekeeping key: don't ship */
+      bundle[k]=localStorage.getItem(k);
+    }
+  }catch(e){}
+  return bundle;
+};
+CLS._hash=function(s){ let h=0; for(let i=0;i<s.length;i++){ h=(h*31+s.charCodeAt(i))|0; } return String(h); };
+CLS._pushSave=function(force){
+  if(!this.state.code || !this.state.uid) return;
+  const bundle=this._collectBundle();
+  const payload=JSON.stringify(bundle);
+  const hash=this._hash(payload);
+  if(!force){
+    try{ if(localStorage.getItem(this._saveKey)===hash) return; }catch(e){}
+  }
+  this.call({action:'save',code:this.state.code,uid:this.state.uid,gsub:this.state.gsub||'',email:this.state.email||'',name:this.state.name||'',roll:this.state.roll||'',payload:payload}, r=>{
+    if(r && r.ok){ try{ localStorage.setItem(this._saveKey, hash); }catch(e){} }
+  });
+};
+CLS._initCloudSave=function(){
+  /* Re-read identity to include uid/gsub/email if the Hub wrote them. */
+  try{
+    const raw=localStorage.getItem('econventure_class_v1');
+    if(raw){ const c=JSON.parse(raw)||{};
+      this.state.code=c.code||this.state.code;
+      this.state.sid=c.sid||this.state.sid;
+      this.state.name=c.name||this.state.name;
+      this.state.uid=c.uid||'';
+      if(c.google){ this.state.gsub=c.google.sub||''; this.state.email=c.google.email||''; }
+      if(c.roll) this.state.roll=c.roll;
+    }
+  }catch(e){}
+  if(!this._cloudInited && this.state.code && this.state.uid){
+    this._cloudInited=true;
+    /* First push after 1s (gives boot code a moment to settle), then every 30s if changed, then on unload. */
+    setTimeout(()=>this._pushSave(false), 1000);
+    setInterval(()=>this._pushSave(false), 30000);
+    window.addEventListener('beforeunload', ()=>{ try{ this._pushSave(true); }catch(e){} });
+  }
+};
+
+
+/* ============================================================================
+   LEVEL 2 · ACT 8 — OLIGOPOLY. Two walled beats, ONE shared engine.
+   Linear market demand  P = A - B*Q ,  constant marginal cost C, no entry.
+   Beat 1 (Cournot): N symmetric firms each pick output; price lands between
+     monopoly (N=1) and competitive (N->inf, P->C). Slide N, watch P fall.
+   Beat 2 (the cartel game): fix two firms. The 2x2 payoff grid is DERIVED from
+     the same demand and cost, not invented. Both-hold = the N=1 monopoly point
+     from Beat 1; both-cheat = the N=2 Cournot point from Beat 1. Play one-shot
+     (cheat dominates), then repeated vs a tit-for-tat rival (cooperation holds).
+   Verified: P(N)=(A+N*C)/(N+1); grid (Rs) HH 144k/144k, CH 162k/108k,
+     CC 128k/128k; T162>R144>P128>S108 (proper PD), 2R>T+S; over 20 rounds
+     always-hold 2.88M beats always-cheat 2.59M vs tit-for-tat.
+   ============================================================================ */
+const A=280, B=0.05, C=40;
+const price=Q=>A-B*Q;
+const qFirm=N=>(A-C)/(B*(N+1));
+const Qind=N=>N*qFirm(N);
+const Pcournot=N=>(A+N*C)/(N+1);
+const profitFirm=N=>(Pcournot(N)-C)*qFirm(N);
+const inr=n=>{n=Math.round(n||0);const neg=n<0;n=Math.abs(n);return (neg?'-₹':'₹')+n.toLocaleString('en-IN');};
+const P_MONO=Pcournot(1), P_COMP=C;                 // 160 and 40
+
+/* ---- duopoly 2x2, derived from the same engine ---- */
+const Qm=(A-C)/(2*B), qColl=Qm/2, qCour=qFirm(2), qCheat=(A-C-B*qColl)/(2*B);
+const duoCell=(q1,q2)=>{const Q=q1+q2,P=price(Q);return {P,p1:(P-C)*q1,p2:(P-C)*q2};};
+const CELLS={ HH:duoCell(qColl,qColl), CH:duoCell(qCheat,qColl), HC:duoCell(qColl,qCheat), CC:duoCell(qCour,qCour) };
+
+/* ---- BEAT 1 chart: demand, MC, monopoly & competitive anchors, sliding Cournot point ---- */
+function cournotSVG(N){
+  const W=380,H2=246,padL=46,padR=16,padT=14,padB=32;
+  const Qmax=5200,Pmax=292;
+  const px=q=>padL+q/Qmax*(W-padL-padR), py=p=>padT+(1-p/Pmax)*(H2-padT-padB);
+  const Qn=Qind(N),Pn=Pcournot(N);
+  let grid='';
+  [40,80,120,160,200,240].forEach(p=>{grid+=`<line x1="${padL}" y1="${py(p)}" x2="${W-padR}" y2="${py(p)}" stroke="var(--line)" stroke-width="1" opacity=".45"/><text x="${padL-6}" y="${py(p)+4}" text-anchor="end" font-size="10" fill="var(--muted)">${p}</text>`;});
+  [0,2000,4000].forEach(q=>{grid+=`<text x="${px(q)}" y="${H2-10}" text-anchor="middle" font-size="10" fill="var(--muted)">${q/1000}k</text>`;});
+  return `<svg viewBox="0 0 ${W} ${H2}">${grid}
+    <line x1="${px(0)}" y1="${py(40)}" x2="${px(Qmax)}" y2="${py(40)}" stroke="#e5594d" stroke-width="1.6" stroke-dasharray="5 4" opacity=".8"/>
+    <text x="${px(Qmax)-3}" y="${py(40)-6}" text-anchor="end" font-size="10" fill="#ef8178">marginal cost ₹40</text>
+    <line x1="${px(0)}" y1="${py(280)}" x2="${px(5200)}" y2="${py(20)}" stroke="#cfe0f5" stroke-width="2.5"/>
+    <text x="${px(4400)}" y="${py(60)}" font-size="10" fill="var(--muted)">demand</text>
+    <line x1="${px(Qn)}" y1="${py(0)}" x2="${px(Qn)}" y2="${py(Pn)}" stroke="#fff" stroke-width="1" stroke-dasharray="3 3" opacity=".4"/>
+    <line x1="${px(0)}" y1="${py(Pn)}" x2="${px(Qn)}" y2="${py(Pn)}" stroke="#fff" stroke-width="1" stroke-dasharray="3 3" opacity=".4"/>
+    <circle cx="${px(2400)}" cy="${py(160)}" r="4" fill="#93abcd" stroke="#0a1626" stroke-width="1.5"/>
+    <text x="${px(2400)}" y="${py(160)-9}" text-anchor="middle" font-size="10" fill="#93abcd">monopoly</text>
+    <circle cx="${px(4800)}" cy="${py(40)}" r="4" fill="#93abcd" stroke="#0a1626" stroke-width="1.5"/>
+    <text x="${px(4800)}" y="${py(40)+16}" text-anchor="middle" font-size="10" fill="#93abcd">competitive</text>
+    <circle cx="${px(Qn)}" cy="${py(Pn)}" r="6" fill="var(--gold)" stroke="#0a1626" stroke-width="2"/>
+    <text x="${px(Qn)}" y="${py(Pn)-11}" text-anchor="middle" font-size="11" font-weight="700" fill="var(--gold2)">${N} firm${N>1?'s':''}</text>
+    <text x="${padL-6}" y="12" font-size="10" fill="var(--muted)">₹</text>
+    <text x="${W-padR}" y="${H2-10}" text-anchor="end" font-size="10" fill="var(--muted)">units →</text></svg>`;
+}
+
+/* ---- BEAT 2 grid ---- */
+function gridHTML(played){
+  const cellDiv=(key,you,riv,tag)=>{
+    const c=CELLS[key];
+    const hot = played && played===key;
+    const badge = tag==='nash' ? '<div class="pcell-badge">Nash</div>' : tag==='coop' ? '<div class="coop-badge">Cartel</div>' : '';
+    return `<div class="pcell${tag==='nash'?' nash':''}${hot?' hot':''}">${badge}
+      <div class="big">${inr(c.p1)}</div><div class="sub">you</div>
+      <div class="sub" style="margin-top:5px">rival ${inr(c.p2)}</div></div>`;
+  };
+  return `<div class="pgrid">
+    <div class="pcorner"></div><div class="phdr">Rival holds</div><div class="phdr">Rival cheats</div>
+    <div class="phdr side">You<br>hold</div>${cellDiv('HH',1,1,'coop')}${cellDiv('HC',1,1,'')}
+    <div class="phdr side">You<br>cheat</div>${cellDiv('CH',1,1,'')}${cellDiv('CC',1,1,'nash')}
+  </div>`;
+}
+function roundMsg(you,riv,cl){
+  const k=you+riv;
+  if(k==='HH') return `<div class="flag ok">Both held. ${inr(cl.p1)} each. The cartel is intact and you are splitting the monopoly profit down the middle.</div>`;
+  if(k==='CH') return `<div class="flag warn">You cheated while the rival held: ${inr(cl.p1)} this round, your fattest single payoff. But this rival copies your last move, so a cheat is coming back at you next round.</div>`;
+  if(k==='HC') return `<div class="flag bad">The rival cheated and left you with ${inr(cl.p1)}, the sucker payoff. Punish it by cheating back, or keep holding and hope it returns to the cartel.</div>`;
+  return `<div class="flag info">Both cheating. ${inr(cl.p1)} each, the Cournot outcome. Better than being the sucker, worse than the ${inr(CELLS.HH.p1)} you would share by both holding.</div>`;
+}
+
+/* --------------------------------- STATE -------------------------------- */
+const SAVE='econventure_L2A8_v1';
+let ST={phase:'primer', N:2, round:0, youTot:0, rivTot:0, rivalStrat:'tft', rivalNext:'H', hist:[], committed:false};
+try{const r=localStorage.getItem(SAVE);if(r)ST=Object.assign(ST,JSON.parse(r));}catch(e){}
+const save=()=>{try{localStorage.setItem(SAVE,JSON.stringify(ST));}catch(e){}};
+
+/* ------------------------------- PRIMER --------------------------------- */
+function primer(){
+  return `<div class="panel">
+    <div class="step" style="margin-bottom:4px">Act 8 · between the two extremes</div>
+    <h1>Now there are only a few of you, and everyone is watching everyone.</h1>
+    <p class="muted">You have met the two ends of the spectrum. One firm alone with the whole market is a monopoly; it names a high price. A firm lost in a crowd of thousands is a price taker; it accepts whatever the market sets. Most real industries, telecom, airlines, cement, colas, sit in between, run by a <b>handful of large firms who each move the price when they move</b>. That is oligopoly, and it changes the whole problem, because now your best move depends on what you expect the others to do.</p>
+    <div class="speak"><span class="who">Priya:</span> "Two things make this different. First, price is not handed to you and it is not yours to dictate; it comes out of everyone's output together. Second, you could all get rich by quietly agreeing to hold back and keep the price high, but the moment you do, each of you is itching to sneak a little extra. Both of those have precise answers, and they fight each other."</p>
+    <p class="small">We simplify one thing to keep the strategy in focus: every firm makes a unit at the same flat cost of <b>₹40</b>, and the market will buy more only at a lower price (<span class="mono">P = 280 − 0.05 × total units</span>). No new firms can enter; the barriers are high. Two beats:</p>
+    <div class="example">
+      <div class="ex"><b>Where the price lands</b><br>Each firm picks how much to make. Add them up, the market sets a price. With few firms it sits well above cost; add firms and it slides toward competitive.</div>
+      <div class="ex"><b>Hold or cheat</b><br>Two firms could split the fat monopoly profit by both holding back. Each is tempted to overproduce and grab more. Play it once, then play it again and again.</div>
+    </div>
+    <div class="btnrow"><button class="btn primary wide" id="go">Set the price with rivals →</button></div>
+  </div>`;
+}
+
+/* ------------------------- BEAT 1 · COURNOT ----------------------------- */
+function cournotScreen(){
+  const N=ST.N, P=Pcournot(N), q=qFirm(N), Q=Qind(N), pf=profitFirm(N);
+  const frac=Math.max(0,Math.min(100,(P_MONO-P)/(P_MONO-P_COMP)*100));
+  return `<div class="panel">
+    <div class="step" style="margin-bottom:4px">Beat 1 · where does the price land?</div>
+    <h2>Slide the number of firms. Watch the price fall.</h2>
+    <p class="small muted" style="margin-top:0">Each firm makes its own output, all of it hits the same market, and the combined quantity sets one price off the demand curve. With one firm you get the monopoly price. Pack in more firms and each is forced to accept less, so the price slides down toward marginal cost, where competition would pin it. There is no single "oligopoly price"; it depends on how many of you there are.</p>
+    <div class="grid cols2">
+      <div><div class="card" style="padding:8px"><div id="cournotbox">${cournotSVG(N)}</div></div>
+        <div class="specbar"><div class="specmark" id="specMark" style="left:${frac}%"></div></div>
+        <div class="specends"><span>Monopoly · ₹160</span><span>Competitive · ₹40</span></div>
+      </div>
+      <div>
+        <label class="field"><div class="cap"><b>Firms in the market</b> <span class="val mono" id="nVal">${N}</span></div>
+          <input id="nSlide" type="range" min="1" max="40" step="1" value="${N}">
+          <div class="hint" id="nHint">One firm is a monopoly. Drag right to crowd the market.</div></label>
+        <div class="grid cols2" style="margin-top:6px">
+          <div class="card"><div class="l">Market price</div><div class="v mono" id="pV" style="color:var(--gold)">${inr(P)}</div></div>
+          <div class="card"><div class="l">Each firm makes</div><div class="v mono" id="qV">${Math.round(q).toLocaleString('en-IN')}</div></div>
+          <div class="card"><div class="l">Profit per firm</div><div class="v mono" id="pfV">${inr(pf)}</div></div>
+          <div class="card"><div class="l">Industry output</div><div class="v mono" id="qiV">${Math.round(Q).toLocaleString('en-IN')}</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="work" id="work">${cournotWork(N)}</div>
+    <div class="btnrow"><button class="btn primary" id="toGame">Two firms, now the temptation →</button></div>
+  </div>`;
+}
+function cournotWork(N){
+  const P=Pcournot(N),q=qFirm(N),pf=profitFirm(N);
+  const gapMono=(P-P_COMP), pos = P>150?'right up at the monopoly end':P<55?'almost all the way down to marginal cost':'sitting between the two extremes';
+  return `<div class="row">With <b>${N}</b> firm${N>1?'s':''}, each best-responds to the others and makes <b>${Math.round(q).toLocaleString('en-IN')}</b> units. Together that is ${Math.round(Qind(N)).toLocaleString('en-IN')} units, which the demand curve prices at <b>${inr(P)}</b>.</div>
+    <div class="row">That price is <b>${pos}</b>. Marginal cost is ₹40, so each unit still earns ₹${Math.round(P-C)} above cost, and the firm clears <b>${inr(pf)}</b>. Add one more firm and every share, and the price, drops again.</div>
+    <div class="row" style="border-top:1px solid var(--line);margin-top:6px;padding-top:6px">The lesson: more sellers means a lower price and thinner profit, sliding from monopoly toward the competitive floor. Real oligopolies have few enough firms that the price stays well above cost.</div>`;
+}
+
+/* ------------------------- BEAT 2 · THE GAME ---------------------------- */
+function gameScreen(){
+  return `<div class="panel">
+    <div class="step" style="margin-bottom:4px">Beat 2 · hold the cartel, or cheat</div>
+    <h2>Two firms. You could both get rich by holding back.</h2>
+    <p class="small muted" style="margin-top:0">Back to two firms, the left end of Beat 1. If you both quietly cut output to half the monopoly quantity, the price climbs to ₹160 and you each pocket ${inr(CELLS.HH.p1)}, more than the ${inr(CELLS.CC.p1)} you got competing. That is the cartel. The catch is in the grid: whatever the rival does, you personally earn more by cheating and overproducing. So does the rival.</p>
+    ${gridHTML(null).replace('<div class="pgrid">','<div class="pgrid" id="gGrid0">')}
+    <div class="flag warn" style="margin-top:12px"><b>One round only?</b> Cheating wins no matter what. If the rival holds, cheating pays ${inr(CELLS.CH.p1)} against ${inr(CELLS.HH.p1)}. If the rival cheats, cheating pays ${inr(CELLS.CC.p1)} against ${inr(CELLS.HC.p1)}. So both cheat and land on ${inr(CELLS.CC.p1)} each, worse than the ${inr(CELLS.HH.p1)} they threw away. That is the trap.</div>
+    <div class="reinforce" style="border-left-color:var(--gold);margin-top:14px">
+      <div class="chip" style="margin-bottom:6px">Now play it again, and again</div>
+      <h3>The rival remembers. Holds first, then copies your last move.</h3>
+      <p class="small" style="margin:.2em 0 .6em">A single round says cheat. But you are not playing once; you face the same rival every quarter. This one starts by holding, then does to you whatever you did to it last round (tit for tat). Now a cheat buys you one fat round and a punished round after. See whether cooperation can survive.</p>
+      <div class="chips" style="margin:6px 0 8px" id="stratRow"><span class="chip" id="strat-tft" data-s="tft">Tit for tat</span><span class="chip" id="strat-grim" data-s="grim">Grim trigger</span><span class="chip" id="strat-ad" data-s="ad">Always cheats</span><span class="chip" id="strat-rand" data-s="rand">Random</span></div><div class="tiny muted" id="stratHint" style="margin:-2px 0 8px"></div><div class="tally">
+        <div class="t"><div class="l">Round</div><div class="v mono" id="gRound">${ST.round}</div></div>
+        <div class="t"><div class="l">Your total</div><div class="v mono" id="gYou" style="color:var(--gold)">${inr(ST.youTot)}</div></div>
+        <div class="t"><div class="l">Rival total</div><div class="v mono" id="gRiv">${inr(ST.rivTot)}</div></div>
+      </div>
+      <div class="movebtns"><button class="movebtn hold" id="bHold">Hold back<br><span class="tiny" style="font-weight:400">keep the cartel</span></button><button class="movebtn cheat" id="bCheat">Cheat<br><span class="tiny" style="font-weight:400">overproduce</span></button></div>
+      <div id="gMsg">${ST.round>0?'':`<div class="flag info">Rival plays <b>${stratLabel(ST.rivalStrat)}</b>. ${stratHint(ST.rivalStrat)} Your move.</div>`}</div>
+      <div class="tiny muted" style="margin-top:8px">History (top = you, bottom = rival)</div>
+      <div class="hstrip" id="gHist"></div>
+      <div class="tiny muted" style="margin-top:8px">Benchmarks: both holding pays ${inr(CELLS.HH.p1)} a round; both cheating pays ${inr(CELLS.CC.p1)} a round.</div>
+      <div class="btnrow"><button class="btn ghost" id="gReset">Reset the rounds</button></div>
+    </div>
+    <div class="btnrow"><button class="btn primary" id="lock">Lock in and see the whole picture</button></div>
+    <div id="after"></div>
+  </div>`;
+}
+function histHTML(){
+  if(!ST.hist.length) return '';
+  return ST.hist.map((h,i)=>`<div class="hround"><div class="hdot ${h.you}">${h.you}</div><div class="hdot ${h.riv}">${h.riv}</div><div class="hlbl">${i+1}</div></div>`).join('');
+}
+
+function afterLock(){
+  const holds=ST.hist.filter(h=>h.you==='H').length, che=ST.hist.length-holds;
+  const avg = ST.hist.length? Math.round(ST.youTot/ST.hist.length):0;
+  let head;
+  if(ST.hist.length<3){
+    head=`<div class="flag info">You locked in early. The one-round grid always says cheat, but the point of the repeated game only shows up over several rounds. Worth playing a stretch of them before reading on.</div>`;
+  } else if(holds>=che && avg>=CELLS.CC.p1){
+    head=`<div class="flag ok"><b>You leaned on cooperation.</b> Across ${ST.hist.length} rounds you averaged ${inr(avg)}, above the ${inr(CELLS.CC.p1)} that constant cheating pays. Against a rival that punishes, holding the cartel beat grabbing, because every cheat you took cost you a punished round right after.</div>`;
+  } else {
+    head=`<div class="flag warn">You cheated more than you held (${che} vs ${holds}) and averaged ${inr(avg)} a round. Each cheat won its round, but the tit-for-tat punishment that followed dragged your average toward the ${inr(CELLS.CC.p1)} Cournot payoff. Try a run of steady holding and watch the average climb toward ${inr(CELLS.HH.p1)}.</div>`;
+  }
+  return head+`<div class="reinforce">
+    <div class="chip" style="margin-bottom:6px">Oligopoly · price and strategy</div>
+    <h3>Where the price sits, and why the cartel keeps breaking</h3>
+    <p class="small" style="margin:.2em 0 0">Oligopoly has no single price rule the way the two extremes do. In <b>Cournot competition</b> each firm picks output taking rivals' output as given, and the market price falls out of the total. With few firms it sits far above marginal cost; as firms are added it slides toward the competitive floor. That is Beat 1: the price is a function of how many of you there are, not a fixed number.</p>
+    <p class="small" style="margin:.6em 0 0">Beat 2 is why that price is unstable. The firms would jointly earn the most by <b>colluding</b> to the monopoly output and splitting it, ${inr(CELLS.HH.p1)} each. But cheating is a <b>dominant strategy</b>: it pays more whatever the rival does, so the only stable one-shot outcome is both cheating, the <b>Nash equilibrium</b>, back at the Cournot payoff of ${inr(CELLS.CC.p1)} each. Both would rather be at the cartel, and neither can get there alone. That is the prisoner's dilemma sitting inside every cartel, and it is why real ones (OPEC, price-fixing rings) keep cracking.</p>
+    <p class="small" style="margin:.6em 0 0">What rescues cooperation is <b>repetition</b>. Play once and you cheat. Play forever against a rival that punishes cheating, and holding back becomes worth it, because the one-round gain from cheating is smaller than the punishment that follows. Cooperation is not enforced by law here, it is enforced by the shadow of the next round. This is the real "long run" in oligopoly, and it is why we dropped the short-run and long-run frame: with entry blocked, these firms keep their profit either way, so the interesting clock is not entry, it is the repeated game.</p>
+    <div class="chips"><span class="chip">Oligopoly</span><span class="chip">Cournot competition</span><span class="chip">Reaction to rivals</span><span class="chip">Collusion</span><span class="chip">Prisoner's dilemma</span><span class="chip">Dominant strategy</span><span class="chip">Nash equilibrium</span><span class="chip">Tit for tat</span><span class="chip">Barriers to entry</span></div>
+  </div>
+  <div class="reinforce" style="border-left-color:var(--gold)">
+    <div class="chip" style="margin-bottom:6px">The four market structures, in one line each</div>
+    <div class="recap">
+      <div class="r"><b>Perfect comp.</b> <span>Many tiny firms, identical product, free entry. Price = marginal cost, zero long-run profit.</span></div>
+      <div class="r"><b>Monopoly</b> <span>One firm, high barriers. Sets the price where marginal revenue meets marginal cost, keeps the profit.</span></div>
+      <div class="r"><b>Oligopoly</b> <span>A few firms who watch each other. Price between the extremes, set strategically, cartels always tempted to break.</span></div>
+      <div class="r"><b>Monopolistic comp.</b> <span>Many firms, slightly different products. A sliver of pricing power, competed away by entry.</span></div>
+    </div>
+  </div>
+  <div class="btnrow"><button class="btn primary" id="finale">On to the Competitive Run →</button><button class="btn ghost" id="replay">Keep playing the rounds</button></div>`;
+}
+
+/* ------------------------------- RENDER --------------------------------- */
+const setFill=el=>el&&el.style.setProperty('--fill',((el.value-el.min)/(el.max-el.min)*100)+'%');
+const prefersReduced=()=>{ try{ return window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches; }catch(e){ return false; } };
+// ---- smooth SVG morphing: patch geometry in place so charts glide instead of snapping ----
+function _mvTok(str){ const re=/-?\d*\.?\d+(?:[eE][-+]?\d+)?/g; let m,last=0,tmpl=[],nums=[]; while((m=re.exec(str))){ tmpl.push(str.slice(last,m.index)); nums.push(parseFloat(m[0])); last=m.index+m[0].length; } tmpl.push(str.slice(last)); return {tmpl,nums}; }
+function _mvBuild(tmpl,nums){ let s=tmpl[0]; for(let i=0;i<nums.length;i++){ s+=(Math.round(nums[i]*100)/100)+tmpl[i+1]; } return s; }
+const _MVNUM=['cx','cy','r','rx','ry','x','y','width','height','x1','y1','x2','y2','opacity','fill-opacity','stroke-opacity','stroke-width','offset','font-size'];
+function morphSVG(host,newHTML,dur){
+  try{
+    dur=(dur==null?120:dur);
+    const cur=host.querySelector('svg'); const tmp=document.createElement('div'); tmp.innerHTML=newHTML; const nx=tmp.querySelector('svg');
+    if(!cur||!nx){ host.innerHTML=newHTML; return; }
+    const O=cur.querySelectorAll('*'), N=nx.querySelectorAll('*');
+    if(O.length!==N.length){ cur.replaceWith(nx); return; }
+    for(let i=0;i<O.length;i++){ if(O[i].tagName!==N[i].tagName){ cur.replaceWith(nx); return; } }
+    const plans=[];
+    for(let i=0;i<O.length;i++){ const o=O[i],n=N[i],p={o,nums:[],pts:null,d:null};
+      for(const a of _MVNUM){ if(n.hasAttribute(a)){ const to=parseFloat(n.getAttribute(a)); let fr=o.hasAttribute(a)?parseFloat(o.getAttribute(a)):to; if(!isNaN(to)&&!isNaN(fr)) p.nums.push({a,fr,to}); } }
+      for(const at of n.attributes){ const nm=at.name; if(_MVNUM.indexOf(nm)<0&&nm!=='points'&&nm!=='d'){ if(o.getAttribute(nm)!==at.value) o.setAttribute(nm,at.value); } }
+      if(n.hasAttribute('points')){ const T=_mvTok(n.getAttribute('points')),F=_mvTok(o.getAttribute('points')||n.getAttribute('points')); if(F.nums.length===T.nums.length) p.pts={fr:F.nums,to:T.nums,tmpl:T.tmpl}; else o.setAttribute('points',n.getAttribute('points')); }
+      if(n.hasAttribute('d')){ const ds=n.getAttribute('d'); const T=_mvTok(ds),F=_mvTok(o.getAttribute('d')||ds); if(F.nums.length===T.nums.length&&F.tmpl.join('\u0001')===T.tmpl.join('\u0001')) p.d={fr:F.nums,to:T.nums,tmpl:T.tmpl}; else o.setAttribute('d',ds); }
+      if(n.children.length===0&&o.textContent!==n.textContent) o.textContent=n.textContent;
+      plans.push(p);
+    }
+    if(host._mvRAF){ cancelAnimationFrame(host._mvRAF); host._mvRAF=null; }
+    if(prefersReduced()||dur<=0){ for(const p of plans){ for(const x of p.nums)p.o.setAttribute(x.a,x.to); if(p.pts)p.o.setAttribute('points',_mvBuild(p.pts.tmpl,p.pts.to)); if(p.d)p.o.setAttribute('d',_mvBuild(p.d.tmpl,p.d.to)); } return; }
+    const t0=performance.now();
+    const step=now=>{ const k=Math.min(1,(now-t0)/dur),e=1-Math.pow(1-k,3);
+      for(const p of plans){ for(const x of p.nums)p.o.setAttribute(x.a,x.fr+(x.to-x.fr)*e);
+        if(p.pts){ const a=p.pts.fr,b=p.pts.to; p.o.setAttribute('points',_mvBuild(p.pts.tmpl,a.map((v,j)=>v+(b[j]-v)*e))); }
+        if(p.d){ const a=p.d.fr,b=p.d.to; p.o.setAttribute('d',_mvBuild(p.d.tmpl,a.map((v,j)=>v+(b[j]-v)*e))); } }
+      if(k<1) host._mvRAF=requestAnimationFrame(step);
+      else { for(const p of plans){ for(const x of p.nums)p.o.setAttribute(x.a,x.to); if(p.pts)p.o.setAttribute('points',_mvBuild(p.pts.tmpl,p.pts.to)); if(p.d)p.o.setAttribute('d',_mvBuild(p.d.tmpl,p.d.to)); } host._mvRAF=null; }
+    };
+    host._mvRAF=requestAnimationFrame(step);
+  }catch(e){ try{ host.innerHTML=newHTML; }catch(_){} }
+}
+
+
+function stratLabel(k){return {tft:'Tit for tat',grim:'Grim trigger',ad:'Always cheats',rand:'Random'}[k]||'Tit for tat';}
+function stratHint(k){return {
+ tft:'Holds round 1, then copies your last move. Punishes a cheat once, forgives the moment you go back to holding.',
+ grim:'Holds until you cheat even once. After that, cheats forever. A single betrayal ends the cartel permanently.',
+ ad:'Cheats every single round no matter what. There is no cartel to hold; your only choice is what to do about it.',
+ rand:'Flips a coin each round. No pattern to exploit and no punishment to fear. Are you better off holding or cheating?'
+}[k]||'';}
+function rivalMove(strat){
+  // decide rival's move for THIS round, before we see the player's move
+  if(strat==='tft')   return ST.rivalNext;                                   // tit for tat: copy your last (holds first)
+  if(strat==='grim'){                                                       // grim trigger: hold until you EVER cheat, then cheat forever
+    return ST.hist.some(h=>h.you==='C') ? 'C' : 'H';
+  }
+  if(strat==='ad')    return 'C';                                            // always defect: cheats every round
+  if(strat==='rand')  return Math.random()<0.5 ? 'H' : 'C';                  // coin-flip rival
+  return 'H';
+}
+function playRound(you){
+  const riv=rivalMove(ST.rivalStrat);
+  const cl=CELLS[you+riv];
+  ST.youTot+=cl.p1; ST.rivTot+=cl.p2; ST.round++;
+  ST.hist.push({you,riv});
+  ST.rivalNext=you;                     // used by TFT next round
+  save();
+  document.getElementById('gRound').textContent=ST.round;
+  const gy=document.getElementById('gYou'); gy.textContent=inr(ST.youTot);
+  document.getElementById('gRiv').textContent=inr(ST.rivTot);
+  document.getElementById('gMsg').innerHTML=roundMsg(you,riv,cl);
+  document.getElementById('gHist').innerHTML=histHTML();
+  const g0=document.getElementById('gGrid0'); if(g0){ const fresh=document.createElement('div'); fresh.innerHTML=gridHTML(you+riv); const ng=fresh.firstElementChild; ng.id='gGrid0'; g0.replaceWith(ng); }
+}
+function resetGame(){ ST.round=0; ST.youTot=0; ST.rivTot=0; ST.rivalNext='H'; ST.hist=[]; save(); render(); }
+
+function render(){
+  const app=document.getElementById('app');
+  if(ST.phase==='primer'){ app.innerHTML=primer(); document.getElementById('go').onclick=()=>{ST.phase='cournot';save();render();}; return; }
+  if(ST.phase==='cournot'){
+    app.innerHTML=cournotScreen();
+    const nS=document.getElementById('nSlide');
+    const refresh=()=>{
+      ST.N=+nS.value;
+      const P=Pcournot(ST.N),q=qFirm(ST.N),Q=Qind(ST.N),pf=profitFirm(ST.N);
+      document.getElementById('nVal').textContent=ST.N;
+      morphSVG(document.getElementById('cournotbox'),cournotSVG(ST.N));
+      document.getElementById('pV').textContent=inr(P);
+      document.getElementById('qV').textContent=Math.round(q).toLocaleString('en-IN');
+      document.getElementById('pfV').textContent=inr(pf);
+      document.getElementById('qiV').textContent=Math.round(Q).toLocaleString('en-IN');
+      const frac=Math.max(0,Math.min(100,(P_MONO-P)/(P_MONO-P_COMP)*100));
+      document.getElementById('specMark').style.left=frac+'%';
+      document.getElementById('nHint').textContent = ST.N===1?'One firm is a monopoly, the highest price on the demand curve.':ST.N>=30?'Crowded: the price is closing in on marginal cost, near competitive.':'A few firms: the price stays well above cost.';
+      document.getElementById('work').innerHTML=cournotWork(ST.N);
+      setFill(nS); save();
+    };
+    setFill(nS); nS.oninput=refresh;
+    document.getElementById('toGame').onclick=()=>{ST.phase='game';save();render();};
+    return;
+  }
+  // game
+  app.innerHTML=gameScreen();
+  document.getElementById('gHist').innerHTML=histHTML();
+  document.getElementById('bHold').onclick=()=>playRound('H');
+  document.getElementById('bCheat').onclick=()=>playRound('C');
+  document.getElementById('gReset').onclick=resetGame;
+  const paintStrat=()=>{ ['tft','grim','ad','rand'].forEach(k=>{ const el=document.getElementById('strat-'+k); if(!el)return; el.style.background = ST.rivalStrat===k?'linear-gradient(180deg,var(--gold2),var(--gold))':''; el.style.color = ST.rivalStrat===k?'#2a1e04':''; el.style.borderColor = ST.rivalStrat===k?'var(--gold)':''; el.style.cursor='pointer'; }); const h=document.getElementById('stratHint'); if(h) h.textContent=stratHint(ST.rivalStrat); };
+  ['tft','grim','ad','rand'].forEach(k=>{ const el=document.getElementById('strat-'+k); if(el) el.onclick=()=>{ ST.rivalStrat=k; resetGame(); }; });
+  paintStrat();
+  const doLock=()=>{ST.committed=true;save(); try{ CLS.completeWithQuiz(); }catch(e){}
+    document.getElementById('after').innerHTML=afterLock();
+    const rp=document.getElementById('replay'); if(rp) rp.onclick=()=>{ST.committed=false;save();document.getElementById('after').innerHTML='';};
+    const fn=document.getElementById('finale'); if(fn) fn.onclick=()=>{ try{ location.href='EconVenture_Live.html'; }catch(e){} };};
+  document.getElementById('lock').onclick=doLock;
+  if(ST.committed) doLock();
+}
+const _renderCore=render;
+render=function(){ _renderCore.apply(this,arguments);
+  if(prefersReduced()) return;
+  try{ document.querySelectorAll('#app svg').forEach(s=>s.classList.add('chartIn')); }catch(e){}
+};
+render();
+
+/* classroom gate + roster ping — must be after render() defined */
+/* Level 2 wall quiz: one opening question before entry, one closing after commit.
+   Bundle is looked up from window.__L2QB, injected per-file. Progress persisted per-act. */
+CLS._quizKey=function(kind){ return 'econventure_l2q_'+CLS.cfg.actIdx+'_'+kind; };
+CLS._loadQuizFlag=function(kind){ try{ return localStorage.getItem(CLS._quizKey(kind))==='1'; }catch(e){ return false; } };
+CLS._setQuizFlag=function(kind){ try{ localStorage.setItem(CLS._quizKey(kind),'1'); }catch(e){} };
+CLS._showQuiz=function(bundle, kind, onDone){
+  if(!bundle){ onDone&&onDone(); return; }
+  const q = kind==='open' ? bundle.open : bundle.close;
+  if(!q){ onDone&&onDone(); return; }
+  if(this._quizEl){ this._quizEl.remove(); }
+  const el=document.createElement('div');
+  el.id='__cls_quiz';
+  el.style.cssText='position:fixed;inset:0;z-index:99998;background:rgba(8,19,33,.97);display:flex;align-items:center;justify-content:center;padding:24px;backdrop-filter:blur(6px);font:15px/1.5 system-ui,Segoe UI,Roboto,sans-serif;color:#eef4fb';
+  const opts=q.opts.map((o,i)=>'<div data-i="'+i+'" style="cursor:pointer;padding:12px 14px;border:1px solid #1d3a5f;border-radius:10px;margin-top:8px;background:#0a1830;transition:background .15s,border-color .15s" onmouseover="this.style.background=\'#0f2342\'" onmouseout="this.style.background=\'#0a1830\'">'+o+'</div>').join('');
+  el.innerHTML='<div style="max-width:560px;padding:26px 30px;background:linear-gradient(180deg,#0d1f38,#0b1d38);border:1px solid #1d3a5f;border-radius:16px;box-shadow:0 22px 44px -18px rgba(0,0,0,.7)">'+
+    '<div style="font-size:11px;letter-spacing:1px;text-transform:uppercase;color:#93abcd;margin-bottom:8px">'+(kind==='open'?'Before we start':'What did you take away')+'</div>'+
+    '<div style="font-size:19px;font-weight:600;margin-bottom:6px">'+q.q+'</div>'+
+    '<div id="__q_opts">'+opts+'</div>'+
+    '<div style="font-size:12px;color:#5c7396;margin-top:12px">'+(kind==='open'?'One quick check, then the act opens.':'One closing question, then this act is marked complete.')+'</div>'+
+    '</div>';
+  document.body.appendChild(el); this._quizEl=el;
+  Array.prototype.forEach.call(el.querySelectorAll('[data-i]'), function(node){
+    node.onclick=function(){
+      const chosen=Number(node.getAttribute('data-i'));
+      const ok = chosen===q.a ? 1 : 0;
+      CLS.call({action:'quiz',code:CLS.state.code,sid:CLS.state.sid,concept:200+CLS.cfg.actIdx,phase:kind==='open'?'pre':'post',score:ok,total:1},function(){});
+      CLS._setQuizFlag(kind);
+      if(CLS._quizEl){ CLS._quizEl.remove(); CLS._quizEl=null; }
+      onDone&&onDone(ok);
+    };
+  });
+};
+/* Wrap refreshGate: when gate opens, if opening quiz not taken, show it before hiding the wall. */
+CLS._origHideGate = CLS.hideGate.bind(CLS);
+CLS.hideGate = function(){
+  const b = (typeof window!=='undefined' && window.__L2QB) ? window.__L2QB : null;
+  if(!b || CLS._loadQuizFlag('open') || !CLS.state.code){ CLS._origHideGate(); return; }
+  CLS._origHideGate();
+  CLS._showQuiz(b,'open', function(){});
+};
+/* Called by an act's lock/commit code (via CLS.completeWithQuiz) instead of CLS.complete(). */
+CLS.completeWithQuiz = function(){
+  const b = (typeof window!=='undefined' && window.__L2QB) ? window.__L2QB : null;
+  if(!b || CLS._loadQuizFlag('close') || !CLS.state.code){ CLS.complete(); return; }
+  CLS._showQuiz(b,'close', function(){ CLS.complete(); });
+};
+
+try{ CLS.start(9,'act'); }catch(e){}
+</script>
+</body>
+</html>

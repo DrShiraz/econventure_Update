@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>EconVenture · Course Hub</title>
+<style>
+:root{
+  --bg:#081321;--panel:#0e2038;--panel2:#122a49;--line:#1e3a5f;
+  --ink:#e8eef7;--muted:#93a7c4;--gold:#e0b54a;--gold2:#f0cf7a;
+  --good:#43b581;--bad:#e5594d;--info:#4a90d9;--lock:#5b6b82;
+  --shadow:0 6px 24px rgba(0,0,0,.35);
+}
+*{box-sizing:border-box}html,body{margin:0;padding:0}
+body{background:radial-gradient(1100px 560px at 72% -12%,#0d2540 0,var(--bg) 55%),var(--bg);
+  color:var(--ink);font-family:"Segoe UI",system-ui,-apple-system,Roboto,Helvetica,Arial,sans-serif;
+  font-size:15px;line-height:1.55;-webkit-font-smoothing:antialiased}
+.wrap{max-width:820px;margin:0 auto;padding:16px 16px 60px}
+h1,h2,h3{margin:0 0 .4em;font-weight:700;letter-spacing:.2px}h1{font-size:24px}h2{font-size:18px}
+.gold{color:var(--gold)}.muted{color:var(--muted)}.small{font-size:13px}.tiny{font-size:12px}.mono{font-variant-numeric:tabular-nums}
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:12px 16px;background:linear-gradient(180deg,#0f2542,#0b1c33);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);margin-bottom:16px}
+.brand{display:flex;align-items:center;gap:10px}.brand .dot{width:11px;height:11px;border-radius:50%;background:var(--gold);box-shadow:0 0 12px var(--gold)}
+.brand b{font-size:17px;letter-spacing:.4px}
+.who{font-size:12px;color:var(--muted);text-align:right}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:20px;box-shadow:var(--shadow);margin-bottom:16px}
+label.field{display:block;margin:0 0 12px}
+label.field b{display:block;font-size:13px;margin-bottom:6px}
+input[type=text]{width:100%;padding:11px 13px;border-radius:9px;border:1px solid var(--line);background:#0a1c33;color:var(--ink);font-size:15px}
+input:focus{border-color:var(--gold);outline:2px solid rgba(224,181,74,.25)}
+.btn{display:inline-flex;align-items:center;gap:8px;justify-content:center;cursor:pointer;padding:12px 20px;border-radius:10px;border:1px solid var(--line);background:var(--panel2);color:var(--ink);font-size:15px;font-weight:600}
+.btn:hover{filter:brightness(1.12)}.btn.primary{background:linear-gradient(180deg,var(--gold2),var(--gold));color:#2a1e04;border-color:var(--gold)}
+.btn.wide{width:100%}.btn.ghost{background:transparent}
+.btnrow{display:flex;gap:10px;flex-wrap:wrap;margin-top:8px}
+.status{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--muted);margin-top:4px}
+.dotlive{width:8px;height:8px;border-radius:50%;background:var(--good);box-shadow:0 0 8px var(--good)}
+.dotoff{width:8px;height:8px;border-radius:50%;background:var(--lock)}
+.stage{display:flex;align-items:center;gap:14px;padding:14px 15px;border:1px solid var(--line);border-radius:12px;margin-bottom:10px;background:var(--panel2);transition:border-color .15s}
+.stage.open{border-color:rgba(224,181,74,.5)}
+.stage.done{border-color:rgba(67,181,129,.4)}
+.stage.locked{opacity:.62}
+.stage .num{width:34px;height:34px;flex:none;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;background:#0a1c33;border:1px solid var(--line)}
+.stage.open .num{background:var(--gold);color:#2a1e04;border-color:var(--gold)}
+.stage.done .num{background:var(--good);color:#06231a;border-color:var(--good)}
+.stage .body{flex:1;min-width:0}
+.stage .t{font-weight:600}.stage .s{font-size:12.5px;color:var(--muted)}
+.stage .act{flex:none}
+.pill{font-size:11px;font-weight:700;letter-spacing:.5px;padding:3px 9px;border-radius:20px;white-space:nowrap}
+.pill.open{background:rgba(224,181,74,.15);color:var(--gold);border:1px solid rgba(224,181,74,.4)}
+.pill.locked{background:rgba(91,107,130,.15);color:var(--lock);border:1px solid rgba(91,107,130,.4)}
+.pill.done{background:rgba(67,181,129,.15);color:var(--good);border:1px solid rgba(67,181,129,.4)}
+.lvl{font-size:11px;text-transform:uppercase;letter-spacing:1px;color:var(--muted);margin:16px 0 8px}
+.flag{border-radius:9px;padding:10px 13px;font-size:13px;margin:10px 0}
+.flag.info{background:rgba(74,144,217,.12);border:1px solid rgba(74,144,217,.35)}
+.flag.warn{background:rgba(232,163,61,.12);border:1px solid rgba(232,163,61,.35)}
+.center{text-align:center}
+a.plain{color:var(--gold2)}
+.cfgnote{font-size:11px;color:var(--muted);border-top:1px dashed var(--line);margin-top:14px;padding-top:10px}
+
+/* =====================================================================
+   BUILD VISUAL LAYER (launcher) — appended; original stylesheet untouched.
+   The list of stages is the interface, so the work is here: open stages
+   glow and draw the eye, done stages read as complete, locked stages
+   recede. The live-class dot pulses. Entrance staggers on load and when a
+   stage unlocks (the list only repaints on an actual gate change now).
+   Dependency-free; reduced motion honoured at the bottom.
+   ===================================================================== */
+:root{
+  --bg:#081321;--panel:#102647;--panel2:#153059;--line:#213f6b;--line2:#2e568f;
+  --ink:#eaf1fb;--muted:#93abcd;--gold:#e7bd54;--gold2:#f2d585;--good:#3ec08a;
+  --gold-soft:rgba(231,189,84,.14);--grid:rgba(120,160,215,.10);
+  --shadow:0 18px 44px -22px rgba(0,0,0,.75),0 3px 10px -4px rgba(0,0,0,.5);
+  --shadow-sm:0 8px 22px -14px rgba(0,0,0,.7);--ease:cubic-bezier(.22,.7,.2,1);
+}
+body{background:
+    radial-gradient(1200px 620px at 72% -12%, #123055 0%, rgba(18,48,85,0) 60%),
+    linear-gradient(180deg,#0a1727 0%, var(--bg) 55%);-webkit-font-smoothing:antialiased}
+body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+  background-size:52px 52px;-webkit-mask-image:radial-gradient(1000px 700px at 72% 0%,#000 0%,transparent 78%);
+          mask-image:radial-gradient(1000px 700px at 72% 0%,#000 0%,transparent 78%);opacity:.5}
+.wrap{position:relative;z-index:1}
+.topbar{background:linear-gradient(180deg,rgba(12,24,42,.94),rgba(12,24,42,.72));border-color:var(--line);box-shadow:0 1px 0 rgba(120,160,215,.05),var(--shadow-sm)}
+.brand .dot{box-shadow:0 0 12px var(--gold);animation:tick 2.4s var(--ease) infinite}
+.panel{position:relative;overflow:hidden;
+  background:linear-gradient(180deg,rgba(255,255,255,.02),rgba(255,255,255,0) 30%),linear-gradient(180deg,var(--panel) 0%,#0c1d34 100%);
+  border-color:var(--line);border-radius:16px;box-shadow:var(--shadow);animation:panelIn .5s var(--ease) both}
+.panel::before{content:"";position:absolute;left:16px;right:16px;top:0;height:1px;background:linear-gradient(90deg,transparent,rgba(160,195,245,.25),transparent)}
+input[type=text]{transition:border-color .15s var(--ease),box-shadow .15s var(--ease)}
+input[type=text]:focus{box-shadow:0 0 0 3px rgba(231,189,84,.16)}
+.btn{border-radius:10px;transition:transform .12s var(--ease),filter .15s var(--ease),box-shadow .15s var(--ease)}
+.btn:hover{transform:translateY(-1px)}.btn:active{transform:translateY(0) scale(.985)}
+.btn.primary{box-shadow:0 10px 24px -12px rgba(231,189,84,.6),inset 0 1px 0 rgba(255,255,255,.35)}
+:focus-visible{outline:2px solid var(--gold);outline-offset:2px;border-radius:8px}
+.dotlive{box-shadow:0 0 8px var(--good);animation:pulseDot 1.8s var(--ease) infinite}
+
+/* the stage list is the launcher's signature */
+.stage{background:linear-gradient(180deg,#0e2340,#0b1d38);border-color:var(--line);box-shadow:var(--shadow-sm);
+  transition:transform .16s var(--ease),border-color .16s var(--ease),box-shadow .16s var(--ease),opacity .2s var(--ease);
+  animation:stageIn .4s var(--ease) both}
+.stage:nth-child(1){animation-delay:.03s}.stage:nth-child(2){animation-delay:.07s}.stage:nth-child(3){animation-delay:.11s}.stage:nth-child(4){animation-delay:.15s}.stage:nth-child(5){animation-delay:.19s}.stage:nth-child(6){animation-delay:.23s}.stage:nth-child(7){animation-delay:.27s}.stage:nth-child(8){animation-delay:.31s}.stage:nth-child(9){animation-delay:.35s}
+.stage.open{border-color:rgba(231,189,84,.55);box-shadow:0 0 0 1px rgba(231,189,84,.25),0 14px 30px -18px rgba(231,189,84,.35);cursor:pointer}
+.stage.open:hover{transform:translateY(-2px);box-shadow:0 0 0 1px rgba(231,189,84,.4),0 16px 34px -16px rgba(231,189,84,.5)}
+.stage.done{border-color:rgba(62,192,138,.45)}
+.stage.done:hover{transform:translateY(-2px)}
+.stage.locked{opacity:.5}
+.stage .num{background:radial-gradient(circle at 40% 30%,#12294a,#0a1c33);border-color:var(--line);transition:background .2s var(--ease),box-shadow .2s var(--ease)}
+.stage.open .num{background:radial-gradient(circle at 38% 30%,#ffe6a0,var(--gold));box-shadow:0 0 14px rgba(231,189,84,.5);animation:numGlow 2.6s var(--ease) infinite}
+.stage.done .num{background:radial-gradient(circle at 38% 30%,#7fe3b6,var(--good));box-shadow:0 0 12px rgba(62,192,138,.45)}
+.pill.open{background:var(--gold-soft)}
+.lvl{color:var(--muted)}
+
+@keyframes panelIn{from{opacity:0;transform:translateY(10px) scale(.994)}to{opacity:1;transform:none}}
+@keyframes stageIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@keyframes pulseDot{0%,100%{box-shadow:0 0 8px var(--good)}50%{box-shadow:0 0 14px var(--good),0 0 0 4px rgba(62,192,138,.12)}}
+@keyframes numGlow{0%,100%{box-shadow:0 0 14px rgba(231,189,84,.5)}50%{box-shadow:0 0 20px rgba(231,189,84,.7)}}
+@keyframes tick{0%{box-shadow:0 0 0 0 rgba(231,189,84,.55),0 0 12px var(--gold)}70%{box-shadow:0 0 0 7px rgba(231,189,84,0),0 0 12px var(--gold)}100%{box-shadow:0 0 0 0 rgba(231,189,84,0),0 0 12px var(--gold)}}
+
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important}
+  body::before{opacity:.32}.brand .dot,.dotlive,.stage.open .num{animation:none}
+}
+</style>
+<script src="https://accounts.google.com/gsi/client" async defer></script>
+</head>
+<body>
+<div class="wrap">
+  <div class="topbar">
+    <div class="brand"><span class="dot"></span><b>EconVenture <span class="gold">Course Hub</span></b></div>
+    <div class="who" id="whoami"></div>
+  </div>
+  <div id="app"></div>
+  <div class="center tiny muted" style="margin-top:18px">
+    Your instructor opens each stage when the class is ready. This page unlocks them for you automatically.
+  </div>
+</div>
+
+<script>
+/* ============================================================================
+   ECONVENTURE COURSE HUB
+   One page that walks a student through the whole course in order and unlocks
+   each stage as the instructor opens it. It reads the SAME faculty gate the
+   Level 1 game already uses (google.script.run.getGate(section) from your
+   Apps Script backend). No new backend endpoints. Fails open: if the backend
+   is unreachable, students keep whatever was last unlocked instead of freezing.
+
+   HOW PACING WORKS
+   The instructor sets one number per section: the highest OPEN stage (0..8).
+   A student can enter any stage from 0 up to that number. Poll runs every
+   15-20s so newly opened stages appear within that window.
+   ============================================================================ */
+
+/* ----------------------------------------------------------------------------
+   >>> CONFIG: PASTE YOUR ACT URLs HERE (one line each) <<<
+   After you upload the act files to GitHub Pages, each file gets an address like
+     https://YOURNAME.github.io/econventure/EconVenture_L2_Act1.html
+   Replace each url below with the matching one. Leave as-is to test with the
+   built-in placeholders (they open a friendly "not hosted yet" note).
+   The ORDER here is the order the instructor opens; do not reorder.
+---------------------------------------------------------------------------- */
+const BASE = "https://YOURNAME.github.io/econventure/";  // <- your GitHub Pages folder (keep the trailing slash)
+const STAGES = [
+  {level:'Foundations', title:'Aggregate demand & supply', desc:'How individual buyers and firms add up to the whole market.', file:'EconVenture_L1_Aggregation.html'},
+  {level:'Level 1',     title:"The Founder's Journey",      desc:'Scarcity, cost, demand, pricing, and the competitive run. The core course.', file:'EconVenture_Founder.html'},
+  {level:'Level 2',     title:'Act 1 · Welfare',            desc:'Consumer surplus, producer surplus, and the deadweight loss of market power.', file:'EconVenture_L2_Act1.html'},
+  {level:'Level 2',     title:'Act 2 · Price discrimination',desc:'Capture surplus by charging different buyers different prices.', file:'EconVenture_L2_Act2.html'},
+  {level:'Level 2',     title:'Act 3 · Versioning',         desc:'A three-tier product line that lets buyers sort themselves.', file:'EconVenture_L2_Act3.html'},
+  {level:'Level 2',     title:'Act 4 · Income elasticity',  desc:'Rotate the product mix as the economy booms and busts.', file:'EconVenture_L2_Act4.html'},
+  {level:'Level 2',     title:'Act 5 · Cross-price elasticity',desc:'Substitutes, complements, and a rival that reacts.', file:'EconVenture_L2_Act5.html'},
+  {level:'Level 2',     title:'Act 6 · Resource allocation',desc:'The production frontier, opportunity cost, and the equimarginal rule.', file:'EconVenture_L2_Act6.html'},
+  {level:'Level 2',     title:'Act 7 · Perfect competition',desc:'You take the price. Short-run choices, and the long-run entry that grinds profit to zero.', file:'EconVenture_L2_Act7.html'},
+  {level:'Level 2',     title:'Act 8 · Oligopoly',          desc:'A few firms set the price by watching each other, and the cartel that keeps breaking.', file:'EconVenture_L2_Act8.html'},
+  {level:'Finale',      title:'The competitive run',        desc:'Everything at once: price against live rivals through a full cycle.', file:'EconVenture_Live.html'}
+];
+const POLL_MIN=15000, POLL_MAX=20000;   // jittered poll window (ms)
+
+/* ---- backend bridge: identical contract to the Level 1 game ---------------- */
+// ---- classroom transport --------------------------------------------------
+// Paste your Apps Script web-app URL (the /exec one) here to enable classroom
+// mode from GitHub Pages or local files. Leave '' if this Hub is served BY
+// Apps Script (google.script.run is then used automatically).
+const CLASS_URL='';
+/* Google Sign-In client ID. Get one from Google Cloud Console (setup guide: 5 min).
+   Leave '' to hide the Sign-In button (falls back to name+roll only). */
+const GOOGLE_CLIENT_ID='';
+/* If true, this Hub deployment refuses solo practice. Every student must join a class code.
+   Turn this ON for a locked-down college deployment; leave OFF for demo/take-home. */
+const REQUIRE_CLASS_CODE = false;
+const CLS={
+  url(){ return (CLASS_URL||'').trim(); },
+  gsrun(){ try{ return !!(typeof google!=='undefined' && google.script && google.script.run); }catch(e){ return false; } },
+  online(){ return !!this.url() || this.gsrun(); },
+  call(params, cb){
+    if(this.url()){
+      const qs=Object.keys(params).map(k=>k+'='+encodeURIComponent(params[k])).join('&');
+      try{ fetch(this.url()+'?api=1&'+qs).then(r=>r.json()).then(j=>cb&&cb(j)).catch(()=>cb&&cb(null)); }
+      catch(e){ cb&&cb(null); }
+      return;
+    }
+    if(this.gsrun()){
+      try{ google.script.run.withSuccessHandler(r=>cb&&cb(r)).withFailureHandler(()=>cb&&cb(null)).api(JSON.stringify(params)); }
+      catch(e){ cb&&cb(null); }
+      return;
+    }
+    cb&&cb(null);
+  },
+  gate(code,cb){ this.call({action:'gate',code:code},cb); },
+  join(code,name,roll,cb){ this.call({action:'join',code:code,name:name,roll:roll},cb); }
+};
+const NET={
+  online(){ try{ return !!(typeof google!=='undefined' && google.script && google.script.run); }catch(e){ return false; } },
+  getGate(section, cb){ if(!this.online()){ cb&&cb(null); return; }
+    try{ google.script.run.withSuccessHandler(r=>cb&&cb(r)).withFailureHandler(()=>cb&&cb(null)).getGate(section||''); }
+    catch(e){ cb&&cb(null); } }
+};
+
+/* --------------------------------- STATE -------------------------------- */
+const SAVE='econventure_hub_v1';
+let ST={ name:'', roll:'', code:'', sid:'', uid:'', offline:false, className:'', reached:0, gate:null, google:null };
+try{ const r=localStorage.getItem(SAVE); if(r) ST=Object.assign(ST,JSON.parse(r)); }catch(e){}
+const save=()=>{ try{ localStorage.setItem(SAVE,JSON.stringify(ST)); }catch(e){} };
+
+let POLL=null;
+function isOpen(i){
+  if(!ST.code || ST.offline) return true;                    // solo practice: hub open, concept quizzes still gate inside Founder
+  if(!ST.gate) return false;                                 // classroom joined but gate not yet fetched -> fail-closed
+  if(ST.gate.paused) return false;                           // teacher paused the class
+  if(!ST.gate.paced) return true;                            // classroom exists, pacing off
+  return Array.isArray(ST.gate.open) && ST.gate.open.indexOf(i)>=0;
+}
+function highestOpen(){ let h=-1; STAGES.forEach((s,i)=>{ if(isOpen(i)) h=i; }); return Math.max(0,h); }
+// Real completion detection: each act writes its state to a known key with a `committed` flag.
+// Founder is special: its save has `journey.complete` or the completion code exists.
+const ACT_KEYS = {
+  'EconVenture_Founder.html': ['econventure_founder_v2','econventure_founder_v1'],
+  'EconVenture_L1_Aggregation.html': ['econventure_agg_v1'],
+  'EconVenture_L2_Act1.html': ['econventure_L2A1_v1'],
+  'EconVenture_L2_Act2.html': ['econventure_L2A2_v1'],
+  'EconVenture_L2_Act3.html': ['econventure_L2A3_v1'],
+  'EconVenture_L2_Act4.html': ['econventure_L2A4_v1'],
+  'EconVenture_L2_Act5.html': ['econventure_L2A5_v1'],
+  'EconVenture_L2_Act6.html': ['econventure_L2A6_v1'],
+  'EconVenture_L2_Act7.html': ['econventure_L2A7_v2'],
+  'EconVenture_L2_Act8.html': ['econventure_L2A8_v1'],
+  'EconVenture_Live.html': ['econventure_live_v1']
+};
+function isStageComplete(stageFile){
+  const keys = ACT_KEYS[stageFile] || [];
+  for(const k of keys){
+    try{
+      const raw = localStorage.getItem(k);
+      if(!raw) continue;
+      const s = JSON.parse(raw);
+      if(s && (s.committed===true || s.complete===true || s.done===true)) return true;
+      // Founder: journey saves record a completion code once the 16-stage run finishes
+      if(s && s.code && /^C\d+/.test(s.code)) return true;
+    }catch(e){}
+  }
+  return false;
+}
+function progressPct(){
+  let done=0; for(const s of STAGES) if(isStageComplete(s.file)) done++;
+  return Math.round(done/STAGES.length*100);
+}
+function stageUrl(s){ return (BASE + s.file); }
+function isPlaceholder(){ return BASE.indexOf('YOURNAME')>=0; }
+
+/* ------------------------------- SCREENS -------------------------------- */
+function login(){
+  const gsub = ST.google && ST.google.sub;
+  const gName = ST.google && ST.google.name;
+  const gEmail = ST.google && ST.google.email;
+  const googleBlock = GOOGLE_CLIENT_ID
+    ? (gsub
+        ? `<div style="background:rgba(67,181,129,.10);border:1px solid rgba(67,181,129,.5);border-radius:11px;padding:12px 14px;margin-top:8px">
+             <div class="tiny" style="color:#8ff0c0;letter-spacing:.4px">SIGNED IN WITH GOOGLE</div>
+             <div style="margin-top:3px;font-weight:600">${esc(gName||'')}</div>
+             <div class="tiny muted">${esc(gEmail||'')}</div>
+             <button class="btn ghost tiny" style="margin-top:8px;padding:5px 10px" onclick="googleSignOut()">Use a different account</button>
+           </div>`
+        : `<div style="margin-top:12px">
+             <div class="tiny muted" style="margin-bottom:6px">Sign in with your college Google account so your progress follows you between devices.</div>
+             <div id="g_btn_holder"></div>
+             <div class="tiny muted" style="margin-top:8px">Or, use your name and roll:</div>
+           </div>`)
+    : '';
+  const nameRollBlock = gsub
+    ? ''
+    : `<label class="field"><b>Your name</b><input id="f_name" type="text" maxlength="40" placeholder="e.g. Aarav Sharma" value="${esc(ST.name)}"></label>
+       <label class="field"><b>Roll number / Student ID</b><input id="f_roll" type="text" maxlength="30" placeholder="e.g. 2026-MBA-118" value="${esc(ST.roll||'')}"></label>`;
+  return `<div class="panel">
+    <h1>Welcome to EconVenture</h1>
+    <p class="muted">Your teacher runs this course live. ${GOOGLE_CLIENT_ID?'Sign in with Google (recommended) or use your name and roll, then enter the class code from the board.':'Enter your details and the class code from the board.'}</p>
+    ${googleBlock}
+    ${nameRollBlock}
+    <label class="field"><b>Class code</b><input id="f_code" type="text" maxlength="8" placeholder="e.g. 7KQ2MB" style="text-transform:uppercase" value="${esc(ST.code)}"></label>
+    ${REQUIRE_CLASS_CODE
+      ? `<div class="flag warn tiny">A class code is required to play. Ask your teacher for it.</div>`
+      : `<div class="flag info tiny">No class code? Leave it blank to practice solo: every stage opens in order, but you still take each concept's opening and closing checks.</div>`}
+    <div class="btnrow"><button class="btn primary wide" id="enter">Enter →</button></div>
+    <div id="joinmsg"></div>
+    ${isPlaceholder()?`<div class="cfgnote">Setup note for the instructor: the act links are not configured yet. Open this file in a text editor and paste your GitHub Pages address into the <b>BASE</b> line near the top. Until then, stage buttons show a short "not hosted yet" note.</div>`:''}
+  </div>`;
+}
+function googleSignOut(){ ST.google=null; ST.name=''; save(); render(); }
+function initGoogleButton(){
+  if(!GOOGLE_CLIENT_ID) return;
+  if(ST.google && ST.google.sub) return;                 // already signed in this session
+  const holder=document.getElementById('g_btn_holder'); if(!holder) return;
+  // Poll for GSI script; it's loaded async, so we may render before it's ready.
+  const tryInit=(tries)=>{
+    if(!(window.google && google.accounts && google.accounts.id)){
+      if(tries<25){ setTimeout(()=>tryInit(tries+1),200); return; }
+      holder.innerHTML='<div class="flag warn tiny">Google Sign-In could not load. Use name and roll below.</div>'; return;
+    }
+    google.accounts.id.initialize({
+      client_id: GOOGLE_CLIENT_ID,
+      callback: onGoogleCredential,
+      auto_select: false,
+      cancel_on_tap_outside: true
+    });
+    google.accounts.id.renderButton(holder,{theme:'filled_blue',size:'large',text:'signin_with',shape:'pill',logo_alignment:'left'});
+  };
+  tryInit(0);
+}
+function onGoogleCredential(resp){
+  if(!resp || !resp.credential){ document.getElementById('joinmsg').innerHTML='<div class="flag warn tiny" style="margin-top:8px">Google sign-in did not return a credential.</div>'; return; }
+  const payload = parseJwt(resp.credential);
+  if(!payload || !payload.sub){ document.getElementById('joinmsg').innerHTML='<div class="flag warn tiny" style="margin-top:8px">Could not read the Google identity.</div>'; return; }
+  ST.google = { sub: payload.sub, email: payload.email||'', name: payload.name||payload.given_name||'', idToken: resp.credential };
+  if(!ST.name) ST.name = ST.google.name;
+  save(); render();
+}
+function parseJwt(token){
+  try{ const parts=String(token).split('.'); if(parts.length!==3) return null;
+    let b=parts[1].replace(/-/g,'+').replace(/_/g,'/'); while(b.length%4)b+='=';
+    return JSON.parse(atob(b));
+  }catch(e){ return null; }
+}
+
+function hub(){
+  const open=highestOpen();
+  const paced = ST.gate && ST.gate.paced;
+  const paused = ST.gate && ST.gate.paused;
+  let rows='', lastLevel='';
+  STAGES.forEach((s,i)=>{
+    if(s.level!==lastLevel){ rows+=`<div class="lvl">${esc(s.level)}</div>`; lastLevel=s.level; }
+    const unlocked = isOpen(i);
+    const done = isStageComplete(s.file);
+    const visited = i<ST.reached;
+    const cls = !unlocked?'locked':done?'done':'open';
+    const pill = !unlocked
+      ? '<span class="pill locked">LOCKED</span>'
+      : done
+        ? '<span class="pill done">✓ COMPLETED</span>'
+        : visited
+          ? '<span class="pill open">IN PROGRESS</span>'
+          : '<span class="pill open">OPEN</span>';
+    const btn = unlocked
+      ? `<button class="btn ${done?'ghost':visited?'primary':'primary'}" data-i="${i}">${done?'Replay':visited?'Continue':'Start'}</button>`
+      : `<span class="tiny muted">waiting</span>`;
+    rows+=`<div class="stage ${cls}">
+      <div class="num">${done?'✓':(i+1)}</div>
+      <div class="body"><div class="t">${esc(s.title)}</div><div class="s">${esc(s.desc)}</div></div>
+      <div class="act">${pill}<div style="height:6px"></div>${btn}</div>
+    </div>`;
+  });
+  const statusLine = (!ST.code||ST.offline)
+    ? `<div class="status"><span class="dotoff"></span>Solo practice. All acts open; each Level 1 concept still requires its opening and closing checks.</div>`
+    : paused
+      ? `<div class="status"><span class="dotoff"></span>Class <b>${esc(ST.className||ST.code)}</b> is on hold. Your teacher will resume.</div>`
+      : paced
+        ? `<div class="status"><span class="dotlive"></span>Live with class <b>${esc(ST.className||ST.code)}</b>. ${STAGES.filter((x,ix)=>isOpen(ix)).length} of ${STAGES.length} acts open. New ones appear here the moment your teacher opens them.</div>`
+        : `<div class="status"><span class="dotlive"></span>Connected to <b>${esc(ST.className||ST.code)}</b>. All acts currently open.</div>`;
+  const doneCount = STAGES.filter(s=>isStageComplete(s.file)).length;
+  const pct = Math.round(doneCount/STAGES.length*100);
+  return `<div class="panel">
+    <div style="display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:8px">
+      <h2>Your course</h2><button class="btn ghost tiny" id="signout" style="padding:6px 12px">Sign out</button>
+    </div>
+    <div class="progress-wrap" style="margin-top:10px">
+      <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--muted);margin-bottom:5px"><span><b style="color:var(--gold2)">${doneCount}</b> of ${STAGES.length} stages complete</span><span>${pct}%</span></div>
+      <div class="progress-bar" style="height:8px;background:rgba(255,255,255,.06);border-radius:99px;overflow:hidden;box-shadow:inset 0 1px 2px rgba(0,0,0,.4)"><div style="height:100%;width:${pct}%;background:linear-gradient(90deg,var(--gold),var(--gold2));border-radius:99px;transition:width .4s ease"></div></div>
+    </div>
+    ${statusLine}
+    
+    <div style="margin-top:12px">${rows}</div>
+  </div>`;
+}
+
+function notHosted(s){
+  return `<div class="panel">
+    <h2>${esc(s.title)}</h2>
+    <div class="flag warn">This act is not hosted yet. The instructor needs to upload the act files to GitHub Pages and paste the address into this hub's <b>BASE</b> setting. Once that is done, this button opens the act in a new tab.</div>
+    <div class="btnrow"><button class="btn primary" id="backHub">← Back to the course</button></div>
+  </div>`;
+}
+
+/* ------------------------------- RENDER --------------------------------- */
+function render(){
+  const app=document.getElementById('app');
+  const who=document.getElementById('whoami');
+  const usingGoogle = !!(ST.google && ST.google.sub);
+  who.innerHTML = ST.name ? `${esc(ST.name)}${usingGoogle?' <span class="tiny" style="color:#8ff0c0">✓ Google</span>':''} · ${ST.roll?('roll '+esc(ST.roll)):(ST.google?esc(ST.google.email||''):'—')} · ${ST.code?('class '+esc(ST.code)):'solo practice'}` : '';
+  // Ready to join a class when: has a name AND (Google verified OR roll number entered)
+  const ready = ST.name && (usingGoogle || ST.roll) && ST.sid;
+  if(!ready){ stopPoll(); app.innerHTML=login(); wireLogin(); initGoogleButton(); return; }
+  app.innerHTML=hub(); wireHub();
+  refreshGate();
+  startPoll();
+}
+function wireLogin(){
+  document.getElementById('enter').onclick=()=>{
+    const usingGoogle = !!(ST.google && ST.google.sub);
+    if(!usingGoogle){
+      ST.name=(document.getElementById('f_name').value||'').trim();
+      ST.roll=(document.getElementById('f_roll').value||'').trim();
+    }
+    ST.code=(document.getElementById('f_code').value||'').trim().toUpperCase();
+    if(!ST.name){ alert('Please enter your name.'); return; }
+    if(!usingGoogle && !ST.roll){ alert('Please enter your roll number, or sign in with Google.'); return; }
+    const finish=(r)=>{
+      ST.sid=r.sid||''; ST.uid=r.uid||''; ST.className=r.className||''; save();
+      try{ localStorage.setItem('econventure_class_v1', JSON.stringify({
+        code:ST.code, name:ST.name, roll:ST.roll, sid:ST.sid, uid:ST.uid,
+        google:ST.google?{sub:ST.google.sub,email:ST.google.email,name:ST.google.name}:null
+      })); }catch(e){}
+      // Fetch cloud save if we have one; merge into localStorage before rendering the hub
+      if(ST.code && ST.uid && CLS.online()){
+        CLS.call({action:'load',code:ST.code,uid:ST.uid}, res=>{
+          if(res && res.ok && res.payload){
+            try{
+              const bundle=JSON.parse(res.payload);
+              Object.keys(bundle||{}).forEach(k=>{ try{ localStorage.setItem(k, bundle[k]); }catch(e){} });
+            }catch(e){}
+          }
+          render();
+        });
+      } else { render(); }
+    };
+    if(!ST.code){
+      if(REQUIRE_CLASS_CODE){ document.getElementById('joinmsg').innerHTML='<div class="flag warn tiny" style="margin-top:8px">A class code is required. Ask your teacher.</div>'; return; }
+      ST.offline=true; finish({sid:'',uid:'',className:''}); return;
+    }
+    if(!CLS.online()){
+      document.getElementById('joinmsg').innerHTML='<div class="flag warn tiny" style="margin-top:8px">Cannot reach the class server from this page. Check the CLASS_URL setting, or leave the code blank for solo practice.</div>';
+      return;
+    }
+    document.getElementById('joinmsg').innerHTML='<div class="flag info tiny" style="margin-top:8px">Joining…</div>';
+    const joinParams = { action:'join', code:ST.code, name:ST.name, roll:ST.roll };
+    if(usingGoogle) joinParams.idToken = ST.google.idToken;
+    CLS.call(joinParams, r=>{
+      if(r && r.ok){ ST.offline=false; finish(r); }
+      else if(r && r.error==='no-such-class'){ document.getElementById('joinmsg').innerHTML='<div class="flag warn tiny" style="margin-top:8px">No classroom with that code. Check the board and try again (letters only, no O/0 confusion: the code never contains 0, O, 1, I or L).</div>'; }
+      else if(r && r.error==='bad-google-token'){ document.getElementById('joinmsg').innerHTML='<div class="flag warn tiny" style="margin-top:8px">Google could not verify your identity token. Try signing in again.</div>'; }
+      else { document.getElementById('joinmsg').innerHTML='<div class="flag warn tiny" style="margin-top:8px">Could not reach the class server. Try again, or leave the code blank for solo practice.</div>'; }
+    });
+  };
+}
+
+function wireHub(){
+  document.getElementById('signout').onclick=()=>{ ST.name='';ST.roll='';ST.code='';ST.sid='';ST.uid='';ST.offline=false;ST.google=null; save(); render(); };
+  document.querySelectorAll('.stage .act button[data-i]').forEach(b=>{
+    b.onclick=()=>{
+      const i=+b.getAttribute('data-i');
+      if(!isOpen(i)) return;
+      ST.reached=Math.max(ST.reached, i+1); save();
+      const s=STAGES[i];
+      if(isPlaceholder()){ document.getElementById('app').innerHTML=notHosted(s);
+        document.getElementById('backHub').onclick=render; stopPoll(); return; }
+      window.open(stageUrl(s), '_blank');  // separate file, separate tab: one act can't break the hub
+      render(); // refresh "visited" state
+    };
+  });
+}
+
+/* ---- gate polling (jittered, fails open) --------------------------------- */
+function refreshGate(){
+  if(!ST.code || ST.offline || !CLS.online()){ ST.gate={paced:false,paused:false,open:null,l1open:null}; return; }
+  CLS.gate(ST.code, g=>{
+    if(g && g.ok!==false){
+      const ng={paced:!!g.paced, paused:!!g.paused, open:Array.isArray(g.open)?g.open:[], l1open:Array.isArray(g.l1open)?g.l1open:[]};
+      const changed = !ST.gate || JSON.stringify(ST.gate)!==JSON.stringify(ng);
+      ST.gate=ng; ST.className=g.name||ST.className; save(); if(changed) repaintIfHub();
+    }
+    // null => server unreachable: hold last known gate rather than failing open
+  });
+}
+function repaintIfHub(){
+  // only repaint the list if we're on the hub screen (not inside notHosted)
+  if(document.querySelector('.stage') || document.getElementById('signout')){
+    const app=document.getElementById('app'); app.innerHTML=hub(); wireHub();
+  }
+}
+function startPoll(){ if(POLL || !NET.online()) return; const tick=()=>{ refreshGate(); POLL=setTimeout(tick, POLL_MIN+Math.random()*(POLL_MAX-POLL_MIN)); }; POLL=setTimeout(tick, POLL_MIN+Math.random()*(POLL_MAX-POLL_MIN)); }
+function stopPoll(){ if(POLL){ clearTimeout(POLL); POLL=null; } }
+
+function esc(s){ return String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
+
+render();
+</script>
+</body>
+</html>

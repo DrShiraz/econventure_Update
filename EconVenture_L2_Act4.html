@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>EconVenture · Level 2 · Act 4</title>
+<style>
+:root{
+  --bg:#081321;--panel:#0e2038;--panel2:#122a49;--line:#1e3a5f;
+  --ink:#e8eef7;--muted:#93a7c4;--gold:#e0b54a;--gold2:#f0cf7a;
+  --basic:#6f97c4;--mid:#4a90d9;--prem:#e0b54a;--good:#43b581;--bad:#e5594d;--info:#4a90d9;--warn:#e8a33d;
+  --shadow:0 6px 24px rgba(0,0,0,.35);
+}
+*{box-sizing:border-box}html,body{margin:0;padding:0}
+body{background:radial-gradient(1100px 560px at 72% -12%,#0d2540 0,var(--bg) 55%),var(--bg);
+  color:var(--ink);font-family:"Segoe UI",system-ui,-apple-system,Roboto,Helvetica,Arial,sans-serif;
+  font-size:15px;line-height:1.55;-webkit-font-smoothing:antialiased}
+.wrap{max-width:960px;margin:0 auto;padding:16px 16px 64px}
+h1,h2,h3{margin:0 0 .4em;font-weight:700;letter-spacing:.2px}h1{font-size:23px}h2{font-size:18px}h3{font-size:15px}
+.gold{color:var(--gold)}.muted{color:var(--muted)}.small{font-size:13px}.tiny{font-size:12px}.mono{font-variant-numeric:tabular-nums}
+a{color:var(--gold2);cursor:pointer}
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:12px 16px;background:linear-gradient(180deg,#0f2542,#0b1c33);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);margin-bottom:16px}
+.brand{display:flex;align-items:center;gap:10px}.brand .dot{width:11px;height:11px;border-radius:50%;background:var(--gold);box-shadow:0 0 12px var(--gold)}
+.brand b{font-size:17px;letter-spacing:.4px}.step{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.8px}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:20px;box-shadow:var(--shadow);margin-bottom:16px}
+.grid{display:grid;gap:14px}
+@media(min-width:780px){.grid.cols2{grid-template-columns:1fr 1fr}.grid.cols3{grid-template-columns:1fr 1fr 1fr}}
+.card{background:var(--panel2);border:1px solid var(--line);border-radius:11px;padding:13px}
+.card .l{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.6px;margin-bottom:3px}
+.card .v{font-size:20px;font-weight:700}
+.tier{border-radius:12px;border:1px solid var(--line);padding:13px;background:var(--panel2)}
+.tier.basic{border-top:4px solid var(--basic)}.tier.mid{border-top:4px solid var(--mid)}.tier.prem{border-top:4px solid var(--prem)}
+.speak{border-left:3px solid var(--gold);background:rgba(224,181,74,.07);padding:10px 14px;border-radius:0 8px 8px 0;font-size:14px;margin:12px 0;color:#dbe6f5}
+.who{color:var(--gold2);font-weight:700}
+.example{display:flex;gap:10px;flex-wrap:wrap;margin:12px 0}
+.example .ex{flex:1;min-width:150px;background:#0a1c33;border:1px solid var(--line);border-radius:10px;padding:11px 13px;font-size:13px}
+.example .ex b{color:var(--gold2)}
+label.field{display:block;margin:6px 0 2px}
+label.field .cap{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:7px}
+label.field .cap b{font-size:14px}label.field .cap .val{font-variant-numeric:tabular-nums;color:var(--gold);font-weight:700;font-size:16px}
+input[type=range]{-webkit-appearance:none;width:100%;height:7px;border-radius:6px;background:linear-gradient(90deg,var(--tint,var(--gold)) 0%,var(--tint,var(--gold)) var(--fill,40%),#20375a var(--fill,40%));outline:none}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;background:#fff;border:3px solid var(--tint,var(--gold));cursor:pointer;box-shadow:0 2px 6px rgba(0,0,0,.4)}
+input[type=range]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;background:#fff;border:3px solid var(--tint,var(--gold));cursor:pointer}
+.hint{font-size:12.5px;color:var(--muted);margin-top:7px}
+.btn{display:inline-flex;align-items:center;gap:8px;justify-content:center;cursor:pointer;padding:13px 22px;border-radius:10px;border:1px solid var(--line);background:var(--panel2);color:var(--ink);font-size:15px;font-weight:600;transition:transform .05s,filter .15s}
+.btn:hover{filter:brightness(1.12)}.btn:active{transform:translateY(1px)}
+.btn.primary{background:linear-gradient(180deg,var(--gold2),var(--gold));color:#2a1e04;border-color:var(--gold)}
+.btn.ghost{background:transparent}.btn.wide{width:100%}
+.btnrow{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
+.toggle{display:inline-flex;border:1px solid var(--line);border-radius:10px;overflow:hidden;margin:2px 0}
+.toggle button{background:transparent;color:var(--muted);border:none;padding:10px 15px;font-size:14px;font-weight:600;cursor:pointer}
+.toggle button.on{background:var(--gold);color:#2a1e04}
+.work{background:#0a1830;border:1px solid var(--line);border-radius:10px;padding:12px 14px;margin-top:12px;font-size:12.5px;line-height:1.7;font-variant-numeric:tabular-nums}
+.work .row{color:#cfe0f5}.work b{color:var(--gold2)}
+.reinforce{background:var(--panel2);border:1px solid var(--line);border-left:4px solid var(--info);border-radius:11px;padding:16px;margin-top:14px}
+.reinforce h3{color:var(--gold2)}
+.chips{display:flex;gap:7px;flex-wrap:wrap;margin-top:10px}.chip{font-size:12px;padding:4px 11px;border-radius:20px;background:#0a1c33;border:1px solid var(--line);color:var(--muted)}
+.flag{border-radius:9px;padding:11px 14px;font-size:13.5px;margin:10px 0}
+.flag.ok{background:rgba(67,181,129,.12);border:1px solid rgba(67,181,129,.35)}
+.flag.info{background:rgba(74,144,217,.12);border:1px solid rgba(74,144,217,.35)}
+.flag.bad{background:rgba(229,89,77,.12);border:1px solid rgba(229,89,77,.35)}
+.flag.warn{background:rgba(232,163,61,.12);border:1px solid rgba(232,163,61,.35)}
+.news{display:flex;align-items:center;gap:12px;border-radius:12px;padding:12px 15px;margin-bottom:14px;border:1px solid var(--line);background:linear-gradient(90deg,#132c4d,#0e2038)}
+.news .tag{font-size:11px;font-weight:700;letter-spacing:1px;padding:3px 9px;border-radius:20px;white-space:nowrap}
+.news.boom .tag{background:rgba(67,181,129,.18);color:var(--good);border:1px solid rgba(67,181,129,.4)}
+.news.recession .tag{background:rgba(229,89,77,.16);color:var(--bad);border:1px solid rgba(229,89,77,.4)}
+.news.normal .tag{background:rgba(74,144,217,.16);color:var(--info);border:1px solid rgba(74,144,217,.4)}
+svg{display:block;width:100%;height:auto}.center{text-align:center}
+
+/* =====================================================================
+   BUILD VISUAL LAYER (shared across Level 2 acts) — appended; original
+   stylesheet untouched. Market-terminal identity matching the rest of the
+   course. Charts draw their lines in on entry, then fills and points settle.
+   Dependency-free; reduced motion and keyboard focus honoured at the bottom.
+   ===================================================================== */
+:root{
+  --bg:#081321;--panel:#102647;--panel2:#153059;--line:#213f6b;--line2:#2e568f;
+  --ink:#eaf1fb;--muted:#93abcd;--faint:#647fa6;
+  --gold:#e7bd54;--gold2:#f2d585;--gold-soft:rgba(231,189,84,.14);
+  --grid:rgba(120,160,215,.10);
+  --shadow:0 18px 44px -22px rgba(0,0,0,.75),0 3px 10px -4px rgba(0,0,0,.5);
+  --shadow-sm:0 8px 22px -14px rgba(0,0,0,.7);
+  --ease:cubic-bezier(.22,.7,.2,1);
+}
+body{background:
+    radial-gradient(1200px 620px at 72% -12%, #123055 0%, rgba(18,48,85,0) 60%),
+    linear-gradient(180deg,#0a1727 0%, var(--bg) 55%);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+  background-size:52px 52px;-webkit-mask-image:radial-gradient(1000px 700px at 72% 0%,#000 0%,transparent 78%);
+          mask-image:radial-gradient(1000px 700px at 72% 0%,#000 0%,transparent 78%);opacity:.5}
+.wrap{position:relative;z-index:1}
+.mono,.card .v,.work,label.field .cap .val,.chip,.small,.tiny{font-variant-numeric:tabular-nums}
+.topbar{background:linear-gradient(180deg,rgba(12,24,42,.94),rgba(12,24,42,.72));border-color:var(--line);box-shadow:0 1px 0 rgba(120,160,215,.05),var(--shadow-sm)}
+.brand .dot{box-shadow:0 0 12px var(--gold);animation:tick 2.4s var(--ease) infinite}
+.step{color:var(--muted)}
+.panel{position:relative;overflow:hidden;
+  background:linear-gradient(180deg,rgba(255,255,255,.02),rgba(255,255,255,0) 30%),linear-gradient(180deg,var(--panel) 0%,#0c1d34 100%);
+  border-color:var(--line);border-radius:16px;box-shadow:var(--shadow);animation:panelIn .5s var(--ease) both}
+.panel::before{content:"";position:absolute;left:16px;right:16px;top:0;height:1px;background:linear-gradient(90deg,transparent,rgba(160,195,245,.25),transparent)}
+h1,h2{letter-spacing:-.01em}
+.card{background:linear-gradient(180deg,#0e2340,#0b1d38);border-color:var(--line);box-shadow:var(--shadow-sm);
+  transition:transform .16s var(--ease),border-color .16s var(--ease);animation:cardIn .42s var(--ease) both}
+.card:hover{transform:translateY(-2px);border-color:var(--line2)}
+.grid .card:nth-child(1){animation-delay:.04s}.grid .card:nth-child(2){animation-delay:.1s}.grid .card:nth-child(3){animation-delay:.16s}
+.card .v{text-shadow:0 0 18px rgba(231,189,84,.14)}
+label.field .cap .val{text-shadow:0 0 16px rgba(231,189,84,.3)}
+input[type=range]{border:1px solid var(--line)}
+input[type=range]::-webkit-slider-thumb{box-shadow:0 0 0 4px rgba(231,189,84,.16),0 3px 8px rgba(0,0,0,.5);transition:box-shadow .15s var(--ease)}
+input[type=range]:hover::-webkit-slider-thumb{box-shadow:0 0 0 6px rgba(231,189,84,.22),0 3px 10px rgba(0,0,0,.55)}
+input[type=range]:active::-webkit-slider-thumb{box-shadow:0 0 0 8px rgba(231,189,84,.26)}
+.work{background:linear-gradient(180deg,#0a1b33,#081627);box-shadow:inset 0 1px 0 rgba(160,195,245,.04)}
+.reinforce{box-shadow:var(--shadow-sm);animation:reveal .5s var(--ease) both}
+.flag{animation:reveal .4s var(--ease) both}
+.chip{background:var(--gold-soft);transition:transform .15s var(--ease)}.chip:hover{transform:translateY(-1px)}
+.example .ex{box-shadow:var(--shadow-sm)}
+.speak{background:var(--gold-soft)}
+.btn{border-radius:10px;transition:transform .12s var(--ease),filter .15s var(--ease),box-shadow .15s var(--ease)}
+.btn:hover{transform:translateY(-1px)}.btn:active{transform:translateY(0) scale(.985)}
+.btn.primary{box-shadow:0 10px 24px -12px rgba(231,189,84,.6),inset 0 1px 0 rgba(255,255,255,.35)}
+:focus-visible{outline:2px solid var(--gold);outline-offset:2px;border-radius:8px}
+svg circle{filter:drop-shadow(0 0 4px currentColor)}
+svg text{font-variant-numeric:tabular-nums}
+svg.chartIn{animation:fadeIn .3s var(--ease) both}
+svg.chartIn path[fill="none"]{stroke-dasharray:2200;stroke-dashoffset:2200;animation:draw .85s var(--ease) .08s forwards}
+svg.chartIn polygon,svg.chartIn path[fill]:not([fill="none"]){opacity:0;animation:fadeIn .55s var(--ease) .5s forwards}
+svg.chartIn circle{opacity:0;animation:fadeIn .4s var(--ease) .62s forwards}
+svg.chartIn line[stroke="#fff"]{opacity:0;animation:fadeIn .4s var(--ease) .58s forwards}
+@keyframes panelIn{from{opacity:0;transform:translateY(10px) scale(.994)}to{opacity:1;transform:none}}
+@keyframes cardIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@keyframes reveal{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes draw{to{stroke-dashoffset:0}}
+@keyframes tick{0%{box-shadow:0 0 0 0 rgba(231,189,84,.55),0 0 12px var(--gold)}70%{box-shadow:0 0 0 7px rgba(231,189,84,0),0 0 12px var(--gold)}100%{box-shadow:0 0 0 0 rgba(231,189,84,0),0 0 12px var(--gold)}}
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important}
+  svg.chartIn path[fill="none"]{stroke-dashoffset:0!important}
+  svg.chartIn polygon,svg.chartIn path[fill]:not([fill="none"]),svg.chartIn circle,svg.chartIn line[stroke="#fff"]{opacity:1!important}
+  body::before{opacity:.32}.brand .dot{animation:none}
+}
+
+
+/* persistent hub link */
+.hublink{margin-left:auto;font-size:11px;color:var(--muted);text-decoration:none;padding:5px 11px;border:1px solid var(--line);border-radius:20px;transition:color .15s,border-color .15s,background .15s}
+.hublink:hover{color:var(--gold2);border-color:var(--gold);background:rgba(231,189,84,.06)}
+</style>
+<script>window.__L2QB={"open": {"q": "An INFERIOR good is one whose demand:", "opts": ["Rises when income rises", "Falls when income rises", "Is always taxed", "Is a luxury"], "a": 1}, "close": {"q": "A boom in the economy (rising incomes) should rotate your product mix toward:", "opts": ["Inferior goods", "Necessities", "Normal / luxury goods", "Fixed proportions regardless"], "a": 2}};</script>
+</head>
+<body>
+<div class="wrap">
+  <div class="topbar">
+    <div class="brand"><span class="dot"></span><b>EconVenture <span class="gold">Level 2</span></b></div>
+    <div class="step">Act 4 · When the wind changes</div><a class="hublink" href="EconVenture_Hub.html" title="Back to hub">◄ Hub</a></div>
+  <div id="app"></div>
+  <div class="center tiny muted" style="margin-top:18px">Level 2, Act 4 · offline single file · continues from Act 3 (versioning).</div>
+</div>
+
+<script>
+/* EconVenture classroom helper — must be identical across every act.
+   Enforces the faculty gate for THIS act (network required; fail-closed after a grace period)
+   and reports position + completion to the classroom backend. */
+const CLASS_URL='';  /* faculty pastes the same Apps Script /exec URL used by Hub/Founder */
+const CLS={
+  cfg:{ actIdx:-1, actKind:'act', graceMs:15000, pollMs:6000, pingMs:20000 },
+  state:{ code:'', sid:'', name:'', gate:null, lastOk:0, tries:0, active:false },
+  init(){ try{ const r=localStorage.getItem('econventure_class_v1'); if(r){ const c=JSON.parse(r)||{}; this.state.code=c.code||''; this.state.sid=c.sid||''; this.state.name=c.name||''; } }catch(e){} },
+  online(){ return !!(CLASS_URL||'').trim(); },
+  call(params, cb){
+    if(!this.online()){ cb&&cb(null); return; }
+    try{
+      const qs=Object.keys(params).map(k=>k+'='+encodeURIComponent(params[k])).join('&');
+      fetch((CLASS_URL||'').trim()+'?api=1&'+qs,{cache:'no-store'})
+        .then(r=>r.json()).then(j=>cb&&cb(j))
+        .catch(()=>cb&&cb(null));
+    }catch(e){ cb&&cb(null); }
+  },
+  isOpenForMe(){
+    const g=this.state.gate; if(!g) return false;
+    if(g.paused) return false;
+    if(!g.paced) return true;                     // teacher turned pacing off => everyone can proceed
+    if(this.cfg.actKind==='act'){
+      return Array.isArray(g.open) && g.open.indexOf(this.cfg.actIdx)>=0;
+    }
+    return Array.isArray(g.l1open) && g.l1open.indexOf(this.cfg.actIdx)>=0;
+  },
+  showGate(msg, sub){
+    if(this._gateEl){ this._gateEl.remove(); this._gateEl=null; }
+    const el=document.createElement('div');
+    el.id='__cls_gate';
+    el.style.cssText='position:fixed;inset:0;z-index:99999;background:rgba(8,19,33,.97);display:flex;align-items:center;justify-content:center;padding:24px;backdrop-filter:blur(6px);font:15px/1.5 system-ui,Segoe UI,Roboto,sans-serif;color:#eef4fb';
+    el.innerHTML='<div style="max-width:520px;text-align:center;padding:28px 32px;background:linear-gradient(180deg,#0d1f38,#0b1d38);border:1px solid #1d3a5f;border-radius:16px;box-shadow:0 22px 44px -18px rgba(0,0,0,.7)">'+
+      '<div style="font-size:11px;letter-spacing:1px;text-transform:uppercase;color:#93abcd;margin-bottom:8px">Paced by your teacher</div>'+
+      '<div style="font-size:22px;font-weight:700;margin-bottom:10px">'+msg+'</div>'+
+      '<div style="font-size:14px;color:#93abcd">'+sub+'</div>'+
+      '</div>';
+    document.body.appendChild(el); this._gateEl=el;
+  },
+  hideGate(){ if(this._gateEl){ this._gateEl.remove(); this._gateEl=null; } },
+  refreshGate(cb){
+    if(!this.state.code){ this.showGate('Sign in through the Hub first', 'This act only opens when you are joined to your teacher\u2019s classroom. Return to the Hub, enter your name, roll and the class code, then come back.'); cb&&cb(false); return; }
+    if(!this.online()){ this.showGate('This game is not connected to a class', 'The classroom server is not configured on this page. Ask your teacher.'); cb&&cb(false); return; }
+    this.call({action:'gate',code:this.state.code}, g=>{
+      this.state.tries++;
+      if(g && g.ok!==false){
+        this.state.gate=g; this.state.lastOk=Date.now(); this.state.tries=0;
+        if(this.isOpenForMe()){ this.hideGate(); cb&&cb(true); }
+        else {
+          const name=(g.name||this.state.code);
+          this.showGate(g.paused?('Class '+name+' is on hold'):('Waiting for your teacher to open this stage'), g.paused?'Your teacher paused the class. You will unlock when they resume.':'You are ahead of the class, or your teacher has not opened this stage yet. It will open automatically the moment they do.');
+          cb&&cb(false);
+        }
+      } else {
+        const age=Date.now()-this.state.lastOk;
+        if(this.state.lastOk && age<this.cfg.graceMs){ /* recent good state, no scary UI */ cb&&cb(this.isOpenForMe()); }
+        else { this.showGate('Reconnecting to your class', 'Your device lost the classroom server. This will retry automatically. If it stays down for a minute, tell your teacher.'); cb&&cb(false); }
+      }
+    });
+  },
+  start(actIdx, actKind){
+    this.cfg.actIdx=actIdx; this.cfg.actKind=actKind||'act';
+    this.init();
+    if(this.state.active) return; this.state.active=true;
+    this.refreshGate();
+    this._poll=setInterval(()=>this.refreshGate(),this.cfg.pollMs);
+    this._ping=setInterval(()=>{ this._doPing(); },this.cfg.pingMs);
+    this._doPing();  /* immediate so roster shows position instantly */
+    if(this._initCloudSave) this._initCloudSave();
+  },
+  _doPing(){
+    if(!this.state.code || !this.state.sid) return;
+    this.call({action:'ping',sid:this.state.sid,pos:(this.cfg.actKind==='act'?'A:':'L1:')+this.cfg.actIdx}, r=>{
+      if(!r || !r.directive) return;
+      this._handleDirective(r.directive);
+    });
+  },
+  _handleDirective(d){
+    if(!d || !d.kind) return;
+    if(d.kind==='kick'){
+      try{ localStorage.removeItem('econventure_class_v1'); }catch(e){}
+      this.showGate('You have been removed from this class', 'Your teacher removed you from the classroom. Return to the Hub if you want to rejoin with a new code.');
+      return;
+    }
+    if(d.kind==='goto'){
+      const kind = d.posKind==='act'?'act':'concept';
+      const pos = Number(d.pos)||0;
+      // If the target IS this file's own act at same kind, just clear the gate wall (they're already here).
+      if(kind==='act' && this.cfg.actKind==='act' && pos===this.cfg.actIdx){ this.hideGate(); return; }
+      // Otherwise navigate to the Hub target file. Same-directory relative link.
+      const files = ['EconVenture_L1_Aggregation.html','EconVenture_Founder.html','EconVenture_L2_Act1.html','EconVenture_L2_Act2.html','EconVenture_L2_Act3.html','EconVenture_L2_Act4.html','EconVenture_L2_Act5.html','EconVenture_L2_Act6.html','EconVenture_L2_Act7.html','EconVenture_L2_Act8.html','EconVenture_Live.html'];
+      if(kind==='act' && files[pos]){
+        try{ location.href=files[pos]; }catch(e){}
+        return;
+      }
+      if(kind==='concept'){
+        // Send them into Founder at that concept. Founder reads its own directive on boot.
+        try{ localStorage.setItem('econventure_pending_goto', JSON.stringify({posKind:'concept',pos:pos,at:Date.now()})); }catch(e){}
+        try{ location.href='EconVenture_Founder.html'; }catch(e){}
+      }
+    }
+  },
+  complete(){ if(!this.state.code || !this.state.sid) return;
+    this.call({action:'quiz',code:this.state.code,sid:this.state.sid,concept:100+this.cfg.actIdx,phase:'post',score:1,total:1},()=>{}); },
+  needsClassroom(){ return !this.state.code; }
+};
+
+/* Cloud save: bundle every econventure_* localStorage key, ship on change (debounced).
+   Called by CLS.start automatically once we have code + uid. Fetch on Hub finish (Hub side). */
+CLS._saveKey='econventure_cloudsave_lasthash';
+CLS._collectBundle=function(){
+  const bundle={};
+  try{
+    for(let i=0;i<localStorage.length;i++){
+      const k=localStorage.key(i);
+      if(!k) continue;
+      if(k.indexOf('econventure_')!==0) continue;
+      if(k==='econventure_cloudsave_lasthash') continue;    /* housekeeping key: don't ship */
+      bundle[k]=localStorage.getItem(k);
+    }
+  }catch(e){}
+  return bundle;
+};
+CLS._hash=function(s){ let h=0; for(let i=0;i<s.length;i++){ h=(h*31+s.charCodeAt(i))|0; } return String(h); };
+CLS._pushSave=function(force){
+  if(!this.state.code || !this.state.uid) return;
+  const bundle=this._collectBundle();
+  const payload=JSON.stringify(bundle);
+  const hash=this._hash(payload);
+  if(!force){
+    try{ if(localStorage.getItem(this._saveKey)===hash) return; }catch(e){}
+  }
+  this.call({action:'save',code:this.state.code,uid:this.state.uid,gsub:this.state.gsub||'',email:this.state.email||'',name:this.state.name||'',roll:this.state.roll||'',payload:payload}, r=>{
+    if(r && r.ok){ try{ localStorage.setItem(this._saveKey, hash); }catch(e){} }
+  });
+};
+CLS._initCloudSave=function(){
+  /* Re-read identity to include uid/gsub/email if the Hub wrote them. */
+  try{
+    const raw=localStorage.getItem('econventure_class_v1');
+    if(raw){ const c=JSON.parse(raw)||{};
+      this.state.code=c.code||this.state.code;
+      this.state.sid=c.sid||this.state.sid;
+      this.state.name=c.name||this.state.name;
+      this.state.uid=c.uid||'';
+      if(c.google){ this.state.gsub=c.google.sub||''; this.state.email=c.google.email||''; }
+      if(c.roll) this.state.roll=c.roll;
+    }
+  }catch(e){}
+  if(!this._cloudInited && this.state.code && this.state.uid){
+    this._cloudInited=true;
+    /* First push after 1s (gives boot code a moment to settle), then every 30s if changed, then on unload. */
+    setTimeout(()=>this._pushSave(false), 1000);
+    setInterval(()=>this._pushSave(false), 30000);
+    window.addEventListener('beforeunload', ()=>{ try{ this._pushSave(true); }catch(e){} });
+  }
+};
+
+
+/* ============================================================================
+   LEVEL 2 · ACT 4 — income elasticity of demand.
+   The three tiers from Act 3 sit still no longer: the economy moves, and each
+   tier responds to household income at a different rate.
+     Income elasticity  E_Y = %change in quantity / %change in income.
+       Necessity  E_Y ~ 0   (basic): barely moves with income.
+       Normal     0<E_Y<1   (mid): moves with income, muted.
+       Luxury     E_Y > 1   (premium): swings hard with the economy.
+     (An INFERIOR good has E_Y < 0 — demand FALLS as income rises. The basic
+      tier is NOT inferior; it is income-inelastic. We keep that honest.)
+   Demand for a tier at income index Y:  base * Y^(E_Y).
+   Prices fixed at the Act 3 optimum so INCOME is the only moving force.
+   Verified matched-demand profit: recession ~452k, normal ~587k (=Act 3), boom ~768k.
+   ============================================================================ */
+const TIER={
+  basic:  {name:'Basic',   base:3500, price:94,  cost:55,  EY:0.15, color:'#6f97c4', kind:'Necessity'},
+  mid:    {name:'Mid',     base:3000, price:184, cost:100, EY:0.9,  color:'#4a90d9', kind:'Normal good'},
+  premium:{name:'Premium', base:2000, price:314, cost:165, EY:1.8,  color:'#e0b54a', kind:'Luxury'}
+};
+const FC=100000, HOLD=0.35;
+const SCEN={
+  recession:{tag:'RECESSION', income:0.82, cls:'recession', news:'Recession confirmed. Incomes fall, households tighten up and trade down to cheaper options.'},
+  normal:   {tag:'STEADY',    income:1.00, cls:'normal',    news:'Incomes are flat. A calm, ordinary quarter to read against.'},
+  boom:     {tag:'BOOM',      income:1.22, cls:'boom',      news:'Boom. Incomes surge, confidence is high, and buyers reach for the best.'}
+};
+const demand=(t,Y)=>Math.max(0,Math.round(TIER[t].base*Math.pow(Y,TIER[t].EY)));
+const inr=n=>{n=Math.round(n||0);const neg=n<0;n=Math.abs(n);return (neg?'-₹':'₹')+n.toLocaleString('en-IN');};
+const k=n=>(n<0?'-':'')+'₹'+Math.round(Math.abs(n)/1000)+'k';
+
+// profit for a production plan at a given income
+function planResult(plan, Y){
+  let profit=-FC, detail={};
+  for(const t of ['basic','mid','premium']){
+    const d=demand(t,Y), made=plan[t], sold=Math.min(made,d), unsold=Math.max(0,made-d), short=Math.max(0,d-made);
+    const contrib=sold*(TIER[t].price-TIER[t].cost), waste=unsold*TIER[t].cost*HOLD;
+    profit+=contrib-waste; detail[t]={d,made,sold,unsold,short,contrib,waste};
+  }
+  return {profit:Math.round(profit),detail};
+}
+const matchedProfit=Y=>planResult({basic:demand('basic',Y),mid:demand('mid',Y),premium:demand('premium',Y)},Y).profit;
+
+/* ---- income-response chart: three tiers' demand vs income (slopes = E_Y) --- */
+function incomeChartSVG(Y){
+  const W=380,H=210,padL=40,padR=54,padT=12,padB=26,Ymin=0.75,Ymax=1.25;
+  const dmax=3800;
+  const px=y=>padL+(y-Ymin)/(Ymax-Ymin)*(W-padL-padR), py=d=>padT+(1-d/dmax)*(H-padT-padB);
+  let grid='';[0,1000,2000,3000].forEach(d=>{grid+=`<line x1="${padL}" y1="${py(d)}" x2="${W-padR}" y2="${py(d)}" stroke="var(--line)" stroke-width="1" opacity=".5"/><text x="${padL-6}" y="${py(d)+4}" text-anchor="end" font-size="10" fill="var(--muted)">${d/1000}k</text>`;});
+  [0.8,0.9,1.0,1.1,1.2].forEach(y=>{grid+=`<text x="${px(y)}" y="${H-9}" text-anchor="middle" font-size="10" fill="var(--muted)">${y.toFixed(2)}</text>`;});
+  let lines='';
+  for(const t of ['basic','mid','premium']){
+    let d='';for(let y=Ymin;y<=Ymax+1e-9;y+=0.02){d+=(d?'L':'M')+px(y).toFixed(1)+' '+py(demand(t,y)).toFixed(1)+' ';}
+    lines+=`<path d="${d}" fill="none" stroke="${TIER[t].color}" stroke-width="2.5"/>`;
+    lines+=`<text x="${W-padR+4}" y="${py(demand(t,Ymax))+4}" font-size="10" fill="${TIER[t].color}">${TIER[t].name}</text>`;
+  }
+  const mark=`<line x1="${px(Y)}" y1="${padT}" x2="${px(Y)}" y2="${H-padB}" stroke="#fff" stroke-width="1.5" stroke-dasharray="4 3" opacity=".8"/><text x="${px(Y)}" y="${padT-2}" text-anchor="middle" font-size="10" fill="#fff">income ${Y.toFixed(2)}</text>`;
+  return `<svg viewBox="0 0 ${W} ${H}">${grid}${lines}${mark}
+    <text x="${padL}" y="10" font-size="10" fill="var(--muted)">demand</text></svg>`;
+}
+
+/* --------------------------------- STATE -------------------------------- */
+const SAVE='econventure_L2A4_v1';
+let ST={phase:'primer', scen:'boom', pb:3500, pm:3000, pp:2000, committed:false};
+try{const r=localStorage.getItem(SAVE);if(r)ST=Object.assign(ST,JSON.parse(r));}catch(e){}
+const save=()=>{try{localStorage.setItem(SAVE,JSON.stringify(ST));}catch(e){}};
+const plan=()=>({basic:ST.pb,mid:ST.pm,premium:ST.pp});
+
+/* ------------------------------- PRIMER --------------------------------- */
+function primer(){
+  return `<div class="panel">
+    <div class="step" style="margin-bottom:4px">Before we start · connect the idea</div>
+    <h1>Your three tiers were sitting still. The economy never does.</h1>
+    <p class="muted">In Act 3 you built a ladder and buyers sorted themselves. But that assumed the buyers stayed the same from quarter to quarter. They do not. When the economy booms and paychecks grow, people upgrade. When a recession hits and money is tight, people trade down. Your premium tier and your basic tier feel that swing very differently.</p>
+    <div class="speak"><span class="who">Priya:</span> "Think about your own spending. Get a raise and you might fly business class or buy the premium phone. Lose income and you drop to economy and the basic model. But you keep buying light bulbs either way, boom or bust. Some things swing with your wallet, some barely move. That is income elasticity."</div>
+    <p class="small"><b>Income elasticity of demand</b> measures how much a product's sales move when incomes move. It sorts goods into three kinds:</p>
+    <div class="example">
+      <div class="ex"><b>Necessity</b> (elasticity near 0)<br>Salt, basic lighting, bus fares. People buy about the same amount whether times are good or bad. Your <b style="color:var(--basic)">Basic</b> tier lives here.</div>
+      <div class="ex"><b>Normal good</b> (between 0 and 1)<br>Restaurant meals, mid-range clothes. Sales rise with income, but gently. Your <b style="color:var(--mid)">Mid</b> tier.</div>
+      <div class="ex"><b>Luxury</b> (greater than 1)<br>Premium gadgets, business-class seats. Sales explode in booms and crater in downturns. Your <b style="color:var(--prem)">Premium</b> tier.</div>
+    </div>
+    <div class="flag warn"><b>One honest correction, because textbooks get this wrong.</b> A basic bulb is <b>not an "inferior good."</b> An inferior good is one whose sales actually <i>rise</i> when incomes <i>fall</i> (elasticity below zero), like instant noodles or the cheapest bus route, because people switch <i>to</i> it when money is tight. Your basic tier is income-<b>inelastic</b> (barely moves), not inferior. Different thing, and the difference matters.</p></div>
+    <p class="small muted">This act has one job: read where the economy is headed and set your production for each tier so you neither overbuild the tier that is about to shrink nor run short of the tier that is about to carry you.</p>
+    <div class="btnrow"><button class="btn primary wide" id="go">Read the economy and produce →</button></div>
+  </div>`;
+}
+
+/* ------------------------------- PLAY ----------------------------------- */
+function play(){
+  const sc=SCEN[ST.scen], Y=sc.income, r=planResult(plan(),Y);
+  const tierPanel=(t,key,var_)=>{
+    const T=TIER[t], d=demand(t,Y), dNorm=demand(t,1.0), chg=Math.round((d/dNorm-1)*100), made=ST[var_], dd=r.detail[t];
+    const flagTxt = dd.unsold>50 ? `<span style="color:var(--bad)">${dd.unsold.toLocaleString('en-IN')} unsold</span>`
+                  : dd.short>50 ? `<span style="color:var(--warn)">${dd.short.toLocaleString('en-IN')} short</span>`
+                  : `<span style="color:var(--good)">matched</span>`;
+    return `<div class="tier ${key}">
+      <h3 style="color:${T.color}">${T.name}</h3>
+      <div class="tiny muted">${T.kind} · income elasticity ${T.EY}</div>
+      <div class="tiny mono" style="margin:6px 0">demand now <b style="color:${T.color}">${d.toLocaleString('en-IN')}</b> <span class="muted">(${chg>=0?'+':''}${chg}% vs steady)</span></div>
+      <label class="field"><div class="cap"><b>Produce</b> <span class="val" id="${t}Val">${made.toLocaleString('en-IN')}</span></div>
+        <input id="prod_${t}" type="range" min="0" max="4200" step="50" value="${made}" style="--tint:${T.color}"></label>
+      <div class="tiny mono" id="${t}SoldLine">sold ${dd.sold.toLocaleString('en-IN')} · ${flagTxt}</div>
+    </div>`;
+  };
+  return `<div class="news ${sc.cls}"><span class="tag">${sc.tag}</span><span class="txt">${sc.news}</span></div>
+  <div class="panel">
+    <h2>Where is the economy, and what do you build?</h2>
+    <p class="small muted" style="margin-top:0">Same three tiers, same prices as Act 3. Switch the economy and watch each tier's demand react at its own pace, then set production to match. The chart shows why: the steeper the line, the more that tier swings with income.</p>
+    <div class="toggle">
+      <button id="tRec" class="${ST.scen==='recession'?'on':''}">Recession</button>
+      <button id="tNorm" class="${ST.scen==='normal'?'on':''}">Steady</button>
+      <button id="tBoom" class="${ST.scen==='boom'?'on':''}">Boom</button>
+    </div>
+    <div class="grid cols2" style="margin-top:8px">
+      <div id="chartbox">${incomeChartSVG(Y)}</div>
+      <div>
+        <div class="grid cols2">
+          <div class="card"><div class="l">Profit this quarter</div><div class="v mono" id="profV" style="color:${r.profit>=0?'var(--good)':'var(--bad)'}">${inr(r.profit)}</div></div>
+          <div class="card"><div class="l">If matched perfectly</div><div class="v mono">${inr(matchedProfit(Y))}</div></div>
+        </div>
+        <div id="waste" class="tiny" style="margin-top:8px"></div>
+      </div>
+    </div>
+    <div class="grid cols3" style="margin-top:6px">
+      ${tierPanel('basic','basic','pb')}
+      ${tierPanel('mid','mid','pm')}
+      ${tierPanel('premium','prem','pp')}
+    </div>
+    <div class="work" id="work">${workText()}</div>
+    <div class="hint">Try this: set the economy to <b>Boom</b> and build up premium, then flip to <b>Recession</b> without changing anything. Watch premium demand collapse and your unsold pile grow. That gap is income elasticity in your inventory.</div>
+    <div class="btnrow">
+      <button class="btn ghost" id="matchBtn">Match production to demand</button>
+      <button class="btn primary" id="lock">Lock in this quarter</button>
+    </div>
+    <div id="after"></div>
+  </div>`;
+}
+function workText(){
+  const Y=SCEN[ST.scen].income;
+  const rows=['basic','mid','premium'].map(t=>{
+    const T=TIER[t], dN=demand(t,1.0), d=demand(t,Y), chg=((d/dN-1)*100);
+    return `<div class="row"><b style="color:${T.color}">${T.name}</b> (${T.kind}, E_Y=${T.EY}): demand = base × income^E_Y = ${T.base.toLocaleString('en-IN')} × ${Y.toFixed(2)}^${T.EY} = <b>${d.toLocaleString('en-IN')}</b> (${chg>=0?'+':''}${chg.toFixed(0)}%)</div>`;
+  }).join('');
+  return rows+`<div class="row" style="border-top:1px solid var(--line);margin-top:6px;padding-top:6px">Same income move, three different reactions. The bigger the elasticity, the harder the swing. That is why the mix must rotate as the economy turns.</div>`;
+}
+
+function afterLock(){
+  const Y=SCEN[ST.scen].income, r=planResult(plan(),Y), best=matchedProfit(Y);
+  const eff=r.profit/best;
+  const premOver=r.detail.premium.unsold>300, premShort=r.detail.premium.short>300;
+  let head;
+  if(eff>0.96){
+    head=`<div class="flag ok"><b>Well read.</b> Your production tracked demand at ${inr(r.profit)}, close to the ${inr(best)} ceiling for a ${SCEN[ST.scen].tag.toLowerCase()} quarter. You produced the tiers in the proportion the economy actually wanted.</div>`;
+  } else if(ST.scen==='recession' && premOver){
+    head=`<div class="flag bad"><b>You overbuilt premium into a downturn.</b> Premium is a luxury: when incomes fell to ${Y}, its demand dropped ${Math.abs(Math.round((demand('premium',Y)/demand('premium',1)-1)*100))}%, but you kept making it. ${inr(r.detail.premium.waste)} went to unsold-inventory cost. In a recession you cut the luxury tier and lean on basic, which barely moved.</div>`;
+  } else if(ST.scen==='boom' && premShort){
+    head=`<div class="flag warn"><b>You under-built premium in a boom.</b> When incomes rose to ${Y}, premium demand jumped ${Math.round((demand('premium',Y)/demand('premium',1)-1)*100)}%, and you left ${r.detail.premium.short.toLocaleString('en-IN')} sales on the table. Booms are when the luxury tier pays; that is where the extra capacity should have gone.</div>`;
+  } else {
+    head=`<div class="flag info">You booked ${inr(r.profit)} against a ${inr(best)} ceiling. The gap is mismatch between what you built and what this economy wanted. Use the elasticities: in this quarter, premium demand moved most, basic least.</div>`;
+  }
+  return head+`<div class="reinforce">
+    <div class="chip" style="margin-bottom:6px">Income elasticity of demand</div>
+    <h3>Different goods ride the economy differently</h3>
+    <p class="small" style="margin:.2em 0 0"><b>Income elasticity</b> is the percentage change in a good's demand divided by the percentage change in income. It sorts goods by how hard they swing with the economy. A <b>necessity</b> (elasticity near zero, your basic tier) barely moves, which is why it becomes your anchor in a downturn. A <b>normal good</b> (between zero and one, your mid tier) drifts up and down with income. A <b>luxury</b> (above one, your premium tier) amplifies the cycle, soaring in booms and collapsing in recessions. Because the three tiers react at different speeds, the profit-maximising production mix is not fixed; it rotates as incomes rise and fall.</p>
+    <p class="small" style="margin:.6em 0 0">Keep the definitions clean. Income-inelastic is not the same as inferior. An <b>inferior good</b> has a <i>negative</i> income elasticity: people buy <i>more</i> of it when they get <i>poorer</i>, like instant noodles or the cheapest transport, because they switch to it when budgets tighten. Your basic bulb does not do that; its demand simply stays roughly flat. Mixing these up is the most common income-elasticity error, so hold the line on it.</p>
+    <div class="chips"><span class="chip">Income elasticity</span><span class="chip">Necessity vs luxury</span><span class="chip">Inferior good</span><span class="chip">Business cycle</span><span class="chip">Product mix rotation</span></div>
+  </div>
+  <div class="reinforce" style="border-left-color:var(--gold)">
+    <div class="chip" style="margin-bottom:6px">What comes next</div>
+    <h3>Now a rival starts moving against you</h3>
+    <p class="small" style="margin:.2em 0 0">Income elasticity was the whole market rising and falling together. Act 5 is different: a competitor drops the price on their premium bulb, and you watch buyers leak out of yours. That is <b>cross-price elasticity</b>, how one product's price bends another product's demand. It is the difference between substitutes that steal from each other and complements that lift each other, and it is the last elasticity you need before the tiers, the cycle, and the rivals all come together.</p>
+  </div>
+  <div class="btnrow"><button class="btn primary" id="nextAct">Continue · Act 5 · Substitutes & complements →</button><button class="btn ghost" id="replay">Adjust production again</button></div>`;
+}
+
+/* ------------------------------- RENDER --------------------------------- */
+const setFill=el=>el&&el.style.setProperty('--fill',((el.value-el.min)/(el.max-el.min)*100)+'%');
+const prefersReduced=()=>{ try{ return window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches; }catch(e){ return false; } };
+function render(){
+  const app=document.getElementById('app');
+  if(ST.phase==='primer'){ app.innerHTML=primer(); document.getElementById('go').onclick=()=>{ST.phase='play';save();render();}; return; }
+  app.innerHTML=play();
+  const setScen=s=>{ST.scen=s;save();render();};
+  document.getElementById('tRec').onclick=()=>setScen('recession');
+  document.getElementById('tNorm').onclick=()=>setScen('normal');
+  document.getElementById('tBoom').onclick=()=>setScen('boom');
+  const map={basic:'pb',mid:'pm',premium:'pp'};
+  const sliders={basic:document.getElementById('prod_basic'),mid:document.getElementById('prod_mid'),premium:document.getElementById('prod_premium')};
+  const refresh=()=>{
+    ST.pb=+sliders.basic.value; ST.pm=+sliders.mid.value; ST.pp=+sliders.premium.value;
+    const Y=SCEN[ST.scen].income, r=planResult(plan(),Y);
+    for(const t of ['basic','mid','premium']){
+      const dd=r.detail[t], made=ST[map[t]];
+      document.getElementById(t+'Val').textContent=made.toLocaleString('en-IN');
+    }
+    // rebuild tier sold/flag lines + profit via a light re-render of dynamic bits
+    const pv=document.getElementById('profV'); pv.textContent=inr(r.profit); pv.style.color=r.profit>=0?'var(--good)':'var(--bad)';
+    let totWaste=0,totShort=0; for(const t of ['basic','mid','premium']){totWaste+=r.detail[t].waste; totShort+=r.detail[t].short;}
+    const wv=document.getElementById('waste');
+    wv.innerHTML = (totWaste>500? `<span style="color:var(--bad)">Unsold-inventory cost this quarter: ${inr(totWaste)}</span>`:'')
+      + (totShort>200? `${totWaste>500?'<br>':''}<span style="color:var(--warn)">Lost sales from shortfall: ${totShort.toLocaleString('en-IN')} units</span>`:'')
+      + (totWaste<=500&&totShort<=200? '<span style="color:var(--good)">Production is well matched to demand.</span>':'');
+    // update per-tier sold/flag text by re-rendering those small nodes
+    document.getElementById('work').innerHTML=workText();
+    // redraw sold lines by stable id
+    ['basic','mid','premium'].forEach(t=>{
+      const dd=r.detail[t];
+      const flag=dd.unsold>50?`<span style="color:var(--bad)">${dd.unsold.toLocaleString('en-IN')} unsold</span>`:dd.short>50?`<span style="color:var(--warn)">${dd.short.toLocaleString('en-IN')} short</span>`:`<span style="color:var(--good)">matched</span>`;
+      const node=document.getElementById(t+'SoldLine');
+      if(node) node.innerHTML=`sold ${dd.sold.toLocaleString('en-IN')} · ${flag}`;
+    });
+    Object.values(sliders).forEach(setFill); save();
+  };
+  Object.values(sliders).forEach(setFill);
+  Object.values(sliders).forEach(s=>s.oninput=refresh);
+  refresh();
+  document.getElementById('matchBtn').onclick=()=>{const Y=SCEN[ST.scen].income;
+    ST.pb=demand('basic',Y); ST.pm=demand('mid',Y); ST.pp=demand('premium',Y);
+    sliders.basic.value=ST.pb; sliders.mid.value=ST.pm; sliders.premium.value=ST.pp; refresh();};
+  document.getElementById('lock').onclick=()=>{ST.committed=true;save(); try{ CLS.completeWithQuiz(); }catch(e){}
+    document.getElementById('after').innerHTML=afterLock();
+    const rp=document.getElementById('replay'); if(rp) rp.onclick=()=>{document.getElementById('after').innerHTML='';};};
+  if(ST.committed){document.getElementById('after').innerHTML=afterLock();
+    const rp=document.getElementById('replay'); if(rp) rp.onclick=()=>{document.getElementById('after').innerHTML='';};}
+}
+const _renderCore=render;
+render=function(){ _renderCore.apply(this,arguments);
+  if(prefersReduced()) return;
+  try{ document.querySelectorAll('#app svg').forEach(s=>s.classList.add('chartIn')); }catch(e){}
+};
+render();
+
+document.addEventListener('click',function(e){ var t=e.target; while(t&&t!==document){ if(t.id==='nextAct'){ try{ location.href='EconVenture_L2_Act5.html'; }catch(_){ } return; } t=t.parentNode; } });
+
+/* classroom gate + roster ping — must be after render() defined */
+/* Level 2 wall quiz: one opening question before entry, one closing after commit.
+   Bundle is looked up from window.__L2QB, injected per-file. Progress persisted per-act. */
+CLS._quizKey=function(kind){ return 'econventure_l2q_'+CLS.cfg.actIdx+'_'+kind; };
+CLS._loadQuizFlag=function(kind){ try{ return localStorage.getItem(CLS._quizKey(kind))==='1'; }catch(e){ return false; } };
+CLS._setQuizFlag=function(kind){ try{ localStorage.setItem(CLS._quizKey(kind),'1'); }catch(e){} };
+CLS._showQuiz=function(bundle, kind, onDone){
+  if(!bundle){ onDone&&onDone(); return; }
+  const q = kind==='open' ? bundle.open : bundle.close;
+  if(!q){ onDone&&onDone(); return; }
+  if(this._quizEl){ this._quizEl.remove(); }
+  const el=document.createElement('div');
+  el.id='__cls_quiz';
+  el.style.cssText='position:fixed;inset:0;z-index:99998;background:rgba(8,19,33,.97);display:flex;align-items:center;justify-content:center;padding:24px;backdrop-filter:blur(6px);font:15px/1.5 system-ui,Segoe UI,Roboto,sans-serif;color:#eef4fb';
+  const opts=q.opts.map((o,i)=>'<div data-i="'+i+'" style="cursor:pointer;padding:12px 14px;border:1px solid #1d3a5f;border-radius:10px;margin-top:8px;background:#0a1830;transition:background .15s,border-color .15s" onmouseover="this.style.background=\'#0f2342\'" onmouseout="this.style.background=\'#0a1830\'">'+o+'</div>').join('');
+  el.innerHTML='<div style="max-width:560px;padding:26px 30px;background:linear-gradient(180deg,#0d1f38,#0b1d38);border:1px solid #1d3a5f;border-radius:16px;box-shadow:0 22px 44px -18px rgba(0,0,0,.7)">'+
+    '<div style="font-size:11px;letter-spacing:1px;text-transform:uppercase;color:#93abcd;margin-bottom:8px">'+(kind==='open'?'Before we start':'What did you take away')+'</div>'+
+    '<div style="font-size:19px;font-weight:600;margin-bottom:6px">'+q.q+'</div>'+
+    '<div id="__q_opts">'+opts+'</div>'+
+    '<div style="font-size:12px;color:#5c7396;margin-top:12px">'+(kind==='open'?'One quick check, then the act opens.':'One closing question, then this act is marked complete.')+'</div>'+
+    '</div>';
+  document.body.appendChild(el); this._quizEl=el;
+  Array.prototype.forEach.call(el.querySelectorAll('[data-i]'), function(node){
+    node.onclick=function(){
+      const chosen=Number(node.getAttribute('data-i'));
+      const ok = chosen===q.a ? 1 : 0;
+      CLS.call({action:'quiz',code:CLS.state.code,sid:CLS.state.sid,concept:200+CLS.cfg.actIdx,phase:kind==='open'?'pre':'post',score:ok,total:1},function(){});
+      CLS._setQuizFlag(kind);
+      if(CLS._quizEl){ CLS._quizEl.remove(); CLS._quizEl=null; }
+      onDone&&onDone(ok);
+    };
+  });
+};
+/* Wrap refreshGate: when gate opens, if opening quiz not taken, show it before hiding the wall. */
+CLS._origHideGate = CLS.hideGate.bind(CLS);
+CLS.hideGate = function(){
+  const b = (typeof window!=='undefined' && window.__L2QB) ? window.__L2QB : null;
+  if(!b || CLS._loadQuizFlag('open') || !CLS.state.code){ CLS._origHideGate(); return; }
+  CLS._origHideGate();
+  CLS._showQuiz(b,'open', function(){});
+};
+/* Called by an act's lock/commit code (via CLS.completeWithQuiz) instead of CLS.complete(). */
+CLS.completeWithQuiz = function(){
+  const b = (typeof window!=='undefined' && window.__L2QB) ? window.__L2QB : null;
+  if(!b || CLS._loadQuizFlag('close') || !CLS.state.code){ CLS.complete(); return; }
+  CLS._showQuiz(b,'close', function(){ CLS.complete(); });
+};
+
+try{ CLS.start(5,'act'); }catch(e){}
+</script>
+</body>
+</html>

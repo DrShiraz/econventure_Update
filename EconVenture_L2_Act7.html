@@ -1,0 +1,800 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>EconVenture · Level 2 · Act 7</title>
+<style>
+:root{
+  --bg:#081321;--panel:#0e2038;--panel2:#122a49;--line:#1e3a5f;
+  --ink:#e8eef7;--muted:#93a7c4;--gold:#e0b54a;--gold2:#f0cf7a;
+  --basic:#6f97c4;--mid:#4a90d9;--prem:#e0b54a;--good:#43b581;--bad:#e5594d;--info:#4a90d9;--warn:#e8a33d;
+  --shadow:0 6px 24px rgba(0,0,0,.35);
+}
+*{box-sizing:border-box}html,body{margin:0;padding:0}
+body{background:radial-gradient(1100px 560px at 72% -12%,#0d2540 0,var(--bg) 55%),var(--bg);
+  color:var(--ink);font-family:"Segoe UI",system-ui,-apple-system,Roboto,Helvetica,Arial,sans-serif;
+  font-size:15px;line-height:1.55;-webkit-font-smoothing:antialiased}
+.wrap{max-width:960px;margin:0 auto;padding:16px 16px 64px}
+h1,h2,h3{margin:0 0 .4em;font-weight:700;letter-spacing:.2px}h1{font-size:23px}h2{font-size:18px}h3{font-size:15px}
+.gold{color:var(--gold)}.muted{color:var(--muted)}.small{font-size:13px}.tiny{font-size:12px}.mono{font-variant-numeric:tabular-nums}
+a{color:var(--gold2);cursor:pointer}
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:12px 16px;background:linear-gradient(180deg,#0f2542,#0b1c33);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);margin-bottom:16px}
+.brand{display:flex;align-items:center;gap:10px}.brand .dot{width:11px;height:11px;border-radius:50%;background:var(--gold);box-shadow:0 0 12px var(--gold)}
+.brand b{font-size:17px;letter-spacing:.4px}.step{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.8px}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:20px;box-shadow:var(--shadow);margin-bottom:16px}
+.grid{display:grid;gap:14px}
+@media(min-width:780px){.grid.cols2{grid-template-columns:1fr 1fr}.grid.cols3{grid-template-columns:1fr 1fr 1fr}}
+.card{background:var(--panel2);border:1px solid var(--line);border-radius:11px;padding:13px}
+.card .l{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.6px;margin-bottom:3px}
+.card .v{font-size:20px;font-weight:700}
+.speak{border-left:3px solid var(--gold);background:rgba(224,181,74,.07);padding:10px 14px;border-radius:0 8px 8px 0;font-size:14px;margin:12px 0;color:#dbe6f5}
+.who{color:var(--gold2);font-weight:700}
+.example{display:flex;gap:10px;flex-wrap:wrap;margin:12px 0}
+.example .ex{flex:1;min-width:150px;background:#0a1c33;border:1px solid var(--line);border-radius:10px;padding:11px 13px;font-size:13px}
+.example .ex b{color:var(--gold2)}
+label.field{display:block;margin:6px 0 2px}
+label.field .cap{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:7px}
+label.field .cap b{font-size:14px}label.field .cap .val{font-variant-numeric:tabular-nums;color:var(--gold);font-weight:700;font-size:16px}
+input[type=range]{-webkit-appearance:none;width:100%;height:7px;border-radius:6px;background:linear-gradient(90deg,var(--tint,var(--gold)) 0%,var(--tint,var(--gold)) var(--fill,40%),#20375a var(--fill,40%));outline:none}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;background:#fff;border:3px solid var(--tint,var(--gold));cursor:pointer;box-shadow:0 2px 6px rgba(0,0,0,.4)}
+input[type=range]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;background:#fff;border:3px solid var(--tint,var(--gold));cursor:pointer}
+.hint{font-size:12.5px;color:var(--muted);margin-top:7px}
+.btn{display:inline-flex;align-items:center;gap:8px;justify-content:center;cursor:pointer;padding:13px 22px;border-radius:10px;border:1px solid var(--line);background:var(--panel2);color:var(--ink);font-size:15px;font-weight:600;transition:transform .05s,filter .15s}
+.btn:hover{filter:brightness(1.12)}.btn:active{transform:translateY(1px)}
+.btn.primary{background:linear-gradient(180deg,var(--gold2),var(--gold));color:#2a1e04;border-color:var(--gold)}
+.btn.ghost{background:transparent}.btn.wide{width:100%}
+.btnrow{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
+.work{background:#0a1830;border:1px solid var(--line);border-radius:10px;padding:12px 14px;margin-top:12px;font-size:12.5px;line-height:1.7;font-variant-numeric:tabular-nums}
+.work .row{color:#cfe0f5}.work b{color:var(--gold2)}
+.reinforce{background:var(--panel2);border:1px solid var(--line);border-left:4px solid var(--info);border-radius:11px;padding:16px;margin-top:14px}
+.reinforce h3{color:var(--gold2)}
+.chips{display:flex;gap:7px;flex-wrap:wrap;margin-top:10px}.chip{font-size:12px;padding:4px 11px;border-radius:20px;background:#0a1c33;border:1px solid var(--line);color:var(--muted)}
+.flag{border-radius:9px;padding:11px 14px;font-size:13.5px;margin:10px 0}
+.flag.ok{background:rgba(67,181,129,.12);border:1px solid rgba(67,181,129,.35)}
+.flag.info{background:rgba(74,144,217,.12);border:1px solid rgba(74,144,217,.35)}
+.flag.bad{background:rgba(229,89,77,.12);border:1px solid rgba(229,89,77,.35)}
+.flag.warn{background:rgba(232,163,61,.12);border:1px solid rgba(232,163,61,.35)}
+.mppbar{display:flex;align-items:flex-end;gap:16px;height:150px;padding:10px 6px 0;border-bottom:1px solid var(--line)}
+.mppbar .col{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%}
+.mppbar .bar{width:60%;border-radius:6px 6px 0 0;transition:height .12s}
+.mppbar .lab{font-size:11px;color:var(--muted);margin-top:6px}
+.recap{display:flex;flex-direction:column;gap:6px;margin-top:8px}
+.recap .r{display:flex;gap:10px;align-items:baseline;font-size:13px}
+.recap .r b{color:var(--gold2);min-width:74px}
+svg{display:block;width:100%;height:auto}.center{text-align:center}
+
+/* =====================================================================
+   BUILD VISUAL LAYER (shared across Level 2 acts) — appended; original
+   stylesheet untouched. Market-terminal identity matching the rest of the
+   course. Charts draw their lines in on entry, then fills and points settle.
+   Dependency-free; reduced motion and keyboard focus honoured at the bottom.
+   ===================================================================== */
+:root{
+  --bg:#081321;--panel:#102647;--panel2:#153059;--line:#213f6b;--line2:#2e568f;
+  --ink:#eaf1fb;--muted:#93abcd;--faint:#647fa6;
+  --gold:#e7bd54;--gold2:#f2d585;--gold-soft:rgba(231,189,84,.14);
+  --grid:rgba(120,160,215,.10);
+  --shadow:0 18px 44px -22px rgba(0,0,0,.75),0 3px 10px -4px rgba(0,0,0,.5);
+  --shadow-sm:0 8px 22px -14px rgba(0,0,0,.7);
+  --ease:cubic-bezier(.22,.7,.2,1);
+}
+body{background:
+    radial-gradient(1200px 620px at 72% -12%, #123055 0%, rgba(18,48,85,0) 60%),
+    linear-gradient(180deg,#0a1727 0%, var(--bg) 55%);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+  background-size:52px 52px;-webkit-mask-image:radial-gradient(1000px 700px at 72% 0%,#000 0%,transparent 78%);
+          mask-image:radial-gradient(1000px 700px at 72% 0%,#000 0%,transparent 78%);opacity:.5}
+.wrap{position:relative;z-index:1}
+.mono,.card .v,.work,label.field .cap .val,.chip,.small,.tiny{font-variant-numeric:tabular-nums}
+.topbar{background:linear-gradient(180deg,rgba(12,24,42,.94),rgba(12,24,42,.72));border-color:var(--line);box-shadow:0 1px 0 rgba(120,160,215,.05),var(--shadow-sm)}
+.brand .dot{box-shadow:0 0 12px var(--gold);animation:tick 2.4s var(--ease) infinite}
+.step{color:var(--muted)}
+.panel{position:relative;overflow:hidden;
+  background:linear-gradient(180deg,rgba(255,255,255,.02),rgba(255,255,255,0) 30%),linear-gradient(180deg,var(--panel) 0%,#0c1d34 100%);
+  border-color:var(--line);border-radius:16px;box-shadow:var(--shadow);animation:panelIn .5s var(--ease) both}
+.panel::before{content:"";position:absolute;left:16px;right:16px;top:0;height:1px;background:linear-gradient(90deg,transparent,rgba(160,195,245,.25),transparent)}
+h1,h2{letter-spacing:-.01em}
+.card{background:linear-gradient(180deg,#0e2340,#0b1d38);border-color:var(--line);box-shadow:var(--shadow-sm);
+  transition:transform .16s var(--ease),border-color .16s var(--ease);animation:cardIn .42s var(--ease) both}
+.card:hover{transform:translateY(-2px);border-color:var(--line2)}
+.grid .card:nth-child(1){animation-delay:.04s}.grid .card:nth-child(2){animation-delay:.1s}.grid .card:nth-child(3){animation-delay:.16s}
+.card .v{text-shadow:0 0 18px rgba(231,189,84,.14)}
+label.field .cap .val{text-shadow:0 0 16px rgba(231,189,84,.3)}
+input[type=range]{border:1px solid var(--line)}
+input[type=range]::-webkit-slider-thumb{box-shadow:0 0 0 4px rgba(231,189,84,.16),0 3px 8px rgba(0,0,0,.5);transition:box-shadow .15s var(--ease)}
+input[type=range]:hover::-webkit-slider-thumb{box-shadow:0 0 0 6px rgba(231,189,84,.22),0 3px 10px rgba(0,0,0,.55)}
+input[type=range]:active::-webkit-slider-thumb{box-shadow:0 0 0 8px rgba(231,189,84,.26)}
+.work{background:linear-gradient(180deg,#0a1b33,#081627);box-shadow:inset 0 1px 0 rgba(160,195,245,.04)}
+.reinforce{box-shadow:var(--shadow-sm);animation:reveal .5s var(--ease) both}
+.flag{animation:reveal .4s var(--ease) both}
+.chip{background:var(--gold-soft);transition:transform .15s var(--ease)}.chip:hover{transform:translateY(-1px)}
+.example .ex{box-shadow:var(--shadow-sm)}
+.speak{background:var(--gold-soft)}
+.btn{border-radius:10px;transition:transform .12s var(--ease),filter .15s var(--ease),box-shadow .15s var(--ease)}
+.btn:hover{transform:translateY(-1px)}.btn:active{transform:translateY(0) scale(.985)}
+.btn.primary{box-shadow:0 10px 24px -12px rgba(231,189,84,.6),inset 0 1px 0 rgba(255,255,255,.35)}
+:focus-visible{outline:2px solid var(--gold);outline-offset:2px;border-radius:8px}
+svg circle{filter:drop-shadow(0 0 4px currentColor)}
+svg text{font-variant-numeric:tabular-nums}
+svg.chartIn{animation:fadeIn .3s var(--ease) both}
+svg.chartIn path[fill="none"]{stroke-dasharray:2200;stroke-dashoffset:2200;animation:draw .85s var(--ease) .08s forwards}
+svg.chartIn polygon,svg.chartIn path[fill]:not([fill="none"]){opacity:0;animation:fadeIn .55s var(--ease) .5s forwards}
+svg.chartIn circle{opacity:0;animation:fadeIn .4s var(--ease) .62s forwards}
+svg.chartIn line[stroke="#fff"]{opacity:0;animation:fadeIn .4s var(--ease) .58s forwards}
+@keyframes panelIn{from{opacity:0;transform:translateY(10px) scale(.994)}to{opacity:1;transform:none}}
+@keyframes cardIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@keyframes reveal{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes draw{to{stroke-dashoffset:0}}
+@keyframes tick{0%{box-shadow:0 0 0 0 rgba(231,189,84,.55),0 0 12px var(--gold)}70%{box-shadow:0 0 0 7px rgba(231,189,84,0),0 0 12px var(--gold)}100%{box-shadow:0 0 0 0 rgba(231,189,84,0),0 0 12px var(--gold)}}
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important}
+  svg.chartIn path[fill="none"]{stroke-dashoffset:0!important}
+  svg.chartIn polygon,svg.chartIn path[fill]:not([fill="none"]),svg.chartIn circle,svg.chartIn line[stroke="#fff"]{opacity:1!important}
+  body::before{opacity:.32}.brand .dot{animation:none}
+}
+
+
+
+/* bespoke widgets for Act 7 (status pill, two-panel captions, entry controls) */
+.pill2{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.4px;padding:4px 12px;border-radius:20px;border:1px solid var(--line)}
+.pill2.profit{background:rgba(67,181,129,.16);border-color:rgba(67,181,129,.5);color:#8ff0c0}
+.pill2.loss{background:rgba(232,163,61,.16);border-color:rgba(232,163,61,.5);color:#f5cf8e}
+.pill2.shut{background:rgba(229,89,77,.16);border-color:rgba(229,89,77,.5);color:#f2a59d}
+.pill2.be{background:rgba(74,144,217,.16);border-color:rgba(74,144,217,.5);color:#a9cdf2}
+.capn{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.6px;margin:2px 0 6px}
+.entryrow{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
+.entryrow .btn{flex:1;min-width:150px}
+
+/* persistent hub link */
+.hublink{margin-left:auto;font-size:11px;color:var(--muted);text-decoration:none;padding:5px 11px;border:1px solid var(--line);border-radius:20px;transition:color .15s,border-color .15s,background .15s}
+.hublink:hover{color:var(--gold2);border-color:var(--gold);background:rgba(231,189,84,.06)}
+</style>
+<script>window.__L2QB={"open": {"q": "A firm in perfect competition should SHUT DOWN in the short run when:", "opts": ["Price is below average total cost", "Price is below average variable cost", "Total profit is negative", "Fixed cost is unpaid"], "a": 1}, "close": {"q": "In LONG-RUN perfect competition, entry drives price down to:", "opts": ["Zero", "Minimum average variable cost", "Minimum average total cost, so economic profit is zero", "The monopoly price"], "a": 2}};</script>
+</head>
+<body>
+<div class="wrap">
+  <div class="topbar">
+    <div class="brand"><span class="dot"></span><b>EconVenture <span class="gold">Level 2</span></b></div>
+    <div class="step">Act 7 · One of thousands</div><a class="hublink" href="EconVenture_Hub.html" title="Back to hub">◄ Hub</a></div>
+  <div id="app"></div>
+  <div class="center tiny muted" style="margin-top:18px">Level 2, Act 7 · offline single file · perfect competition: the price you take, and the entry that erases the profit.</div>
+</div>
+
+<script>
+/* EconVenture classroom helper — must be identical across every act.
+   Enforces the faculty gate for THIS act (network required; fail-closed after a grace period)
+   and reports position + completion to the classroom backend. */
+const CLASS_URL='';  /* faculty pastes the same Apps Script /exec URL used by Hub/Founder */
+const CLS={
+  cfg:{ actIdx:-1, actKind:'act', graceMs:15000, pollMs:6000, pingMs:20000 },
+  state:{ code:'', sid:'', name:'', gate:null, lastOk:0, tries:0, active:false },
+  init(){ try{ const r=localStorage.getItem('econventure_class_v1'); if(r){ const c=JSON.parse(r)||{}; this.state.code=c.code||''; this.state.sid=c.sid||''; this.state.name=c.name||''; } }catch(e){} },
+  online(){ return !!(CLASS_URL||'').trim(); },
+  call(params, cb){
+    if(!this.online()){ cb&&cb(null); return; }
+    try{
+      const qs=Object.keys(params).map(k=>k+'='+encodeURIComponent(params[k])).join('&');
+      fetch((CLASS_URL||'').trim()+'?api=1&'+qs,{cache:'no-store'})
+        .then(r=>r.json()).then(j=>cb&&cb(j))
+        .catch(()=>cb&&cb(null));
+    }catch(e){ cb&&cb(null); }
+  },
+  isOpenForMe(){
+    const g=this.state.gate; if(!g) return false;
+    if(g.paused) return false;
+    if(!g.paced) return true;                     // teacher turned pacing off => everyone can proceed
+    if(this.cfg.actKind==='act'){
+      return Array.isArray(g.open) && g.open.indexOf(this.cfg.actIdx)>=0;
+    }
+    return Array.isArray(g.l1open) && g.l1open.indexOf(this.cfg.actIdx)>=0;
+  },
+  showGate(msg, sub){
+    if(this._gateEl){ this._gateEl.remove(); this._gateEl=null; }
+    const el=document.createElement('div');
+    el.id='__cls_gate';
+    el.style.cssText='position:fixed;inset:0;z-index:99999;background:rgba(8,19,33,.97);display:flex;align-items:center;justify-content:center;padding:24px;backdrop-filter:blur(6px);font:15px/1.5 system-ui,Segoe UI,Roboto,sans-serif;color:#eef4fb';
+    el.innerHTML='<div style="max-width:520px;text-align:center;padding:28px 32px;background:linear-gradient(180deg,#0d1f38,#0b1d38);border:1px solid #1d3a5f;border-radius:16px;box-shadow:0 22px 44px -18px rgba(0,0,0,.7)">'+
+      '<div style="font-size:11px;letter-spacing:1px;text-transform:uppercase;color:#93abcd;margin-bottom:8px">Paced by your teacher</div>'+
+      '<div style="font-size:22px;font-weight:700;margin-bottom:10px">'+msg+'</div>'+
+      '<div style="font-size:14px;color:#93abcd">'+sub+'</div>'+
+      '</div>';
+    document.body.appendChild(el); this._gateEl=el;
+  },
+  hideGate(){ if(this._gateEl){ this._gateEl.remove(); this._gateEl=null; } },
+  refreshGate(cb){
+    if(!this.state.code){ this.showGate('Sign in through the Hub first', 'This act only opens when you are joined to your teacher\u2019s classroom. Return to the Hub, enter your name, roll and the class code, then come back.'); cb&&cb(false); return; }
+    if(!this.online()){ this.showGate('This game is not connected to a class', 'The classroom server is not configured on this page. Ask your teacher.'); cb&&cb(false); return; }
+    this.call({action:'gate',code:this.state.code}, g=>{
+      this.state.tries++;
+      if(g && g.ok!==false){
+        this.state.gate=g; this.state.lastOk=Date.now(); this.state.tries=0;
+        if(this.isOpenForMe()){ this.hideGate(); cb&&cb(true); }
+        else {
+          const name=(g.name||this.state.code);
+          this.showGate(g.paused?('Class '+name+' is on hold'):('Waiting for your teacher to open this stage'), g.paused?'Your teacher paused the class. You will unlock when they resume.':'You are ahead of the class, or your teacher has not opened this stage yet. It will open automatically the moment they do.');
+          cb&&cb(false);
+        }
+      } else {
+        const age=Date.now()-this.state.lastOk;
+        if(this.state.lastOk && age<this.cfg.graceMs){ /* recent good state, no scary UI */ cb&&cb(this.isOpenForMe()); }
+        else { this.showGate('Reconnecting to your class', 'Your device lost the classroom server. This will retry automatically. If it stays down for a minute, tell your teacher.'); cb&&cb(false); }
+      }
+    });
+  },
+  start(actIdx, actKind){
+    this.cfg.actIdx=actIdx; this.cfg.actKind=actKind||'act';
+    this.init();
+    if(this.state.active) return; this.state.active=true;
+    this.refreshGate();
+    this._poll=setInterval(()=>this.refreshGate(),this.cfg.pollMs);
+    this._ping=setInterval(()=>{ this._doPing(); },this.cfg.pingMs);
+    this._doPing();  /* immediate so roster shows position instantly */
+    if(this._initCloudSave) this._initCloudSave();
+  },
+  _doPing(){
+    if(!this.state.code || !this.state.sid) return;
+    this.call({action:'ping',sid:this.state.sid,pos:(this.cfg.actKind==='act'?'A:':'L1:')+this.cfg.actIdx}, r=>{
+      if(!r || !r.directive) return;
+      this._handleDirective(r.directive);
+    });
+  },
+  _handleDirective(d){
+    if(!d || !d.kind) return;
+    if(d.kind==='kick'){
+      try{ localStorage.removeItem('econventure_class_v1'); }catch(e){}
+      this.showGate('You have been removed from this class', 'Your teacher removed you from the classroom. Return to the Hub if you want to rejoin with a new code.');
+      return;
+    }
+    if(d.kind==='goto'){
+      const kind = d.posKind==='act'?'act':'concept';
+      const pos = Number(d.pos)||0;
+      // If the target IS this file's own act at same kind, just clear the gate wall (they're already here).
+      if(kind==='act' && this.cfg.actKind==='act' && pos===this.cfg.actIdx){ this.hideGate(); return; }
+      // Otherwise navigate to the Hub target file. Same-directory relative link.
+      const files = ['EconVenture_L1_Aggregation.html','EconVenture_Founder.html','EconVenture_L2_Act1.html','EconVenture_L2_Act2.html','EconVenture_L2_Act3.html','EconVenture_L2_Act4.html','EconVenture_L2_Act5.html','EconVenture_L2_Act6.html','EconVenture_L2_Act7.html','EconVenture_L2_Act8.html','EconVenture_Live.html'];
+      if(kind==='act' && files[pos]){
+        try{ location.href=files[pos]; }catch(e){}
+        return;
+      }
+      if(kind==='concept'){
+        // Send them into Founder at that concept. Founder reads its own directive on boot.
+        try{ localStorage.setItem('econventure_pending_goto', JSON.stringify({posKind:'concept',pos:pos,at:Date.now()})); }catch(e){}
+        try{ location.href='EconVenture_Founder.html'; }catch(e){}
+      }
+    }
+  },
+  complete(){ if(!this.state.code || !this.state.sid) return;
+    this.call({action:'quiz',code:this.state.code,sid:this.state.sid,concept:100+this.cfg.actIdx,phase:'post',score:1,total:1},()=>{}); },
+  needsClassroom(){ return !this.state.code; }
+};
+
+/* Cloud save: bundle every econventure_* localStorage key, ship on change (debounced).
+   Called by CLS.start automatically once we have code + uid. Fetch on Hub finish (Hub side). */
+CLS._saveKey='econventure_cloudsave_lasthash';
+CLS._collectBundle=function(){
+  const bundle={};
+  try{
+    for(let i=0;i<localStorage.length;i++){
+      const k=localStorage.key(i);
+      if(!k) continue;
+      if(k.indexOf('econventure_')!==0) continue;
+      if(k==='econventure_cloudsave_lasthash') continue;    /* housekeeping key: don't ship */
+      bundle[k]=localStorage.getItem(k);
+    }
+  }catch(e){}
+  return bundle;
+};
+CLS._hash=function(s){ let h=0; for(let i=0;i<s.length;i++){ h=(h*31+s.charCodeAt(i))|0; } return String(h); };
+CLS._pushSave=function(force){
+  if(!this.state.code || !this.state.uid) return;
+  const bundle=this._collectBundle();
+  const payload=JSON.stringify(bundle);
+  const hash=this._hash(payload);
+  if(!force){
+    try{ if(localStorage.getItem(this._saveKey)===hash) return; }catch(e){}
+  }
+  this.call({action:'save',code:this.state.code,uid:this.state.uid,gsub:this.state.gsub||'',email:this.state.email||'',name:this.state.name||'',roll:this.state.roll||'',payload:payload}, r=>{
+    if(r && r.ok){ try{ localStorage.setItem(this._saveKey, hash); }catch(e){} }
+  });
+};
+CLS._initCloudSave=function(){
+  /* Re-read identity to include uid/gsub/email if the Hub wrote them. */
+  try{
+    const raw=localStorage.getItem('econventure_class_v1');
+    if(raw){ const c=JSON.parse(raw)||{};
+      this.state.code=c.code||this.state.code;
+      this.state.sid=c.sid||this.state.sid;
+      this.state.name=c.name||this.state.name;
+      this.state.uid=c.uid||'';
+      if(c.google){ this.state.gsub=c.google.sub||''; this.state.email=c.google.email||''; }
+      if(c.roll) this.state.roll=c.roll;
+    }
+  }catch(e){}
+  if(!this._cloudInited && this.state.code && this.state.uid){
+    this._cloudInited=true;
+    /* First push after 1s (gives boot code a moment to settle), then every 30s if changed, then on unload. */
+    setTimeout(()=>this._pushSave(false), 1000);
+    setInterval(()=>this._pushSave(false), 30000);
+    window.addEventListener('beforeunload', ()=>{ try{ this._pushSave(true); }catch(e){} });
+  }
+};
+
+
+/* ============================================================================
+   LEVEL 2 · ACT 7 — PERFECT COMPETITION, short run and long run.
+   Firm: TC(q)=346+72q-6q^2+0.2q^3 (U-shaped MC, AVC, ATC).
+     min AVC = Rs27 at q=15 (shutdown price); min ATC = Rs48.0 at q=17.75.
+   Market: demand P = 96 - 0.0338 Q; n identical firms; supply = n x firmQ(P).
+   Verified: MC=P profit-max matches brute force; entry path n=10..80 drives
+     P from ~Rs89 to Rs48.0 where profit/firm = 0 (long-run equilibrium);
+     n>80 gives losses and exit; below Rs27 the firm shuts and loses exactly
+     the Rs346 fixed cost.
+   Beat 1 (short run): the market hands you a price; choose q where MC=P;
+     read profit, loss-but-operate, or shutdown off the cost curves.
+   Beat 2 (long run): entry and exit move the whole supply curve until price
+     sits on min ATC; old supply curves recede into depth as a staircase.
+   ============================================================================ */
+const FC=346, CA=72, CB=6, CC=0.2;
+const MC=q=>CA-2*CB*q+3*CC*q*q;
+const AVC=q=>CA-CB*q+CC*q*q;
+const ATC=q=>FC/q+AVC(q);
+const TC=q=>FC+CA*q-CB*q*q+CC*q*q*q;
+let AVCmin={q:15,v:27}, ATCmin={q:17.75,v:48.0};
+(function(){let bq=8,bv=1e9;for(let q=8;q<=40;q+=0.005){const v=ATC(q);if(v<bv){bv=v;bq=q;}}ATCmin={q:bq,v:bv};
+  bq=8;bv=1e9;for(let q=5;q<=40;q+=0.005){const v=AVC(q);if(v<bv){bv=v;bq=q;}}AVCmin={q:bq,v:bv};})();
+const firmQ=P=>{ if(P<AVCmin.v-1e-9) return 0; const d=144-2.4*(CA-P); return d<0?0:(12+Math.sqrt(d))/1.2; };
+const profitAt=P=>{ const q=firmQ(P); return q>0 ? P*q-TC(q) : -FC; };
+const DA=96, DB=0.0338;
+const Qd=P=>Math.max(0,(DA-P)/DB);
+const eqP=n=>{ let lo=AVCmin.v, hi=DA; for(let i=0;i<90;i++){ const P=(lo+hi)/2; (n*firmQ(P)-Qd(P))>0?hi=P:lo=P; } return (lo+hi)/2; };
+const market=n=>{ const P=eqP(n), q=firmQ(P); return {P,q,Q:n*q,profit:P*q-TC(q)}; };
+const N_LR=80;
+const inr=v=>{v=Math.round(v||0);const neg=v<0;v=Math.abs(v);return (neg?'-₹':'₹')+v.toLocaleString('en-IN');};
+const fmtP=p=>'₹'+(Math.round(p*10)/10).toLocaleString('en-IN');
+
+/* ---- firm panel: MC, ATC, AVC, price line, MC=P marker, profit/loss box ---- */
+function firmSVG(P){
+  const W=380,H2=246,padL=42,padR=14,padT=12,padB=30;
+  const Qx=28,Px=100;
+  const px=q=>padL+q/Qx*(W-padL-padR), py=p=>padT+(1-Math.min(p,Px)/Px)*(H2-padT-padB);
+  let mc='',atc='',avc='';
+  for(let i=0;i<=30;i++){const q=10+i*0.41;mc+=(i?'L':'M')+px(q).toFixed(1)+' '+py(MC(q)).toFixed(1)+' ';}
+  for(let i=0;i<=30;i++){const q=8+i*0.6;atc+=(i?'L':'M')+px(q).toFixed(1)+' '+py(ATC(q)).toFixed(1)+' ';}
+  for(let i=0;i<=30;i++){const q=6+i*0.667;avc+=(i?'L':'M')+px(q).toFixed(1)+' '+py(AVC(q)).toFixed(1)+' ';}
+  const q=firmQ(P), sh=q>0?1:0;
+  const cost=q>0.2?Math.min(ATC(q),Px):P;
+  const ry=Math.min(py(P),py(cost)), rh=Math.abs(py(P)-py(cost));
+  const good=P>=cost?1:0;
+  let grid='';
+  [20,40,60,80].forEach(p=>{grid+=`<line x1="${padL}" y1="${py(p)}" x2="${W-padR}" y2="${py(p)}" stroke="var(--line)" stroke-width="1" opacity=".45"/><text x="${padL-5}" y="${py(p)+4}" text-anchor="end" font-size="10" fill="var(--muted)">${p}</text>`;});
+  [0,10,20].forEach(qq=>{grid+=`<text x="${px(qq)}" y="${H2-9}" text-anchor="middle" font-size="10" fill="var(--muted)">${qq}</text>`;});
+  return `<svg viewBox="0 0 ${W} ${H2}">${grid}
+    <rect x="${px(0)}" y="${ry.toFixed(1)}" width="${Math.max(0,px(q)-px(0)).toFixed(1)}" height="${rh.toFixed(1)}" fill="${good?'#43b581':'#e5594d'}" fill-opacity="${(0.16*sh).toFixed(2)}" stroke="${good?'#43b581':'#e5594d'}" stroke-opacity="${(0.55*sh).toFixed(2)}" stroke-width="1"/>
+    <path d="${avc}" fill="none" stroke="#b07de0" stroke-width="1.8" opacity=".85"/>
+    <path d="${atc}" fill="none" stroke="#6fb0ec" stroke-width="2"/>
+    <path d="${mc}" fill="none" stroke="#e7bd54" stroke-width="2.4"/>
+    <line x1="${padL}" y1="${py(P)}" x2="${W-padR}" y2="${py(P)}" stroke="#fff" stroke-width="1.6" opacity=".85"/>
+    <line x1="${px(q)}" y1="${py(0)}" x2="${px(q)}" y2="${py(P)}" stroke="#fff" stroke-width="1" stroke-dasharray="3 3" opacity="${(0.4*sh).toFixed(2)}"/>
+    <circle cx="${px(q)}" cy="${py(P)}" r="6" fill="var(--gold)" stroke="#0a1626" stroke-width="2" opacity="${sh}"/>
+    <circle cx="${px(AVCmin.q)}" cy="${py(AVCmin.v)}" r="3.5" fill="#e5594d" stroke="#0a1626" stroke-width="1.5"/>
+    <circle cx="${px(ATCmin.q)}" cy="${py(ATCmin.v)}" r="3.5" fill="#e7bd54" stroke="#0a1626" stroke-width="1.5"/>
+    <text x="${px(ATCmin.q)+7}" y="${py(ATCmin.v)+13}" font-size="9.5" fill="var(--muted)">break-even ₹48</text>
+    <text x="${px(AVCmin.q)+7}" y="${py(AVCmin.v)+13}" font-size="9.5" fill="#f2a59d">shutdown ₹27</text>
+    <text x="${W-padR-2}" y="${py(P)-6}" text-anchor="end" font-size="10" font-weight="700" fill="#fff">P = MR ${fmtP(P)}</text>
+    <text x="${px(21.5)}" y="${py(MC(21.5))-8}" font-size="10" fill="var(--gold2)">MC</text>
+    <text x="${px(25)}" y="${py(ATC(25))-7}" font-size="10" fill="#a9cdf2">ATC</text>
+    <text x="${px(25)}" y="${py(AVC(25))+13}" font-size="10" fill="#cbaae8">AVC</text>
+    <text x="${W-padR}" y="${H2-9}" text-anchor="end" font-size="10" fill="var(--muted)">units/day →</text></svg>`;
+}
+
+/* ---- market panel: demand, supply for n firms, 5 ghost supply curves receding ---- */
+function mktSVG(n,ghosts){
+  const W=380,H2=246,padL=42,padR=14,padT=12,padB=30;
+  const Qx=2700,Px=100;
+  const px=q=>padL+Math.min(q,Qx)/Qx*(W-padL-padR), py=p=>padT+(1-Math.min(p,Px)/Px)*(H2-padT-padB);
+  const supPath=(nn,dx,dy)=>{ let s=''; for(let i=0;i<=23;i++){ const P=27+i*3; const Q=nn*firmQ(P); s+=(i?'L':'M')+(px(Q)+dx).toFixed(1)+' '+(py(P)+dy).toFixed(1)+' '; } return s; };
+  const g=[0,1,2,3,4].map(k=>{ const has=ghosts&&ghosts[k]!=null; const nn=has?ghosts[k]:n;
+    return `<path d="${supPath(nn,8*(k+1),-7*(k+1))}" fill="none" stroke="#cfe0f5" stroke-width="1.4" opacity="${has?(0.30-0.05*k).toFixed(2):'0'}"/>`; }).join('');
+  const m=market(n);
+  let grid='';
+  [20,40,60,80].forEach(p=>{grid+=`<line x1="${padL}" y1="${py(p)}" x2="${W-padR}" y2="${py(p)}" stroke="var(--line)" stroke-width="1" opacity=".45"/><text x="${padL-5}" y="${py(p)+4}" text-anchor="end" font-size="10" fill="var(--muted)">${p}</text>`;});
+  [0,1000,2000].forEach(q=>{grid+=`<text x="${px(q)}" y="${H2-9}" text-anchor="middle" font-size="10" fill="var(--muted)">${q/1000}k</text>`;});
+  return `<svg viewBox="0 0 ${W} ${H2}">${grid}
+    <line x1="${padL}" y1="${py(ATCmin.v)}" x2="${W-padR}" y2="${py(ATCmin.v)}" stroke="var(--gold)" stroke-width="1.2" stroke-dasharray="5 4" opacity=".55"/>
+    <text x="${W-padR-2}" y="${py(ATCmin.v)-5}" text-anchor="end" font-size="9.5" fill="var(--gold2)">long-run price · min ATC ₹48</text>
+    ${g}
+    <line x1="${px(0)}" y1="${py(DA)}" x2="${px(Qx)}" y2="${py(DA-DB*Qx)}" stroke="#cfe0f5" stroke-width="2.2"/>
+    <text x="${px(2350)}" y="${py(DA-DB*2350)-8}" font-size="10" fill="var(--muted)">demand</text>
+    <path d="${supPath(n,0,0)}" fill="none" stroke="#e7bd54" stroke-width="2.4"/>
+    <line x1="${px(m.Q)}" y1="${py(0)}" x2="${px(m.Q)}" y2="${py(m.P)}" stroke="#fff" stroke-width="1" stroke-dasharray="3 3" opacity=".4"/>
+    <line x1="${px(0)}" y1="${py(m.P)}" x2="${px(m.Q)}" y2="${py(m.P)}" stroke="#fff" stroke-width="1" stroke-dasharray="3 3" opacity=".4"/>
+    <circle cx="${px(m.Q)}" cy="${py(m.P)}" r="6" fill="var(--gold)" stroke="#0a1626" stroke-width="2"/>
+    <text x="${px(m.Q)}" y="${py(m.P)-11}" text-anchor="middle" font-size="11" font-weight="700" fill="var(--gold2)">${n} firms</text>
+    <text x="${W-padR}" y="${H2-9}" text-anchor="end" font-size="10" fill="var(--muted)">market units →</text></svg>`;
+}
+
+/* --------------------------------- STATE -------------------------------- */
+const SAVE='econventure_L2A7_v2';
+let ST={phase:'primer', P:66, n:20, ghostNs:[], committed:false, ranToLR:false};
+try{const r=localStorage.getItem(SAVE);if(r)ST=Object.assign(ST,JSON.parse(r));}catch(e){}
+if(['primer','firm','market'].indexOf(ST.phase)<0) ST.phase='primer';
+if(!Array.isArray(ST.ghostNs)) ST.ghostNs=[];
+const save=()=>{try{localStorage.setItem(SAVE,JSON.stringify(ST));}catch(e){}};
+
+/* ------------------------------- PRIMER --------------------------------- */
+function primer(){
+  return `<div class="panel">
+    <div class="step" style="margin-bottom:4px">Act 7 · the other extreme</div>
+    <h1>This time you do not set the price. You take it.</h1>
+    <p class="muted">Everything so far assumed your price was yours to choose. Now picture the opposite corner of the economy: you run one stall among thousands selling an identical commodity, bulk phone-charger cables, standard grade, no brand. Buyers do not care which stall. If you price one rupee above the going rate you sell nothing; one rupee below and you give money away. The market hands you a price, and your whole job collapses to one question: <b>how much should I make at that price?</b></p>
+    <div class="speak"><span class="who">Priya:</span> "Two clocks run here. In the <b>short run</b> the number of sellers is fixed and so is your stall; all you control is today's output, and sometimes the right answer is to eat a loss or even close for the day. In the <b>long run</b> sellers can enter or leave, and that flow is a machine that grinds every rupee of extra profit down to zero. Watch both clocks."</div>
+    <p class="small">Your stall's costs (fixed rent ₹346 a day, then rising marginal cost as you push volume) are drawn as three curves. Two prices on them matter before you touch anything:</p>
+    <div class="example">
+      <div class="ex"><b>Break-even ₹48</b><br>The bottom of average total cost. Above it you make real profit. Below it, every unit sells for less than it fully costs.</div>
+      <div class="ex"><b>Shutdown ₹27</b><br>The bottom of average variable cost. Below this, producing does not even cover the ingredients of each unit; close for the day and lose only the rent.</div>
+      <div class="ex"><b>The one rule</b><br>Whatever the price, produce where <b>marginal cost = price</b>. The last unit must pay for itself exactly.</div>
+    </div>
+    <div class="btnrow"><button class="btn primary wide" id="go">Take today's price →</button></div>
+  </div>`;
+}
+
+/* -------------------- BEAT 1 · SHORT RUN: PRICE TAKER -------------------- */
+function statusOf(P){
+  const q=firmQ(P);
+  if(q<=0) return {k:'shut',label:'SHUT DOWN TODAY'};
+  if(P>ATCmin.v+0.6) return {k:'profit',label:'ECONOMIC PROFIT'};
+  if(P>=ATCmin.v-0.6) return {k:'be',label:'BREAK-EVEN'};
+  return {k:'loss',label:'LOSS, BUT OPERATE'};
+}
+function firmScreen(){
+  const P=ST.P, q=firmQ(P), pf=profitAt(P), st=statusOf(P);
+  return `<div class="panel">
+    <div class="step" style="margin-bottom:4px">Beat 1 · the short run: you take the price</div>
+    <h2>The market opens. Here is today's price. Now choose output.</h2>
+    <p class="small muted" style="margin-top:0">Your demand curve is just a flat line at the market price: sell any amount at P, none above it. So price is also your marginal revenue. The gold marginal-cost curve tells you what the next unit costs to make. Produce every unit that costs less than it sells for, stop at the one that costs exactly P. That is the dot, where <b>MC = P</b>. The shaded box is your profit or loss: (price minus average total cost) times the units you make.</p>
+    <div class="grid cols2">
+      <div><div class="card" style="padding:8px"><div class="capn">Your stall · cost curves and today's price</div><div id="firmbox">${firmSVG(P)}</div></div></div>
+      <div>
+        <label class="field"><div class="cap"><b>Today's market price</b> <span class="val mono" id="prVal">${fmtP(P)}</span></div>
+          <input id="prSlide" type="range" min="20" max="90" step="1" value="${P}">
+          <div class="hint">Drag through good days and bad. Watch what the two anchor prices, ₹48 and ₹27, do to your decision.</div></label>
+        <div class="grid cols2" style="margin-top:6px">
+          <div class="card"><div class="l">Status</div><div style="margin-top:4px"><span class="pill2 ${st.k}" id="statusV">${st.label}</span></div></div>
+          <div class="card"><div class="l">You produce</div><div class="v mono" id="qV">${q>0?q.toFixed(1)+' units':'0 units'}</div></div>
+          <div class="card"><div class="l">Profit / loss today</div><div class="v mono" id="profV" style="color:${pf>=0?'var(--good)':'var(--bad)'}">${inr(pf)}</div></div>
+          <div class="card"><div class="l">Fixed cost (rent, sunk)</div><div class="v mono">₹346</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="work" id="work">${firmWork(P)}</div>
+    <div class="btnrow"><button class="btn primary" id="toMarket">But who sets that price? →</button></div>
+  </div>`;
+}
+function firmWork(P){
+  const q=firmQ(P), pf=profitAt(P);
+  if(q<=0){
+    return `<div class="row">Price ${fmtP(P)} is below the shutdown point ₹27 (min average variable cost). Every unit would sell for less than the materials and labour that go into it.</div>
+      <div class="row">So the right move is to make <b>zero</b>. You still owe the ₹346 rent, so today's loss is exactly <b>₹346</b>, and that is the smallest loss available. Producing anything would only add to it.</div>
+      <div class="row" style="border-top:1px solid var(--line);margin-top:6px;padding-top:6px"><b>The shutdown rule:</b> operate only if price covers average variable cost. Fixed cost is sunk either way; it must not affect the decision.</div>`;
+  }
+  const a=ATC(q), v=AVC(q);
+  const rows=`<div class="row">Rule: produce where MC = P. Solving that here gives <b>q = ${q.toFixed(1)}</b> units. At that output, average total cost is ₹${a.toFixed(1)} and average variable cost is ₹${v.toFixed(1)}.</div>
+    <div class="row">Profit = (P − ATC) × q = (${fmtP(P)} − ₹${a.toFixed(1)}) × ${q.toFixed(1)} = <b>${inr(pf)}</b>.</div>`;
+  if(P>ATCmin.v+0.6) return rows+`<div class="row" style="border-top:1px solid var(--line);margin-top:6px;padding-top:6px">Price sits above break-even ₹48, so this is genuine economic profit. Enjoy it; Beat 2 shows why it will not last.</div>`;
+  if(P>=ATCmin.v-0.6) return rows+`<div class="row" style="border-top:1px solid var(--line);margin-top:6px;padding-top:6px">Price is at the bottom of ATC: zero economic profit. You still earn a normal return for your time and capital; economists call that breaking even, not failing.</div>`;
+  return rows+`<div class="row" style="border-top:1px solid var(--line);margin-top:6px;padding-top:6px">You are losing money, and you should <b>still operate</b>: price ₹${P} beats average variable cost ₹${v.toFixed(1)}, so every unit sold chips ₹${(P-v).toFixed(1)} off the rent. Loss ${inr(pf)} is smaller than the ₹346 you would lose closed. Below ₹27 that logic flips, and you close.</div>`;
+}
+
+/* ------------------- BEAT 2 · LONG RUN: ENTRY AND EXIT ------------------- */
+function mktScreen(){
+  const m=market(ST.n);
+  return `<div class="panel">
+    <div class="step" style="margin-bottom:4px">Beat 2 · the long run: entry erases the profit</div>
+    <h2>The price comes from all of you at once. And the crowd is not fixed.</h2>
+    <p class="small muted" style="margin-top:0">Left: the whole market. Supply is every stall's MC curve added sideways; it crosses demand and that crossing is the price from Beat 1. Right: your stall taking that price. Now the long-run clock starts. Profit attracts new stalls, supply shifts right, price falls. Losses push stalls out, supply shifts left, price rises. It only stops in one place: <b>price equal to minimum average total cost, ₹48, zero economic profit</b>. Old supply curves stay on the chart as ghosts, a staircase receding into depth, so you can see the path the market walked.</p>
+    <div class="grid cols2">
+      <div><div class="card" style="padding:8px"><div class="capn">The market · ${'demand meets n supply curves'}</div><div id="mktbox">${mktSVG(ST.n,ST.ghostNs)}</div></div></div>
+      <div><div class="card" style="padding:8px"><div class="capn">Your stall · taking whatever price results</div><div id="firm2box">${firmSVG(m.P)}</div></div></div>
+    </div>
+    <div class="grid cols2" style="margin-top:10px">
+      <div>
+        <label class="field"><div class="cap"><b>Stalls in the market</b> <span class="val mono" id="nVal">${ST.n}</span></div>
+          <input id="nSlide" type="range" min="10" max="120" step="1" value="${ST.n}">
+          <div class="hint">Drag it yourself, or let the market do what markets do.</div></label>
+        <div class="entryrow">
+          <button class="btn primary" id="runEntry">Let entry and exit run →</button>
+          <button class="btn ghost" id="preScarce">Start scarce (15)</button>
+          <button class="btn ghost" id="preCrowd">Start crowded (110)</button>
+        </div>
+      </div>
+      <div>
+        <div class="grid cols2">
+          <div class="card"><div class="l">Market price</div><div class="v mono" id="mPV" style="color:var(--gold)">${fmtP(m.P)}</div></div>
+          <div class="card"><div class="l">Profit per stall</div><div class="v mono" id="pfV" style="color:${m.profit>5?'var(--good)':m.profit<-5?'var(--bad)':'var(--ink)'}">${inr(m.profit)}</div></div>
+        </div>
+        <div id="entryMsg" style="margin-top:8px">${entryFlag(m)}</div>
+      </div>
+    </div>
+    <div class="work" id="work2">${mktWork(ST.n)}</div>
+    <div class="btnrow"><button class="btn primary" id="lock">Lock it in and read the whole story</button></div>
+    <div id="after"></div>
+  </div>`;
+}
+function entryFlag(m){
+  if(m.profit>5) return `<div class="flag warn">Each stall is clearing ${inr(m.profit)}. Outsiders can smell it. New stalls are coming.</div>`;
+  if(m.profit<-5) return `<div class="flag bad">Stalls are losing ${inr(-m.profit)} each. Some will not reopen tomorrow.</div>`;
+  return `<div class="flag ok"><b>Long-run equilibrium.</b> Price ₹48 = minimum ATC. Zero economic profit: nobody enters, nobody leaves.</div>`;
+}
+function mktWork(n){
+  const m=market(n);
+  const dir = m.profit>5 ? `Profit of ${inr(m.profit)} per stall is an open invitation. Entry adds supply, the curve slides right, and the price is pushed <b>down</b>.`
+    : m.profit<-5 ? `A loss of ${inr(-m.profit)} per stall cannot be sustained. Exit removes supply, the curve slides left, and the price is pushed <b>up</b>.`
+    : `At ₹48 the last rupee of economic profit is gone. The flow of firms stops. This is the resting point.`;
+  return `<div class="row">With <b>${n}</b> stalls, supply meets demand at <b>${fmtP(m.P)}</b>. Each stall reads that price, runs the Beat 1 rule (MC = P), makes ${m.q.toFixed(1)} units, and books ${inr(m.profit)}.</div>
+    <div class="row">${dir}</div>
+    <div class="row" style="border-top:1px solid var(--line);margin-top:6px;padding-top:6px">"Zero economic profit" is not "earning nothing": the owner is still paid a normal return for time and capital, because that is counted inside cost. It means there is no <b>extra</b> rupee left to lure another entrant. That is why boring commodity markets stay boring.</div>`;
+}
+
+/* entry/exit animation: ghosts recede as the supply curve walks to n=80 */
+let entryTimer=null;
+function stepEntry(){
+  const gap=N_LR-ST.n;
+  if(gap===0){ if(entryTimer){clearInterval(entryTimer);entryTimer=null;} return; }
+  ST.ghostNs.unshift(ST.n); ST.ghostNs=ST.ghostNs.slice(0,5);
+  ST.n += gap>0 ? Math.max(1,Math.round(gap*0.25)) : Math.min(-1,Math.round(gap*0.25));
+  const s=document.getElementById('nSlide'); if(s){s.value=ST.n; setFill(s);}
+  refreshMarket();
+  if(ST.n===N_LR){ ST.ranToLR=true; save(); if(entryTimer){clearInterval(entryTimer);entryTimer=null;} }
+}
+function runEntry(){
+  if(entryTimer){clearInterval(entryTimer);entryTimer=null;}
+  if(ST.n===N_LR){ refreshMarket(); return; }
+  if(prefersReduced()){ ST.ghostNs=[ST.n]; ST.n=N_LR; ST.ranToLR=true; const s=document.getElementById('nSlide'); if(s){s.value=ST.n;setFill(s);} refreshMarket(); save(); return; }
+  entryTimer=setInterval(stepEntry,300); stepEntry();
+}
+function refreshMarket(){
+  const m=market(ST.n);
+  morphSVG(document.getElementById('mktbox'),mktSVG(ST.n,ST.ghostNs),140);
+  morphSVG(document.getElementById('firm2box'),firmSVG(m.P),140);
+  document.getElementById('nVal').textContent=ST.n;
+  document.getElementById('mPV').textContent=fmtP(m.P);
+  const pv=document.getElementById('pfV'); pv.textContent=inr(m.profit);
+  pv.style.color = m.profit>5?'var(--good)':m.profit<-5?'var(--bad)':'var(--ink)';
+  document.getElementById('entryMsg').innerHTML=entryFlag(m);
+  document.getElementById('work2').innerHTML=mktWork(ST.n);
+  save();
+}
+
+function afterLock(){
+  const head = ST.n===N_LR
+    ? `<div class="flag ok"><b>You watched the machine finish its work.</b> Profit pulled stalls in (or losses pushed them out) until the price settled on ₹48, the bottom of average total cost, and economic profit hit zero. No law did that. The flow of firms did.</div>`
+    : `<div class="flag info">You locked in at ${ST.n} stalls, before entry and exit finished. The story is only complete at the resting point: hit "Let entry and exit run" and watch the price walk to ₹48 before you trust your intuition here.</div>`;
+  return head+`<div class="reinforce">
+    <div class="chip" style="margin-bottom:6px">Perfect competition · short run and long run</div>
+    <h3>Two clocks, three rules</h3>
+    <p class="small" style="margin:.2em 0 0">In the <b>short run</b> the firm is a <b>price taker</b>: its demand is a flat line at the market price, so P is also marginal revenue. Rule one: produce where <b>MC = P</b>. Rule two, the <b>shutdown rule</b>: if price falls below minimum average variable cost (₹27 here), produce nothing and lose only the fixed cost, because fixed cost is sunk and must not drive the decision. Between ₹27 and ₹48 you operate at a loss on purpose, since every unit still contributes something toward the rent.</p>
+    <p class="small" style="margin:.6em 0 0">In the <b>long run</b> the number of firms is the variable. Economic profit invites <b>entry</b>, which shifts market supply right and pushes the price down; losses force <b>exit</b>, shifting supply left and pulling the price up. The only price that stops the flow is <b>minimum average total cost</b>: P = ₹48, zero economic profit. Zero here does not mean the owner starves; a normal return on time and capital is already inside the cost curves. It means there is nothing extra left to attract one more entrant.</p>
+    <p class="small" style="margin:.6em 0 0">Where you will meet this: wheat and vegetables at a mandi, generic paracetamol after a patent dies, memory chips, plain cotton yarn. Whenever the product is identical and entry is easy, fat margins are a phase, not a property. If your business plan needs the price to stay above ₹48 forever, your plan is really a bet on blocking entry, which is exactly where the next act begins.</p>
+    <div class="chips"><span class="chip">Price taker</span><span class="chip">P = MR = AR</span><span class="chip">MC = P rule</span><span class="chip">Shutdown price (min AVC)</span><span class="chip">Break-even price (min ATC)</span><span class="chip">Operating at a loss</span><span class="chip">Free entry and exit</span><span class="chip">Normal vs economic profit</span><span class="chip">Long-run equilibrium</span></div>
+  </div>
+  <div class="btnrow"><button class="btn primary" id="nextAct">Continue · Act 8, a handful of rivals →</button><button class="btn ghost" id="replay">Run the market again</button></div>`;
+}
+
+/* ------------------------------- RENDER --------------------------------- */
+const setFill=el=>el&&el.style.setProperty('--fill',((el.value-el.min)/(el.max-el.min)*100)+'%');
+const prefersReduced=()=>{ try{ return window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches; }catch(e){ return false; } };
+// ---- smooth SVG morphing: patch geometry in place so charts glide instead of snapping ----
+function _mvTok(str){ const re=/-?\d*\.?\d+(?:[eE][-+]?\d+)?/g; let m,last=0,tmpl=[],nums=[]; while((m=re.exec(str))){ tmpl.push(str.slice(last,m.index)); nums.push(parseFloat(m[0])); last=m.index+m[0].length; } tmpl.push(str.slice(last)); return {tmpl,nums}; }
+function _mvBuild(tmpl,nums){ let s=tmpl[0]; for(let i=0;i<nums.length;i++){ s+=(Math.round(nums[i]*100)/100)+tmpl[i+1]; } return s; }
+const _MVNUM=['cx','cy','r','rx','ry','x','y','width','height','x1','y1','x2','y2','opacity','fill-opacity','stroke-opacity','stroke-width','offset','font-size'];
+function morphSVG(host,newHTML,dur){
+  try{
+    dur=(dur==null?120:dur);
+    const cur=host.querySelector('svg'); const tmp=document.createElement('div'); tmp.innerHTML=newHTML; const nx=tmp.querySelector('svg');
+    if(!cur||!nx){ host.innerHTML=newHTML; return; }
+    const O=cur.querySelectorAll('*'), N=nx.querySelectorAll('*');
+    if(O.length!==N.length){ cur.replaceWith(nx); return; }
+    for(let i=0;i<O.length;i++){ if(O[i].tagName!==N[i].tagName){ cur.replaceWith(nx); return; } }
+    const plans=[];
+    for(let i=0;i<O.length;i++){ const o=O[i],n=N[i],p={o,nums:[],pts:null,d:null};
+      for(const a of _MVNUM){ if(n.hasAttribute(a)){ const to=parseFloat(n.getAttribute(a)); let fr=o.hasAttribute(a)?parseFloat(o.getAttribute(a)):to; if(!isNaN(to)&&!isNaN(fr)) p.nums.push({a,fr,to}); } }
+      for(const at of n.attributes){ const nm=at.name; if(_MVNUM.indexOf(nm)<0&&nm!=='points'&&nm!=='d'){ if(o.getAttribute(nm)!==at.value) o.setAttribute(nm,at.value); } }
+      if(n.hasAttribute('points')){ const T=_mvTok(n.getAttribute('points')),F=_mvTok(o.getAttribute('points')||n.getAttribute('points')); if(F.nums.length===T.nums.length) p.pts={fr:F.nums,to:T.nums,tmpl:T.tmpl}; else o.setAttribute('points',n.getAttribute('points')); }
+      if(n.hasAttribute('d')){ const ds=n.getAttribute('d'); const T=_mvTok(ds),F=_mvTok(o.getAttribute('d')||ds); if(F.nums.length===T.nums.length&&F.tmpl.join('\u0001')===T.tmpl.join('\u0001')) p.d={fr:F.nums,to:T.nums,tmpl:T.tmpl}; else o.setAttribute('d',ds); }
+      if(n.children.length===0&&o.textContent!==n.textContent) o.textContent=n.textContent;
+      plans.push(p);
+    }
+    if(host._mvRAF){ cancelAnimationFrame(host._mvRAF); host._mvRAF=null; }
+    if(prefersReduced()||dur<=0){ for(const p of plans){ for(const x of p.nums)p.o.setAttribute(x.a,x.to); if(p.pts)p.o.setAttribute('points',_mvBuild(p.pts.tmpl,p.pts.to)); if(p.d)p.o.setAttribute('d',_mvBuild(p.d.tmpl,p.d.to)); } return; }
+    const t0=performance.now();
+    const step=now=>{ const k=Math.min(1,(now-t0)/dur),e=1-Math.pow(1-k,3);
+      for(const p of plans){ for(const x of p.nums)p.o.setAttribute(x.a,x.fr+(x.to-x.fr)*e);
+        if(p.pts){ const a=p.pts.fr,b=p.pts.to; p.o.setAttribute('points',_mvBuild(p.pts.tmpl,a.map((v,j)=>v+(b[j]-v)*e))); }
+        if(p.d){ const a=p.d.fr,b=p.d.to; p.o.setAttribute('d',_mvBuild(p.d.tmpl,a.map((v,j)=>v+(b[j]-v)*e))); } }
+      if(k<1) host._mvRAF=requestAnimationFrame(step);
+      else { for(const p of plans){ for(const x of p.nums)p.o.setAttribute(x.a,x.to); if(p.pts)p.o.setAttribute('points',_mvBuild(p.pts.tmpl,p.pts.to)); if(p.d)p.o.setAttribute('d',_mvBuild(p.d.tmpl,p.d.to)); } host._mvRAF=null; }
+    };
+    host._mvRAF=requestAnimationFrame(step);
+  }catch(e){ try{ host.innerHTML=newHTML; }catch(_){} }
+}
+
+function render(){
+  const app=document.getElementById('app');
+  if(entryTimer){ clearInterval(entryTimer); entryTimer=null; }
+  if(ST.phase==='primer'){ app.innerHTML=primer(); document.getElementById('go').onclick=()=>{ST.phase='firm';save();render();}; return; }
+  if(ST.phase==='firm'){
+    app.innerHTML=firmScreen();
+    const pS=document.getElementById('prSlide');
+    const refresh=()=>{
+      ST.P=+pS.value;
+      const P=ST.P, q=firmQ(P), pf=profitAt(P), st=statusOf(P);
+      morphSVG(document.getElementById('firmbox'),firmSVG(P));
+      document.getElementById('prVal').textContent=fmtP(P);
+      const sv=document.getElementById('statusV'); sv.className='pill2 '+st.k; sv.textContent=st.label;
+      document.getElementById('qV').textContent=q>0?q.toFixed(1)+' units':'0 units';
+      const pv=document.getElementById('profV'); pv.textContent=inr(pf); pv.style.color=pf>=0?'var(--good)':'var(--bad)';
+      document.getElementById('work').innerHTML=firmWork(P);
+      setFill(pS); save();
+    };
+    setFill(pS); pS.oninput=refresh;
+    document.getElementById('toMarket').onclick=()=>{ST.phase='market';save();render();};
+    return;
+  }
+  // market
+  app.innerHTML=mktScreen();
+  const nS=document.getElementById('nSlide');
+  setFill(nS);
+  nS.oninput=()=>{ if(entryTimer){clearInterval(entryTimer);entryTimer=null;} ST.ghostNs=[]; ST.n=+nS.value; setFill(nS); refreshMarket(); };
+  document.getElementById('runEntry').onclick=runEntry;
+  document.getElementById('preScarce').onclick=()=>{ if(entryTimer){clearInterval(entryTimer);entryTimer=null;} ST.ghostNs=[]; ST.n=15; nS.value=15; setFill(nS); refreshMarket(); };
+  document.getElementById('preCrowd').onclick=()=>{ if(entryTimer){clearInterval(entryTimer);entryTimer=null;} ST.ghostNs=[]; ST.n=110; nS.value=110; setFill(nS); refreshMarket(); };
+  const doLock=()=>{ ST.committed=true; save(); try{ CLS.completeWithQuiz(); }catch(e){}
+    document.getElementById('after').innerHTML=afterLock();
+    const rp=document.getElementById('replay'); if(rp) rp.onclick=()=>{ST.committed=false;save();document.getElementById('after').innerHTML='';};
+  };
+  document.getElementById('lock').onclick=doLock;
+  if(ST.committed) doLock();
+}
+document.addEventListener('click',function(e){ var t=e.target; while(t&&t!==document){ if(t.id==='nextAct'){ try{ location.href='EconVenture_L2_Act8.html'; }catch(_){ } return; } t=t.parentNode; } });
+const _renderCore=render;
+render=function(){ _renderCore.apply(this,arguments);
+  if(prefersReduced()) return;
+  try{ document.querySelectorAll('#app svg').forEach(s=>s.classList.add('chartIn')); }catch(e){}
+};
+render();
+</script>
+</body>
+</html>
+// ---- smooth SVG morphing: patch geometry in place so charts glide instead of snapping ----
+function _mvTok(str){ const re=/-?\d*\.?\d+(?:[eE][-+]?\d+)?/g; let m,last=0,tmpl=[],nums=[]; while((m=re.exec(str))){ tmpl.push(str.slice(last,m.index)); nums.push(parseFloat(m[0])); last=m.index+m[0].length; } tmpl.push(str.slice(last)); return {tmpl,nums}; }
+function _mvBuild(tmpl,nums){ let s=tmpl[0]; for(let i=0;i<nums.length;i++){ s+=(Math.round(nums[i]*100)/100)+tmpl[i+1]; } return s; }
+const _MVNUM=['cx','cy','r','rx','ry','x','y','width','height','x1','y1','x2','y2','opacity','fill-opacity','stroke-opacity','stroke-width','offset','font-size'];
+function morphSVG(host,newHTML,dur){
+  try{
+    dur=(dur==null?120:dur);
+    const cur=host.querySelector('svg'); const tmp=document.createElement('div'); tmp.innerHTML=newHTML; const nx=tmp.querySelector('svg');
+    if(!cur||!nx){ host.innerHTML=newHTML; return; }
+    const O=cur.querySelectorAll('*'), N=nx.querySelectorAll('*');
+    if(O.length!==N.length){ cur.replaceWith(nx); return; }
+    for(let i=0;i<O.length;i++){ if(O[i].tagName!==N[i].tagName){ cur.replaceWith(nx); return; } }
+    const plans=[];
+    for(let i=0;i<O.length;i++){ const o=O[i],n=N[i],p={o,nums:[],pts:null,d:null};
+      for(const a of _MVNUM){ if(n.hasAttribute(a)){ const to=parseFloat(n.getAttribute(a)); let fr=o.hasAttribute(a)?parseFloat(o.getAttribute(a)):to; if(!isNaN(to)&&!isNaN(fr)) p.nums.push({a,fr,to}); } }
+      for(const at of n.attributes){ const nm=at.name; if(_MVNUM.indexOf(nm)<0&&nm!=='points'&&nm!=='d'){ if(o.getAttribute(nm)!==at.value) o.setAttribute(nm,at.value); } }
+      if(n.hasAttribute('points')){ const T=_mvTok(n.getAttribute('points')),F=_mvTok(o.getAttribute('points')||n.getAttribute('points')); if(F.nums.length===T.nums.length) p.pts={fr:F.nums,to:T.nums,tmpl:T.tmpl}; else o.setAttribute('points',n.getAttribute('points')); }
+      if(n.hasAttribute('d')){ const ds=n.getAttribute('d'); const T=_mvTok(ds),F=_mvTok(o.getAttribute('d')||ds); if(F.nums.length===T.nums.length&&F.tmpl.join('\u0001')===T.tmpl.join('\u0001')) p.d={fr:F.nums,to:T.nums,tmpl:T.tmpl}; else o.setAttribute('d',ds); }
+      if(n.children.length===0&&o.textContent!==n.textContent) o.textContent=n.textContent;
+      plans.push(p);
+    }
+    if(host._mvRAF){ cancelAnimationFrame(host._mvRAF); host._mvRAF=null; }
+    if(prefersReduced()||dur<=0){ for(const p of plans){ for(const x of p.nums)p.o.setAttribute(x.a,x.to); if(p.pts)p.o.setAttribute('points',_mvBuild(p.pts.tmpl,p.pts.to)); if(p.d)p.o.setAttribute('d',_mvBuild(p.d.tmpl,p.d.to)); } return; }
+    const t0=performance.now();
+    const step=now=>{ const k=Math.min(1,(now-t0)/dur),e=1-Math.pow(1-k,3);
+      for(const p of plans){ for(const x of p.nums)p.o.setAttribute(x.a,x.fr+(x.to-x.fr)*e);
+        if(p.pts){ const a=p.pts.fr,b=p.pts.to; p.o.setAttribute('points',_mvBuild(p.pts.tmpl,a.map((v,j)=>v+(b[j]-v)*e))); }
+        if(p.d){ const a=p.d.fr,b=p.d.to; p.o.setAttribute('d',_mvBuild(p.d.tmpl,a.map((v,j)=>v+(b[j]-v)*e))); } }
+      if(k<1) host._mvRAF=requestAnimationFrame(step);
+      else { for(const p of plans){ for(const x of p.nums)p.o.setAttribute(x.a,x.to); if(p.pts)p.o.setAttribute('points',_mvBuild(p.pts.tmpl,p.pts.to)); if(p.d)p.o.setAttribute('d',_mvBuild(p.d.tmpl,p.d.to)); } host._mvRAF=null; }
+    };
+    host._mvRAF=requestAnimationFrame(step);
+  }catch(e){ try{ host.innerHTML=newHTML; }catch(_){} }
+}
+
+function render(){
+  const app=document.getElementById('app');
+  if(entryTimer){clearInterval(entryTimer);entryTimer=null;}
+  if(ST.phase==='primer'){ app.innerHTML=primer(); document.getElementById('go').onclick=()=>{ST.phase='firm';save();render();}; return; }
+  if(ST.phase==='firm'){
+    app.innerHTML=firmScreen();
+    const pr=document.getElementById('prSlide');
+    const refresh=()=>{
+      ST.P=+pr.value;
+      const q=firmQ(ST.P), pf=profitAt(ST.P), st=statusOf(ST.P);
+      document.getElementById('prVal').textContent=fmtP(ST.P);
+      morphSVG(document.getElementById('firmbox'),firmSVG(ST.P),130);
+      const sv=document.getElementById('statusV'); sv.textContent=st.label; sv.className='pill2 '+st.k;
+      document.getElementById('qV').textContent=q>0?q.toFixed(1)+' units':'0 units';
+      const pv=document.getElementById('profV'); pv.textContent=inr(pf); pv.style.color=pf>=0?'var(--good)':'var(--bad)';
+      document.getElementById('work').innerHTML=firmWork(ST.P);
+      setFill(pr); save();
+    };
+    setFill(pr); pr.oninput=refresh;
+    document.getElementById('toMarket').onclick=()=>{ST.phase='market';save();render();};
+    return;
+  }
+  // market
+  app.innerHTML=mktScreen();
+  const nS=document.getElementById('nSlide'); setFill(nS);
+  nS.oninput=()=>{ if(entryTimer){clearInterval(entryTimer);entryTimer=null;} ST.ghostNs=[]; ST.n=+nS.value; setFill(nS); refreshMarket(); };
+  document.getElementById('runEntry').onclick=runEntry;
+  document.getElementById('preScarce').onclick=()=>{ if(entryTimer){clearInterval(entryTimer);entryTimer=null;} ST.ghostNs=[]; ST.n=15; nS.value=15; setFill(nS); refreshMarket(); };
+  document.getElementById('preCrowd').onclick=()=>{ if(entryTimer){clearInterval(entryTimer);entryTimer=null;} ST.ghostNs=[]; ST.n=110; nS.value=110; setFill(nS); refreshMarket(); };
+  const doLock=()=>{ST.committed=true;save();
+    document.getElementById('after').innerHTML=afterLock();
+    const nx=document.getElementById('nextAct'); if(nx) nx.onclick=()=>{ try{ location.href='EconVenture_L2_Act8.html'; }catch(e){} };
+    const rp=document.getElementById('replay'); if(rp) rp.onclick=()=>{ST.committed=false;save();document.getElementById('after').innerHTML='';};};
+  document.getElementById('lock').onclick=doLock;
+  if(ST.committed) doLock();
+}
+const _renderCore=render;
+render=function(){ _renderCore.apply(this,arguments);
+  if(prefersReduced()) return;
+  try{ document.querySelectorAll('#app svg').forEach(s=>s.classList.add('chartIn')); }catch(e){}
+};
+render();
+
+/* classroom gate + roster ping — must be after render() defined */
+/* Level 2 wall quiz: one opening question before entry, one closing after commit.
+   Bundle is looked up from window.__L2QB, injected per-file. Progress persisted per-act. */
+CLS._quizKey=function(kind){ return 'econventure_l2q_'+CLS.cfg.actIdx+'_'+kind; };
+CLS._loadQuizFlag=function(kind){ try{ return localStorage.getItem(CLS._quizKey(kind))==='1'; }catch(e){ return false; } };
+CLS._setQuizFlag=function(kind){ try{ localStorage.setItem(CLS._quizKey(kind),'1'); }catch(e){} };
+CLS._showQuiz=function(bundle, kind, onDone){
+  if(!bundle){ onDone&&onDone(); return; }
+  const q = kind==='open' ? bundle.open : bundle.close;
+  if(!q){ onDone&&onDone(); return; }
+  if(this._quizEl){ this._quizEl.remove(); }
+  const el=document.createElement('div');
+  el.id='__cls_quiz';
+  el.style.cssText='position:fixed;inset:0;z-index:99998;background:rgba(8,19,33,.97);display:flex;align-items:center;justify-content:center;padding:24px;backdrop-filter:blur(6px);font:15px/1.5 system-ui,Segoe UI,Roboto,sans-serif;color:#eef4fb';
+  const opts=q.opts.map((o,i)=>'<div data-i="'+i+'" style="cursor:pointer;padding:12px 14px;border:1px solid #1d3a5f;border-radius:10px;margin-top:8px;background:#0a1830;transition:background .15s,border-color .15s" onmouseover="this.style.background=\'#0f2342\'" onmouseout="this.style.background=\'#0a1830\'">'+o+'</div>').join('');
+  el.innerHTML='<div style="max-width:560px;padding:26px 30px;background:linear-gradient(180deg,#0d1f38,#0b1d38);border:1px solid #1d3a5f;border-radius:16px;box-shadow:0 22px 44px -18px rgba(0,0,0,.7)">'+
+    '<div style="font-size:11px;letter-spacing:1px;text-transform:uppercase;color:#93abcd;margin-bottom:8px">'+(kind==='open'?'Before we start':'What did you take away')+'</div>'+
+    '<div style="font-size:19px;font-weight:600;margin-bottom:6px">'+q.q+'</div>'+
+    '<div id="__q_opts">'+opts+'</div>'+
+    '<div style="font-size:12px;color:#5c7396;margin-top:12px">'+(kind==='open'?'One quick check, then the act opens.':'One closing question, then this act is marked complete.')+'</div>'+
+    '</div>';
+  document.body.appendChild(el); this._quizEl=el;
+  Array.prototype.forEach.call(el.querySelectorAll('[data-i]'), function(node){
+    node.onclick=function(){
+      const chosen=Number(node.getAttribute('data-i'));
+      const ok = chosen===q.a ? 1 : 0;
+      CLS.call({action:'quiz',code:CLS.state.code,sid:CLS.state.sid,concept:200+CLS.cfg.actIdx,phase:kind==='open'?'pre':'post',score:ok,total:1},function(){});
+      CLS._setQuizFlag(kind);
+      if(CLS._quizEl){ CLS._quizEl.remove(); CLS._quizEl=null; }
+      onDone&&onDone(ok);
+    };
+  });
+};
+/* Wrap refreshGate: when gate opens, if opening quiz not taken, show it before hiding the wall. */
+CLS._origHideGate = CLS.hideGate.bind(CLS);
+CLS.hideGate = function(){
+  const b = (typeof window!=='undefined' && window.__L2QB) ? window.__L2QB : null;
+  if(!b || CLS._loadQuizFlag('open') || !CLS.state.code){ CLS._origHideGate(); return; }
+  CLS._origHideGate();
+  CLS._showQuiz(b,'open', function(){});
+};
+/* Called by an act's lock/commit code (via CLS.completeWithQuiz) instead of CLS.complete(). */
+CLS.completeWithQuiz = function(){
+  const b = (typeof window!=='undefined' && window.__L2QB) ? window.__L2QB : null;
+  if(!b || CLS._loadQuizFlag('close') || !CLS.state.code){ CLS.complete(); return; }
+  CLS._showQuiz(b,'close', function(){ CLS.complete(); });
+};
+
+try{ CLS.start(8,'act'); }catch(e){}
+</script>
+</body>
+</html>

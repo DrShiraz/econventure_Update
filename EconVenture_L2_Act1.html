@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>EconVenture · Level 2 · Act 1</title>
+<style>
+:root{
+  --bg:#081321;--panel:#0e2038;--panel2:#122a49;--line:#1e3a5f;
+  --ink:#e8eef7;--muted:#93a7c4;--gold:#e0b54a;--gold2:#f0cf7a;
+  --cs:#4a90d9;--ps:#e0b54a;--dwl:#e5594d;--good:#43b581;--info:#4a90d9;
+  --shadow:0 6px 24px rgba(0,0,0,.35);
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{background:radial-gradient(1100px 560px at 72% -12%,#0d2540 0,var(--bg) 55%),var(--bg);
+  color:var(--ink);font-family:"Segoe UI",system-ui,-apple-system,Roboto,Helvetica,Arial,sans-serif;
+  font-size:15px;line-height:1.55;-webkit-font-smoothing:antialiased}
+.wrap{max-width:960px;margin:0 auto;padding:16px 16px 64px}
+h1,h2,h3{margin:0 0 .4em;font-weight:700;letter-spacing:.2px}
+h1{font-size:23px}h2{font-size:18px}h3{font-size:15px}
+.gold{color:var(--gold)}.muted{color:var(--muted)}.small{font-size:13px}.tiny{font-size:12px}
+.mono{font-variant-numeric:tabular-nums}
+a{color:var(--gold2);cursor:pointer}
+
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;
+  padding:12px 16px;background:linear-gradient(180deg,#0f2542,#0b1c33);border:1px solid var(--line);
+  border-radius:14px;box-shadow:var(--shadow);margin-bottom:16px}
+.brand{display:flex;align-items:center;gap:10px}
+.brand .dot{width:11px;height:11px;border-radius:50%;background:var(--gold);box-shadow:0 0 12px var(--gold)}
+.brand b{font-size:17px;letter-spacing:.4px}
+.step{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.8px}
+
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:20px;
+  box-shadow:var(--shadow);margin-bottom:16px}
+.grid{display:grid;gap:14px}
+@media(min-width:780px){.grid.cols2{grid-template-columns:1.05fr .95fr}.grid.cols3{grid-template-columns:1fr 1fr 1fr}}
+.card{background:var(--panel2);border:1px solid var(--line);border-radius:11px;padding:13px}
+.card .l{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.6px;margin-bottom:3px}
+.card .v{font-size:21px;font-weight:700}
+.card.cs{border-left:4px solid var(--cs)} .card.ps{border-left:4px solid var(--ps)} .card.dwl{border-left:4px solid var(--dwl)}
+
+.speak{border-left:3px solid var(--gold);background:rgba(224,181,74,.07);padding:10px 14px;border-radius:0 8px 8px 0;
+  font-size:14px;margin:12px 0;color:#dbe6f5}
+.who{color:var(--gold2);font-weight:700}
+
+label.field{display:block;margin:2px 0 6px}
+label.field .cap{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px}
+label.field .cap b{font-size:15px}
+label.field .cap .val{font-variant-numeric:tabular-nums;color:var(--gold);font-weight:700;font-size:17px}
+input[type=range]{-webkit-appearance:none;width:100%;height:7px;border-radius:6px;
+  background:linear-gradient(90deg,var(--gold) 0%,var(--gold) var(--fill,40%),#20375a var(--fill,40%));outline:none}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:22px;height:22px;border-radius:50%;
+  background:#fff;border:3px solid var(--gold);cursor:pointer;box-shadow:0 2px 6px rgba(0,0,0,.4)}
+input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;background:#fff;border:3px solid var(--gold);cursor:pointer}
+.hint{font-size:12.5px;color:var(--muted);margin-top:7px}
+
+.btn{display:inline-flex;align-items:center;gap:8px;justify-content:center;cursor:pointer;
+  padding:13px 22px;border-radius:10px;border:1px solid var(--line);background:var(--panel2);
+  color:var(--ink);font-size:15px;font-weight:600;transition:transform .05s,filter .15s}
+.btn:hover{filter:brightness(1.12)}.btn:active{transform:translateY(1px)}
+.btn.primary{background:linear-gradient(180deg,var(--gold2),var(--gold));color:#2a1e04;border-color:var(--gold)}
+.btn.ghost{background:transparent}.btn.wide{width:100%}
+.btnrow{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
+
+.meter{height:12px;border-radius:8px;background:#0a1c33;border:1px solid var(--line);overflow:hidden;margin-top:6px}
+.meter > span{display:block;height:100%;border-radius:8px}
+.legend{display:flex;gap:14px;flex-wrap:wrap;margin-top:8px;font-size:12.5px}
+.legend .k{display:inline-flex;align-items:center;gap:6px}
+.sw{width:12px;height:12px;border-radius:3px;display:inline-block}
+
+.work{background:#0a1830;border:1px solid var(--line);border-radius:10px;padding:12px 14px;margin-top:12px;
+  font-size:13px;line-height:1.7;font-variant-numeric:tabular-nums}
+.work .row{color:#cfe0f5}.work b{color:var(--gold2)}
+.reinforce{background:var(--panel2);border:1px solid var(--line);border-left:4px solid var(--info);border-radius:11px;padding:16px;margin-top:14px}
+.reinforce h3{color:var(--gold2)}
+.chips{display:flex;gap:7px;flex-wrap:wrap;margin-top:10px}
+.chip{font-size:12px;padding:4px 11px;border-radius:20px;background:#0a1c33;border:1px solid var(--line);color:var(--muted)}
+.flag{border-radius:9px;padding:11px 14px;font-size:13.5px;margin:10px 0}
+.flag.ok{background:rgba(67,181,129,.12);border:1px solid rgba(67,181,129,.35)}
+.flag.info{background:rgba(74,144,217,.12);border:1px solid rgba(74,144,217,.35)}
+svg{display:block;width:100%;height:auto}
+.center{text-align:center}
+
+/* =====================================================================
+   BUILD VISUAL LAYER (shared across Level 2 acts) — appended; original
+   stylesheet untouched. Market-terminal identity matching the rest of the
+   course. Charts draw their lines in on entry, then fills and points settle.
+   Dependency-free; reduced motion and keyboard focus honoured at the bottom.
+   ===================================================================== */
+:root{
+  --bg:#081321;--panel:#102647;--panel2:#153059;--line:#213f6b;--line2:#2e568f;
+  --ink:#eaf1fb;--muted:#93abcd;--faint:#647fa6;
+  --gold:#e7bd54;--gold2:#f2d585;--gold-soft:rgba(231,189,84,.14);
+  --grid:rgba(120,160,215,.10);
+  --shadow:0 18px 44px -22px rgba(0,0,0,.75),0 3px 10px -4px rgba(0,0,0,.5);
+  --shadow-sm:0 8px 22px -14px rgba(0,0,0,.7);
+  --ease:cubic-bezier(.22,.7,.2,1);
+}
+body{background:
+    radial-gradient(1200px 620px at 72% -12%, #123055 0%, rgba(18,48,85,0) 60%),
+    linear-gradient(180deg,#0a1727 0%, var(--bg) 55%);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+  background-size:52px 52px;-webkit-mask-image:radial-gradient(1000px 700px at 72% 0%,#000 0%,transparent 78%);
+          mask-image:radial-gradient(1000px 700px at 72% 0%,#000 0%,transparent 78%);opacity:.5}
+.wrap{position:relative;z-index:1}
+.mono,.card .v,.work,label.field .cap .val,.chip,.small,.tiny{font-variant-numeric:tabular-nums}
+.topbar{background:linear-gradient(180deg,rgba(12,24,42,.94),rgba(12,24,42,.72));border-color:var(--line);box-shadow:0 1px 0 rgba(120,160,215,.05),var(--shadow-sm)}
+.brand .dot{box-shadow:0 0 12px var(--gold);animation:tick 2.4s var(--ease) infinite}
+.step{color:var(--muted)}
+.panel{position:relative;overflow:hidden;
+  background:linear-gradient(180deg,rgba(255,255,255,.02),rgba(255,255,255,0) 30%),linear-gradient(180deg,var(--panel) 0%,#0c1d34 100%);
+  border-color:var(--line);border-radius:16px;box-shadow:var(--shadow);animation:panelIn .5s var(--ease) both}
+.panel::before{content:"";position:absolute;left:16px;right:16px;top:0;height:1px;background:linear-gradient(90deg,transparent,rgba(160,195,245,.25),transparent)}
+h1,h2{letter-spacing:-.01em}
+.card{background:linear-gradient(180deg,#0e2340,#0b1d38);border-color:var(--line);box-shadow:var(--shadow-sm);
+  transition:transform .16s var(--ease),border-color .16s var(--ease);animation:cardIn .42s var(--ease) both}
+.card:hover{transform:translateY(-2px);border-color:var(--line2)}
+.grid .card:nth-child(1){animation-delay:.04s}.grid .card:nth-child(2){animation-delay:.1s}.grid .card:nth-child(3){animation-delay:.16s}
+.card .v{text-shadow:0 0 18px rgba(231,189,84,.14)}
+label.field .cap .val{text-shadow:0 0 16px rgba(231,189,84,.3)}
+input[type=range]{border:1px solid var(--line)}
+input[type=range]::-webkit-slider-thumb{box-shadow:0 0 0 4px rgba(231,189,84,.16),0 3px 8px rgba(0,0,0,.5);transition:box-shadow .15s var(--ease)}
+input[type=range]:hover::-webkit-slider-thumb{box-shadow:0 0 0 6px rgba(231,189,84,.22),0 3px 10px rgba(0,0,0,.55)}
+input[type=range]:active::-webkit-slider-thumb{box-shadow:0 0 0 8px rgba(231,189,84,.26)}
+.work{background:linear-gradient(180deg,#0a1b33,#081627);box-shadow:inset 0 1px 0 rgba(160,195,245,.04)}
+.reinforce{box-shadow:var(--shadow-sm);animation:reveal .5s var(--ease) both}
+.flag{animation:reveal .4s var(--ease) both}
+.chip{background:var(--gold-soft);transition:transform .15s var(--ease)}.chip:hover{transform:translateY(-1px)}
+.example .ex{box-shadow:var(--shadow-sm)}
+.speak{background:var(--gold-soft)}
+.btn{border-radius:10px;transition:transform .12s var(--ease),filter .15s var(--ease),box-shadow .15s var(--ease)}
+.btn:hover{transform:translateY(-1px)}.btn:active{transform:translateY(0) scale(.985)}
+.btn.primary{box-shadow:0 10px 24px -12px rgba(231,189,84,.6),inset 0 1px 0 rgba(255,255,255,.35)}
+:focus-visible{outline:2px solid var(--gold);outline-offset:2px;border-radius:8px}
+svg circle{filter:drop-shadow(0 0 4px currentColor)}
+svg text{font-variant-numeric:tabular-nums}
+svg.chartIn{animation:fadeIn .3s var(--ease) both}
+svg.chartIn path[fill="none"]{stroke-dasharray:2200;stroke-dashoffset:2200;animation:draw .85s var(--ease) .08s forwards}
+svg.chartIn polygon,svg.chartIn path[fill]:not([fill="none"]){opacity:0;animation:fadeIn .55s var(--ease) .5s forwards}
+svg.chartIn circle{opacity:0;animation:fadeIn .4s var(--ease) .62s forwards}
+svg.chartIn line[stroke="#fff"]{opacity:0;animation:fadeIn .4s var(--ease) .58s forwards}
+@keyframes panelIn{from{opacity:0;transform:translateY(10px) scale(.994)}to{opacity:1;transform:none}}
+@keyframes cardIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@keyframes reveal{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes draw{to{stroke-dashoffset:0}}
+@keyframes tick{0%{box-shadow:0 0 0 0 rgba(231,189,84,.55),0 0 12px var(--gold)}70%{box-shadow:0 0 0 7px rgba(231,189,84,0),0 0 12px var(--gold)}100%{box-shadow:0 0 0 0 rgba(231,189,84,0),0 0 12px var(--gold)}}
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important}
+  svg.chartIn path[fill="none"]{stroke-dashoffset:0!important}
+  svg.chartIn polygon,svg.chartIn path[fill]:not([fill="none"]),svg.chartIn circle,svg.chartIn line[stroke="#fff"]{opacity:1!important}
+  body::before{opacity:.32}.brand .dot{animation:none}
+}
+
+
+/* bespoke widget polish: surplus meter as transitioning segments */
+.meter{height:15px;box-shadow:inset 0 1px 3px rgba(0,0,0,.45);border-color:var(--line)}
+.meter .seg{height:100%;display:inline-block;vertical-align:top;transition:width .32s var(--ease)}
+.meter .seg.cs{background:linear-gradient(180deg,#6fb0ec,var(--cs))}
+.meter .seg.ps{background:linear-gradient(180deg,#f4d787,var(--ps))}
+.meter .seg.dwl{background:linear-gradient(180deg,#f18b80,var(--dwl))}
+.meter .seg:first-child{border-radius:8px 0 0 8px}.meter .seg:last-child{border-radius:0 8px 8px 0}
+.card.cs,.card.ps,.card.dwl{transition:transform .16s var(--ease)}
+.card.cs:hover,.card.ps:hover,.card.dwl:hover{transform:translateY(-2px)}
+
+/* persistent hub link */
+.hublink{margin-left:auto;font-size:11px;color:var(--muted);text-decoration:none;padding:5px 11px;border:1px solid var(--line);border-radius:20px;transition:color .15s,border-color .15s,background .15s}
+.hublink:hover{color:var(--gold2);border-color:var(--gold);background:rgba(231,189,84,.06)}
+</style>
+<script>window.__L2QB={"open": {"q": "A monopolist charging above marginal cost creates deadweight loss because:", "opts": ["Firms earn abnormal profits", "Some buyers valuing the good above MC are priced out", "Consumer surplus disappears entirely", "Taxes distort supply"], "a": 1}, "close": {"q": "Which one is TRUE at the profit-maximising monopoly price?", "opts": ["Consumer surplus is zero", "Producer surplus is at its socially optimal maximum", "Deadweight loss > 0 because P > MC", "Total welfare equals the competitive maximum"], "a": 2}};</script>
+</head>
+<body>
+<div class="wrap">
+  <div class="topbar">
+    <div class="brand"><span class="dot"></span><b>EconVenture <span class="gold">Level 2</span></b></div>
+    <div class="step">Act 1 · The money on the table</div><a class="hublink" href="EconVenture_Hub.html" title="Back to hub">◄ Hub</a></div>
+  <div id="app"></div>
+  <div class="center tiny muted" style="margin-top:18px">
+    Level 2, Act 1 · offline single file · unlocks after the Founder's Journey (Level 1).
+  </div>
+</div>
+
+<script>
+/* EconVenture classroom helper — must be identical across every act.
+   Enforces the faculty gate for THIS act (network required; fail-closed after a grace period)
+   and reports position + completion to the classroom backend. */
+const CLASS_URL='';  /* faculty pastes the same Apps Script /exec URL used by Hub/Founder */
+const CLS={
+  cfg:{ actIdx:-1, actKind:'act', graceMs:15000, pollMs:6000, pingMs:20000 },
+  state:{ code:'', sid:'', name:'', gate:null, lastOk:0, tries:0, active:false },
+  init(){ try{ const r=localStorage.getItem('econventure_class_v1'); if(r){ const c=JSON.parse(r)||{}; this.state.code=c.code||''; this.state.sid=c.sid||''; this.state.name=c.name||''; } }catch(e){} },
+  online(){ return !!(CLASS_URL||'').trim(); },
+  call(params, cb){
+    if(!this.online()){ cb&&cb(null); return; }
+    try{
+      const qs=Object.keys(params).map(k=>k+'='+encodeURIComponent(params[k])).join('&');
+      fetch((CLASS_URL||'').trim()+'?api=1&'+qs,{cache:'no-store'})
+        .then(r=>r.json()).then(j=>cb&&cb(j))
+        .catch(()=>cb&&cb(null));
+    }catch(e){ cb&&cb(null); }
+  },
+  isOpenForMe(){
+    const g=this.state.gate; if(!g) return false;
+    if(g.paused) return false;
+    if(!g.paced) return true;                     // teacher turned pacing off => everyone can proceed
+    if(this.cfg.actKind==='act'){
+      return Array.isArray(g.open) && g.open.indexOf(this.cfg.actIdx)>=0;
+    }
+    return Array.isArray(g.l1open) && g.l1open.indexOf(this.cfg.actIdx)>=0;
+  },
+  showGate(msg, sub){
+    if(this._gateEl){ this._gateEl.remove(); this._gateEl=null; }
+    const el=document.createElement('div');
+    el.id='__cls_gate';
+    el.style.cssText='position:fixed;inset:0;z-index:99999;background:rgba(8,19,33,.97);display:flex;align-items:center;justify-content:center;padding:24px;backdrop-filter:blur(6px);font:15px/1.5 system-ui,Segoe UI,Roboto,sans-serif;color:#eef4fb';
+    el.innerHTML='<div style="max-width:520px;text-align:center;padding:28px 32px;background:linear-gradient(180deg,#0d1f38,#0b1d38);border:1px solid #1d3a5f;border-radius:16px;box-shadow:0 22px 44px -18px rgba(0,0,0,.7)">'+
+      '<div style="font-size:11px;letter-spacing:1px;text-transform:uppercase;color:#93abcd;margin-bottom:8px">Paced by your teacher</div>'+
+      '<div style="font-size:22px;font-weight:700;margin-bottom:10px">'+msg+'</div>'+
+      '<div style="font-size:14px;color:#93abcd">'+sub+'</div>'+
+      '</div>';
+    document.body.appendChild(el); this._gateEl=el;
+  },
+  hideGate(){ if(this._gateEl){ this._gateEl.remove(); this._gateEl=null; } },
+  refreshGate(cb){
+    if(!this.state.code){ this.showGate('Sign in through the Hub first', 'This act only opens when you are joined to your teacher\u2019s classroom. Return to the Hub, enter your name, roll and the class code, then come back.'); cb&&cb(false); return; }
+    if(!this.online()){ this.showGate('This game is not connected to a class', 'The classroom server is not configured on this page. Ask your teacher.'); cb&&cb(false); return; }
+    this.call({action:'gate',code:this.state.code}, g=>{
+      this.state.tries++;
+      if(g && g.ok!==false){
+        this.state.gate=g; this.state.lastOk=Date.now(); this.state.tries=0;
+        if(this.isOpenForMe()){ this.hideGate(); cb&&cb(true); }
+        else {
+          const name=(g.name||this.state.code);
+          this.showGate(g.paused?('Class '+name+' is on hold'):('Waiting for your teacher to open this stage'), g.paused?'Your teacher paused the class. You will unlock when they resume.':'You are ahead of the class, or your teacher has not opened this stage yet. It will open automatically the moment they do.');
+          cb&&cb(false);
+        }
+      } else {
+        const age=Date.now()-this.state.lastOk;
+        if(this.state.lastOk && age<this.cfg.graceMs){ /* recent good state, no scary UI */ cb&&cb(this.isOpenForMe()); }
+        else { this.showGate('Reconnecting to your class', 'Your device lost the classroom server. This will retry automatically. If it stays down for a minute, tell your teacher.'); cb&&cb(false); }
+      }
+    });
+  },
+  start(actIdx, actKind){
+    this.cfg.actIdx=actIdx; this.cfg.actKind=actKind||'act';
+    this.init();
+    if(this.state.active) return; this.state.active=true;
+    this.refreshGate();
+    this._poll=setInterval(()=>this.refreshGate(),this.cfg.pollMs);
+    this._ping=setInterval(()=>{ this._doPing(); },this.cfg.pingMs);
+    this._doPing();  /* immediate so roster shows position instantly */
+    if(this._initCloudSave) this._initCloudSave();
+  },
+  _doPing(){
+    if(!this.state.code || !this.state.sid) return;
+    this.call({action:'ping',sid:this.state.sid,pos:(this.cfg.actKind==='act'?'A:':'L1:')+this.cfg.actIdx}, r=>{
+      if(!r || !r.directive) return;
+      this._handleDirective(r.directive);
+    });
+  },
+  _handleDirective(d){
+    if(!d || !d.kind) return;
+    if(d.kind==='kick'){
+      try{ localStorage.removeItem('econventure_class_v1'); }catch(e){}
+      this.showGate('You have been removed from this class', 'Your teacher removed you from the classroom. Return to the Hub if you want to rejoin with a new code.');
+      return;
+    }
+    if(d.kind==='goto'){
+      const kind = d.posKind==='act'?'act':'concept';
+      const pos = Number(d.pos)||0;
+      // If the target IS this file's own act at same kind, just clear the gate wall (they're already here).
+      if(kind==='act' && this.cfg.actKind==='act' && pos===this.cfg.actIdx){ this.hideGate(); return; }
+      // Otherwise navigate to the Hub target file. Same-directory relative link.
+      const files = ['EconVenture_L1_Aggregation.html','EconVenture_Founder.html','EconVenture_L2_Act1.html','EconVenture_L2_Act2.html','EconVenture_L2_Act3.html','EconVenture_L2_Act4.html','EconVenture_L2_Act5.html','EconVenture_L2_Act6.html','EconVenture_L2_Act7.html','EconVenture_L2_Act8.html','EconVenture_Live.html'];
+      if(kind==='act' && files[pos]){
+        try{ location.href=files[pos]; }catch(e){}
+        return;
+      }
+      if(kind==='concept'){
+        // Send them into Founder at that concept. Founder reads its own directive on boot.
+        try{ localStorage.setItem('econventure_pending_goto', JSON.stringify({posKind:'concept',pos:pos,at:Date.now()})); }catch(e){}
+        try{ location.href='EconVenture_Founder.html'; }catch(e){}
+      }
+    }
+  },
+  complete(){ if(!this.state.code || !this.state.sid) return;
+    this.call({action:'quiz',code:this.state.code,sid:this.state.sid,concept:100+this.cfg.actIdx,phase:'post',score:1,total:1},()=>{}); },
+  needsClassroom(){ return !this.state.code; }
+};
+
+/* Cloud save: bundle every econventure_* localStorage key, ship on change (debounced).
+   Called by CLS.start automatically once we have code + uid. Fetch on Hub finish (Hub side). */
+CLS._saveKey='econventure_cloudsave_lasthash';
+CLS._collectBundle=function(){
+  const bundle={};
+  try{
+    for(let i=0;i<localStorage.length;i++){
+      const k=localStorage.key(i);
+      if(!k) continue;
+      if(k.indexOf('econventure_')!==0) continue;
+      if(k==='econventure_cloudsave_lasthash') continue;    /* housekeeping key: don't ship */
+      bundle[k]=localStorage.getItem(k);
+    }
+  }catch(e){}
+  return bundle;
+};
+CLS._hash=function(s){ let h=0; for(let i=0;i<s.length;i++){ h=(h*31+s.charCodeAt(i))|0; } return String(h); };
+CLS._pushSave=function(force){
+  if(!this.state.code || !this.state.uid) return;
+  const bundle=this._collectBundle();
+  const payload=JSON.stringify(bundle);
+  const hash=this._hash(payload);
+  if(!force){
+    try{ if(localStorage.getItem(this._saveKey)===hash) return; }catch(e){}
+  }
+  this.call({action:'save',code:this.state.code,uid:this.state.uid,gsub:this.state.gsub||'',email:this.state.email||'',name:this.state.name||'',roll:this.state.roll||'',payload:payload}, r=>{
+    if(r && r.ok){ try{ localStorage.setItem(this._saveKey, hash); }catch(e){} }
+  });
+};
+CLS._initCloudSave=function(){
+  /* Re-read identity to include uid/gsub/email if the Hub wrote them. */
+  try{
+    const raw=localStorage.getItem('econventure_class_v1');
+    if(raw){ const c=JSON.parse(raw)||{};
+      this.state.code=c.code||this.state.code;
+      this.state.sid=c.sid||this.state.sid;
+      this.state.name=c.name||this.state.name;
+      this.state.uid=c.uid||'';
+      if(c.google){ this.state.gsub=c.google.sub||''; this.state.email=c.google.email||''; }
+      if(c.roll) this.state.roll=c.roll;
+    }
+  }catch(e){}
+  if(!this._cloudInited && this.state.code && this.state.uid){
+    this._cloudInited=true;
+    /* First push after 1s (gives boot code a moment to settle), then every 30s if changed, then on unload. */
+    setTimeout(()=>this._pushSave(false), 1000);
+    setInterval(()=>this._pushSave(false), 30000);
+    window.addEventListener('beforeunload', ()=>{ try{ this._pushSave(true); }catch(e){} });
+  }
+};
+
+
+/* ============================================================================
+   LEVEL 2 · ACT 1 — welfare: consumer surplus, producer surplus, deadweight loss.
+   Same market as the corrected Level 1 (BUILD 8), so the numbers are continuous:
+     Demand : Q = 20000 - 80P      (choke price 250)
+     Cost   : TC = 100000 + 80Q + 0.00278Q^2   ->  MC = 80 + 0.00556Q
+   Monopoly (profit-max) price = 180, competitive price = 132.
+   The whole point of the act: total surplus (CS + PS + DWL) is a FIXED pie of
+   about 800k. Price only decides how it splits and how much gets destroyed.
+   ============================================================================ */
+const DEMAND={a:20000,b:80}, COST={FC:100000,a:80,b:0.00278};
+const CHOKE=DEMAND.a/DEMAND.b;              // 250
+const qOf=p=>Math.max(0,DEMAND.a-DEMAND.b*p);
+const mcOf=q=>COST.a+2*COST.b*q;
+const vcOf=q=>COST.a*q+COST.b*q*q;
+const MONO_P=180, COMP_P=132, COMP_Q=9413;  // verified anchors
+
+function welfare(P){
+  const Q=qOf(P);
+  const CS=0.5*Q*(CHOKE-P);
+  const PS=P*Q-vcOf(Q);
+  const gap=P-mcOf(Q);
+  const DWL=0.5*Math.max(0,COMP_Q-Q)*Math.max(0,gap);
+  return {Q, CS, PS, DWL, total:CS+PS+Math.max(0,DWL), profit:PS-COST.FC};
+}
+const inr=n=>{n=Math.round(n||0);const neg=n<0;n=Math.abs(n);return (neg?'-₹':'₹')+n.toLocaleString('en-IN');};
+const k=n=>(n<0?'-':'')+'₹'+Math.round(Math.abs(n)/1000)+'k';
+
+/* -------- the welfare diagram (SVG), built to read on a phone ------------- */
+function welfareSVG(P){
+  const W=380,H=300,padL=44,padR=14,padT=14,padB=30;
+  const Qmax=11000,Pmax=260,plotW=W-padL-padR,plotH=H-padT-padB;
+  const px=q=>padL+q/Qmax*plotW, py=p=>padT+(1-p/Pmax)*plotH;
+  const Q=qOf(P), mcQ=mcOf(Q);
+  // region polygons
+  const csPts=[[0,CHOKE],[Q,P],[0,P]].map(([q,p])=>px(q)+','+py(p)).join(' ');
+  const psPts=[[0,P],[Q,P],[Q,mcQ],[0,COST.a]].map(([q,p])=>px(q)+','+py(p)).join(' ');
+  const dwlReal = P>COMP_P+0.5;
+  const dwlPts = dwlReal ? [[Q,P],[COMP_Q,COMP_P],[Q,mcQ]].map(([q,p])=>px(q)+','+py(p)).join(' ') : [[Q,P],[Q,P],[Q,P]].map(([q,p])=>px(q)+','+py(p)).join(' ');
+  const dwlOp = dwlReal ? .5 : 0;
+  // axis gridlines
+  let grid='';
+  [0,50,100,150,200,250].forEach(p=>{grid+=`<line x1="${padL}" y1="${py(p)}" x2="${W-padR}" y2="${py(p)}" stroke="var(--line)" stroke-width="1" opacity=".5"/><text x="${padL-6}" y="${py(p)+4}" text-anchor="end" font-size="10" fill="var(--muted)">${p}</text>`;});
+  [0,4000,8000].forEach(q=>{grid+=`<text x="${px(q)}" y="${H-10}" text-anchor="middle" font-size="10" fill="var(--muted)">${q/1000}k</text>`;});
+  // lines
+  const demand=`<line x1="${px(0)}" y1="${py(CHOKE)}" x2="${px(Qmax)}" y2="${py((DEMAND.a-Qmax)/DEMAND.b)}" stroke="#cfe0f5" stroke-width="2.5"/>`;
+  const mc=`<line x1="${px(0)}" y1="${py(COST.a)}" x2="${px(Qmax)}" y2="${py(mcOf(Qmax))}" stroke="#e5a15a" stroke-width="2.5"/>`;
+  const priceLine=`<line x1="${px(0)}" y1="${py(P)}" x2="${px(Q)}" y2="${py(P)}" stroke="#fff" stroke-width="1.5" stroke-dasharray="4 3" opacity=".8"/>`;
+  const qLine=`<line x1="${px(Q)}" y1="${py(0)}" x2="${px(Q)}" y2="${py(P)}" stroke="#fff" stroke-width="1" stroke-dasharray="3 3" opacity=".4"/>`;
+  const compPt=`<circle cx="${px(COMP_Q)}" cy="${py(COMP_P)}" r="4" fill="#fff"/><text x="${px(COMP_Q)-6}" y="${py(COMP_P)-8}" text-anchor="end" font-size="10" fill="#cfe0f5">competitive</text>`;
+  const opPt=`<circle cx="${px(Q)}" cy="${py(P)}" r="5" fill="var(--gold)" stroke="#0a1626" stroke-width="2"/>`;
+  // region labels (only if the region is wide enough to hold text)
+  const csLabOp=(P<CHOKE-25)?1:0, psLabOp=(Q>1500)?1:0, dwlLabOp=(dwlReal&&(COMP_Q-Q)>900)?1:0;
+  let labels='';
+  labels+=`<text x="${px(Q*0.30)}" y="${py((P+CHOKE)/2)}" font-size="12" font-weight="700" fill="#bcd6f5" opacity="${csLabOp}">CS</text>`;
+  labels+=`<text x="${px(Q*0.32)}" y="${py((P+mcQ)/2)+4}" font-size="12" font-weight="700" fill="#7a5a12" opacity="${psLabOp}">PS</text>`;
+  labels+=`<text x="${px(Q+(COMP_Q-Q)*0.28)}" y="${py(P-8)}" font-size="11" font-weight="700" fill="#fff" opacity="${dwlLabOp}">DWL</text>`;
+  return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="welfare diagram">
+    ${grid}
+    <polygon points="${csPts}" fill="var(--cs)" fill-opacity=".42"/>
+    <polygon points="${psPts}" fill="var(--ps)" fill-opacity=".45"/>
+    <polygon points="${dwlPts}" fill="var(--dwl)" fill-opacity="${dwlOp}"/>
+    ${mc}${demand}${priceLine}${qLine}${compPt}${opPt}${labels}
+    <text x="${W-padR}" y="${py(CHOKE)+2}" text-anchor="end" font-size="10" fill="#cfe0f5">demand</text>
+    <text x="${W-padR}" y="${py(mcOf(Qmax))-4}" text-anchor="end" font-size="10" fill="#e5a15a">marginal cost</text>
+  </svg>`;
+}
+
+/* --------------------------------- STATE -------------------------------- */
+const SAVE='econventure_L2A1_v1';
+let ST={phase:'intro', price:200, committed:false};
+try{const r=localStorage.getItem(SAVE); if(r) ST=Object.assign(ST,JSON.parse(r));}catch(e){}
+const save=()=>{try{localStorage.setItem(SAVE,JSON.stringify(ST));}catch(e){}};
+
+/* ------------------------------- SCREENS -------------------------------- */
+function intro(){
+  return `<div class="panel">
+    <h1>You won your first market. Now look at what you gave away.</h1>
+    <p class="muted">In Level 1 you learned to price one product and beat the market. You found the profit-maximizing price and stopped there. Priya, your new segments analyst, is about to show you something that price hides.</p>
+    <div class="speak"><span class="who">Priya:</span> "Your demand curve was never one customer. It is thousands of buyers stacked from the one who would pay a fortune down to the one who only bites if it is nearly free. At your single price, almost all of them paid you less than they were willing to. That gap is real money, and right now you hand it out for free."</div>
+    <p class="small">This act is about seeing that money. Three things live on one chart: the surplus buyers keep, the surplus you keep, and the surplus your pricing quietly destroys. Understand these three and the rest of Level 2 is one question: how much of the buyers' share can you capture without wrecking the market?</p>
+    <div class="btnrow"><button class="btn primary wide" id="go">Show me the money on the table →</button></div>
+  </div>`;
+}
+
+function stage(){
+  const w=welfare(ST.price);
+  const potential=800000; // fixed pie (verified ~800k)
+  const csPct=Math.round(w.CS/potential*100), psPct=Math.round(w.PS/potential*100), dwlPct=Math.round(Math.max(0,w.DWL)/potential*100);
+  return `<div class="panel">
+    <div class="step" style="margin-bottom:4px">Interactive</div>
+    <h2>Drag your price. Watch the pie split.</h2>
+    <p class="small muted" style="margin-top:0">Same bulb, same market as Level 1. The blue triangle is what buyers keep, the gold is what you keep, the red is value destroyed because those buyers never get served. Find the price that makes <b>your</b> slice as big as possible, then look at what it does to the rest.</p>
+
+    <div class="grid cols2" style="margin-top:6px">
+      <div>
+        <div id="svgbox">${welfareSVG(ST.price)}</div>
+        <div class="legend">
+          <span class="k"><span class="sw" style="background:var(--cs)"></span>Consumer surplus (buyers keep)</span>
+          <span class="k"><span class="sw" style="background:var(--ps)"></span>Producer surplus (you keep)</span>
+          <span class="k"><span class="sw" style="background:var(--dwl)"></span>Deadweight loss (destroyed)</span>
+        </div>
+      </div>
+      <div>
+        <label class="field"><div class="cap"><b>Your price</b> <span class="val" id="pVal">${inr(ST.price)}</span></div>
+          <input id="price" type="range" min="${COMP_P}" max="230" step="1" value="${ST.price}">
+          <div class="hint">Left end is the competitive price (${inr(COMP_P)}, where supply meets demand). Slide right toward monopoly pricing and beyond.</div></label>
+
+        <div class="grid cols3" style="margin-top:4px">
+          <div class="card cs"><div class="l">Buyers keep (CS)</div><div class="v mono" id="csV">${k(w.CS)}</div></div>
+          <div class="card ps"><div class="l">You keep (PS)</div><div class="v mono" id="psV">${k(w.PS)}</div></div>
+          <div class="card dwl"><div class="l">Destroyed (DWL)</div><div class="v mono" id="dwlV">${k(Math.max(0,w.DWL))}</div></div>
+        </div>
+
+        <div class="tiny muted" style="margin-top:12px">How the fixed ₹800k pie splits at this price</div>
+        <div class="meter"><span class="seg cs" id="segCs" style="width:${csPct}%"></span><span class="seg ps" id="segPs" style="width:${psPct}%"></span><span class="seg dwl" id="segDwl" style="width:${Math.max(0,100-csPct-psPct)}%"></span></div>
+
+        <div class="work" id="work">${workText(ST.price)}</div>
+      </div>
+    </div>
+
+    <div class="btnrow"><button class="btn primary wide" id="lock">Lock in this price</button></div>
+    <div id="after"></div>
+  </div>`;
+}
+
+function workText(P){
+  const w=welfare(P), Q=Math.round(w.Q), mcQ=Math.round(mcOf(Q));
+  return `<div class="row">Quantity sold:  Q = 20000 − 80 × ${P} = <b>${Q.toLocaleString('en-IN')}</b></div>
+    <div class="row">Consumer surplus:  ½ × Q × (250 − P) = ½ × ${Q.toLocaleString('en-IN')} × ${250-P} = <b>${inr(w.CS)}</b></div>
+    <div class="row">Producer surplus:  P×Q − variable cost = <b>${inr(w.PS)}</b>  <span class="muted">(profit after ₹1,00,000 fixed = ${inr(w.profit)})</span></div>
+    <div class="row">Deadweight loss:  ½ × (${COMP_Q.toLocaleString('en-IN')} − ${Q.toLocaleString('en-IN')}) × (P − MC@Q) = <b>${inr(Math.max(0,w.DWL))}</b></div>
+    <div class="row" style="border-top:1px solid var(--line);margin-top:6px;padding-top:6px">CS + PS + DWL = <b>${inr(w.total)}</b> <span class="muted">— the pie is fixed near ₹8,00,000; price only moves the walls between the three.</span></div>`;
+}
+
+function afterLock(P){
+  const w=welfare(P);
+  let head;
+  if(Math.abs(P-MONO_P)<=8){
+    head=`<div class="flag ok"><b>You found the monopoly price.</b> Your slice (producer surplus) peaks right about here at ${inr(w.PS)}. Now read the cost of it: you created <b>${inr(w.DWL)}</b> of deadweight loss and left <b>${inr(w.CS)}</b> of consumer surplus with buyers. That blue triangle is the target of the whole level.</div>`;
+  } else if(P<=COMP_P+18){
+    head=`<div class="flag info">You parked near the <b>competitive price</b>. Deadweight loss is almost gone, this is the efficient outcome, but your own slice is only ${inr(w.PS)}. A firm with pricing power will not sit here. Slide up and watch your slice grow, then notice what opens up in red.</div>`;
+  } else if(P>=202){
+    head=`<div class="flag info">Past your own optimum. Notice your slice is <b>smaller</b> here (${inr(w.PS)}) than it was around ₹180, and you have blown open ${inr(w.DWL)} of deadweight loss. Greed beyond the profit-max point costs you and the market at the same time.</div>`;
+  } else {
+    head=`<div class="flag info">Close. Your slice keeps climbing until about <b>₹180</b>, the profit-max price, then falls. At ₹180 you would keep ${inr(welfare(MONO_P).PS)} while leaving ${inr(welfare(MONO_P).CS)} on the table. That gap is the point of Level 2.</div>`;
+  }
+  return head + `<div class="reinforce">
+    <div class="chip" style="margin-bottom:6px">Welfare economics</div>
+    <h3>Three slices of one fixed pie</h3>
+    <p class="small" style="margin:.2em 0 0"><b>Consumer surplus</b> is what buyers gain over what they paid: the blue area under the demand curve and above your price. <b>Producer surplus</b> is what you gain over the cost of making each unit: the gold area above marginal cost and below your price (subtract fixed cost and it becomes profit). <b>Deadweight loss</b> is the red triangle of trades that never happen because you priced above marginal cost: buyers who valued the bulb more than it costs to make, but not more than your price, so nobody gets that value. It is destroyed, not transferred.</p>
+    <p class="small" style="margin:.6em 0 0">The number that matters most: the three always sum to the same fixed pie, near ₹8,00,000. Raising price does not grow the pie, it moves the walls. You pull value out of the blue and into your gold, up to a point, but you also carve out red that helps no one. The competitive price destroys nothing but leaves you a thin slice. The monopoly price fattens your slice but destroys a chunk of the pie. Every pricing choice in business lives on that trade-off.</p>
+    <div class="chips"><span class="chip">Consumer surplus</span><span class="chip">Producer surplus</span><span class="chip">Deadweight loss</span><span class="chip">Allocative efficiency</span><span class="chip">Market power</span></div>
+  </div>
+  <div class="reinforce" style="border-left-color:var(--gold)">
+    <div class="chip" style="margin-bottom:6px">What comes next</div>
+    <h3>The blue triangle is the prize</h3>
+    <p class="small" style="margin:.2em 0 0">You just watched ${inr(welfare(MONO_P).CS)} sit with buyers even at your best single price. Act 2 asks the obvious question: what if you did not have to charge everyone the same price? That is price discrimination, and it is how a firm reaches into the blue. Act 3 turns it into a three-tier product line where buyers sort themselves. By the finale, a regulator is watching how much of that red triangle you create. This act is the reason all of that matters.</p>
+  </div>
+  <div class="btnrow"><button class="btn primary" id="nextAct">Continue · Act 2 · Market demand aggregation →</button><button class="btn ghost" id="replay">Explore the slider again</button></div>`;
+}
+
+/* ------------------------------- RENDER --------------------------------- */
+const prefersReduced=()=>{ try{ return window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches; }catch(e){ return false; } };
+// ---- smooth SVG morphing: patch geometry in place so charts glide instead of snapping ----
+function _mvTok(str){ const re=/-?\d*\.?\d+(?:[eE][-+]?\d+)?/g; let m,last=0,tmpl=[],nums=[]; while((m=re.exec(str))){ tmpl.push(str.slice(last,m.index)); nums.push(parseFloat(m[0])); last=m.index+m[0].length; } tmpl.push(str.slice(last)); return {tmpl,nums}; }
+function _mvBuild(tmpl,nums){ let s=tmpl[0]; for(let i=0;i<nums.length;i++){ s+=(Math.round(nums[i]*100)/100)+tmpl[i+1]; } return s; }
+const _MVNUM=['cx','cy','r','rx','ry','x','y','width','height','x1','y1','x2','y2','opacity','fill-opacity','stroke-opacity','stroke-width','offset','font-size'];
+function morphSVG(host,newHTML,dur){
+  try{
+    dur=(dur==null?120:dur);
+    const cur=host.querySelector('svg'); const tmp=document.createElement('div'); tmp.innerHTML=newHTML; const nx=tmp.querySelector('svg');
+    if(!cur||!nx){ host.innerHTML=newHTML; return; }
+    const O=cur.querySelectorAll('*'), N=nx.querySelectorAll('*');
+    if(O.length!==N.length){ cur.replaceWith(nx); return; }
+    for(let i=0;i<O.length;i++){ if(O[i].tagName!==N[i].tagName){ cur.replaceWith(nx); return; } }
+    const plans=[];
+    for(let i=0;i<O.length;i++){ const o=O[i],n=N[i],p={o,nums:[],pts:null,d:null};
+      for(const a of _MVNUM){ if(n.hasAttribute(a)){ const to=parseFloat(n.getAttribute(a)); let fr=o.hasAttribute(a)?parseFloat(o.getAttribute(a)):to; if(!isNaN(to)&&!isNaN(fr)) p.nums.push({a,fr,to}); } }
+      for(const at of n.attributes){ const nm=at.name; if(_MVNUM.indexOf(nm)<0&&nm!=='points'&&nm!=='d'){ if(o.getAttribute(nm)!==at.value) o.setAttribute(nm,at.value); } }
+      if(n.hasAttribute('points')){ const T=_mvTok(n.getAttribute('points')),F=_mvTok(o.getAttribute('points')||n.getAttribute('points')); if(F.nums.length===T.nums.length) p.pts={fr:F.nums,to:T.nums,tmpl:T.tmpl}; else o.setAttribute('points',n.getAttribute('points')); }
+      if(n.hasAttribute('d')){ const ds=n.getAttribute('d'); const T=_mvTok(ds),F=_mvTok(o.getAttribute('d')||ds); if(F.nums.length===T.nums.length&&F.tmpl.join('\u0001')===T.tmpl.join('\u0001')) p.d={fr:F.nums,to:T.nums,tmpl:T.tmpl}; else o.setAttribute('d',ds); }
+      if(n.children.length===0&&o.textContent!==n.textContent) o.textContent=n.textContent;
+      plans.push(p);
+    }
+    if(host._mvRAF){ cancelAnimationFrame(host._mvRAF); host._mvRAF=null; }
+    if(prefersReduced()||dur<=0){ for(const p of plans){ for(const x of p.nums)p.o.setAttribute(x.a,x.to); if(p.pts)p.o.setAttribute('points',_mvBuild(p.pts.tmpl,p.pts.to)); if(p.d)p.o.setAttribute('d',_mvBuild(p.d.tmpl,p.d.to)); } return; }
+    const t0=performance.now();
+    const step=now=>{ const k=Math.min(1,(now-t0)/dur),e=1-Math.pow(1-k,3);
+      for(const p of plans){ for(const x of p.nums)p.o.setAttribute(x.a,x.fr+(x.to-x.fr)*e);
+        if(p.pts){ const a=p.pts.fr,b=p.pts.to; p.o.setAttribute('points',_mvBuild(p.pts.tmpl,a.map((v,j)=>v+(b[j]-v)*e))); }
+        if(p.d){ const a=p.d.fr,b=p.d.to; p.o.setAttribute('d',_mvBuild(p.d.tmpl,a.map((v,j)=>v+(b[j]-v)*e))); } }
+      if(k<1) host._mvRAF=requestAnimationFrame(step);
+      else { for(const p of plans){ for(const x of p.nums)p.o.setAttribute(x.a,x.to); if(p.pts)p.o.setAttribute('points',_mvBuild(p.pts.tmpl,p.pts.to)); if(p.d)p.o.setAttribute('d',_mvBuild(p.d.tmpl,p.d.to)); } host._mvRAF=null; }
+    };
+    host._mvRAF=requestAnimationFrame(step);
+  }catch(e){ try{ host.innerHTML=newHTML; }catch(_){} }
+}
+
+function render(){
+  const app=document.getElementById('app');
+  if(ST.phase==='intro'){ app.innerHTML=intro(); document.getElementById('go').onclick=()=>{ST.phase='stage';save();render();}; return; }
+  app.innerHTML=stage();
+  const pr=document.getElementById('price');
+  const setFill=el=>el.style.setProperty('--fill',((el.value-el.min)/(el.max-el.min)*100)+'%');
+  const refresh=()=>{
+    const P=+pr.value; ST.price=P;
+    const w=welfare(P), pot=800000;
+    document.getElementById('pVal').textContent=inr(P);
+    morphSVG(document.getElementById('svgbox'),welfareSVG(P));
+    document.getElementById('csV').textContent=k(w.CS);
+    document.getElementById('psV').textContent=k(w.PS);
+    document.getElementById('dwlV').textContent=k(Math.max(0,w.DWL));
+    const csP=Math.round(w.CS/pot*100), psP=Math.round(w.PS/pot*100);
+    document.getElementById('segCs').style.width=csP+'%';
+    document.getElementById('segPs').style.width=psP+'%';
+    document.getElementById('segDwl').style.width=Math.max(0,100-csP-psP)+'%';
+    document.getElementById('work').innerHTML=workText(P);
+    setFill(pr); save();
+  };
+  setFill(pr);
+  pr.oninput=refresh;
+  document.getElementById('lock').onclick=()=>{ ST.committed=true; save(); try{ CLS.completeWithQuiz(); }catch(e){}
+    document.getElementById('after').innerHTML=afterLock(ST.price);
+    document.getElementById('replay').onclick=()=>{document.getElementById('after').innerHTML='';};
+    document.getElementById('after').scrollIntoView({behavior:'smooth',block:'nearest'});
+  };
+  if(ST.committed){ document.getElementById('after').innerHTML=afterLock(ST.price);
+    const rp=document.getElementById('replay'); if(rp) rp.onclick=()=>{document.getElementById('after').innerHTML='';}; }
+}
+const _renderCore=render;
+render=function(){ _renderCore.apply(this,arguments);
+  if(prefersReduced()) return;
+  try{ document.querySelectorAll('#app svg').forEach(s=>s.classList.add('chartIn')); }catch(e){}
+};
+render();
+
+document.addEventListener('click',function(e){ var t=e.target; while(t&&t!==document){ if(t.id==='nextAct'){ try{ location.href='EconVenture_L2_Act2.html'; }catch(_){ } return; } t=t.parentNode; } });
+
+/* classroom gate + roster ping — must be after render() defined */
+/* Level 2 wall quiz: one opening question before entry, one closing after commit.
+   Bundle is looked up from window.__L2QB, injected per-file. Progress persisted per-act. */
+CLS._quizKey=function(kind){ return 'econventure_l2q_'+CLS.cfg.actIdx+'_'+kind; };
+CLS._loadQuizFlag=function(kind){ try{ return localStorage.getItem(CLS._quizKey(kind))==='1'; }catch(e){ return false; } };
+CLS._setQuizFlag=function(kind){ try{ localStorage.setItem(CLS._quizKey(kind),'1'); }catch(e){} };
+CLS._showQuiz=function(bundle, kind, onDone){
+  if(!bundle){ onDone&&onDone(); return; }
+  const q = kind==='open' ? bundle.open : bundle.close;
+  if(!q){ onDone&&onDone(); return; }
+  if(this._quizEl){ this._quizEl.remove(); }
+  const el=document.createElement('div');
+  el.id='__cls_quiz';
+  el.style.cssText='position:fixed;inset:0;z-index:99998;background:rgba(8,19,33,.97);display:flex;align-items:center;justify-content:center;padding:24px;backdrop-filter:blur(6px);font:15px/1.5 system-ui,Segoe UI,Roboto,sans-serif;color:#eef4fb';
+  const opts=q.opts.map((o,i)=>'<div data-i="'+i+'" style="cursor:pointer;padding:12px 14px;border:1px solid #1d3a5f;border-radius:10px;margin-top:8px;background:#0a1830;transition:background .15s,border-color .15s" onmouseover="this.style.background=\'#0f2342\'" onmouseout="this.style.background=\'#0a1830\'">'+o+'</div>').join('');
+  el.innerHTML='<div style="max-width:560px;padding:26px 30px;background:linear-gradient(180deg,#0d1f38,#0b1d38);border:1px solid #1d3a5f;border-radius:16px;box-shadow:0 22px 44px -18px rgba(0,0,0,.7)">'+
+    '<div style="font-size:11px;letter-spacing:1px;text-transform:uppercase;color:#93abcd;margin-bottom:8px">'+(kind==='open'?'Before we start':'What did you take away')+'</div>'+
+    '<div style="font-size:19px;font-weight:600;margin-bottom:6px">'+q.q+'</div>'+
+    '<div id="__q_opts">'+opts+'</div>'+
+    '<div style="font-size:12px;color:#5c7396;margin-top:12px">'+(kind==='open'?'One quick check, then the act opens.':'One closing question, then this act is marked complete.')+'</div>'+
+    '</div>';
+  document.body.appendChild(el); this._quizEl=el;
+  Array.prototype.forEach.call(el.querySelectorAll('[data-i]'), function(node){
+    node.onclick=function(){
+      const chosen=Number(node.getAttribute('data-i'));
+      const ok = chosen===q.a ? 1 : 0;
+      CLS.call({action:'quiz',code:CLS.state.code,sid:CLS.state.sid,concept:200+CLS.cfg.actIdx,phase:kind==='open'?'pre':'post',score:ok,total:1},function(){});
+      CLS._setQuizFlag(kind);
+      if(CLS._quizEl){ CLS._quizEl.remove(); CLS._quizEl=null; }
+      onDone&&onDone(ok);
+    };
+  });
+};
+/* Wrap refreshGate: when gate opens, if opening quiz not taken, show it before hiding the wall. */
+CLS._origHideGate = CLS.hideGate.bind(CLS);
+CLS.hideGate = function(){
+  const b = (typeof window!=='undefined' && window.__L2QB) ? window.__L2QB : null;
+  if(!b || CLS._loadQuizFlag('open') || !CLS.state.code){ CLS._origHideGate(); return; }
+  CLS._origHideGate();
+  CLS._showQuiz(b,'open', function(){});
+};
+/* Called by an act's lock/commit code (via CLS.completeWithQuiz) instead of CLS.complete(). */
+CLS.completeWithQuiz = function(){
+  const b = (typeof window!=='undefined' && window.__L2QB) ? window.__L2QB : null;
+  if(!b || CLS._loadQuizFlag('close') || !CLS.state.code){ CLS.complete(); return; }
+  CLS._showQuiz(b,'close', function(){ CLS.complete(); });
+};
+
+try{ CLS.start(2,'act'); }catch(e){}
+</script>
+</body>
+</html>

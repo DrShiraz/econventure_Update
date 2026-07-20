@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>EconVenture · Level 2 · Act 6</title>
+<style>
+:root{
+  --bg:#081321;--panel:#0e2038;--panel2:#122a49;--line:#1e3a5f;
+  --ink:#e8eef7;--muted:#93a7c4;--gold:#e0b54a;--gold2:#f0cf7a;
+  --basic:#6f97c4;--mid:#4a90d9;--prem:#e0b54a;--good:#43b581;--bad:#e5594d;--info:#4a90d9;--warn:#e8a33d;
+  --shadow:0 6px 24px rgba(0,0,0,.35);
+}
+*{box-sizing:border-box}html,body{margin:0;padding:0}
+body{background:radial-gradient(1100px 560px at 72% -12%,#0d2540 0,var(--bg) 55%),var(--bg);
+  color:var(--ink);font-family:"Segoe UI",system-ui,-apple-system,Roboto,Helvetica,Arial,sans-serif;
+  font-size:15px;line-height:1.55;-webkit-font-smoothing:antialiased}
+.wrap{max-width:960px;margin:0 auto;padding:16px 16px 64px}
+h1,h2,h3{margin:0 0 .4em;font-weight:700;letter-spacing:.2px}h1{font-size:23px}h2{font-size:18px}h3{font-size:15px}
+.gold{color:var(--gold)}.muted{color:var(--muted)}.small{font-size:13px}.tiny{font-size:12px}.mono{font-variant-numeric:tabular-nums}
+a{color:var(--gold2);cursor:pointer}
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:12px 16px;background:linear-gradient(180deg,#0f2542,#0b1c33);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);margin-bottom:16px}
+.brand{display:flex;align-items:center;gap:10px}.brand .dot{width:11px;height:11px;border-radius:50%;background:var(--gold);box-shadow:0 0 12px var(--gold)}
+.brand b{font-size:17px;letter-spacing:.4px}.step{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.8px}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:20px;box-shadow:var(--shadow);margin-bottom:16px}
+.grid{display:grid;gap:14px}
+@media(min-width:780px){.grid.cols2{grid-template-columns:1fr 1fr}.grid.cols3{grid-template-columns:1fr 1fr 1fr}}
+.card{background:var(--panel2);border:1px solid var(--line);border-radius:11px;padding:13px}
+.card .l{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.6px;margin-bottom:3px}
+.card .v{font-size:20px;font-weight:700}
+.speak{border-left:3px solid var(--gold);background:rgba(224,181,74,.07);padding:10px 14px;border-radius:0 8px 8px 0;font-size:14px;margin:12px 0;color:#dbe6f5}
+.who{color:var(--gold2);font-weight:700}
+.example{display:flex;gap:10px;flex-wrap:wrap;margin:12px 0}
+.example .ex{flex:1;min-width:150px;background:#0a1c33;border:1px solid var(--line);border-radius:10px;padding:11px 13px;font-size:13px}
+.example .ex b{color:var(--gold2)}
+label.field{display:block;margin:6px 0 2px}
+label.field .cap{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:7px}
+label.field .cap b{font-size:14px}label.field .cap .val{font-variant-numeric:tabular-nums;color:var(--gold);font-weight:700;font-size:16px}
+input[type=range]{-webkit-appearance:none;width:100%;height:7px;border-radius:6px;background:linear-gradient(90deg,var(--tint,var(--gold)) 0%,var(--tint,var(--gold)) var(--fill,40%),#20375a var(--fill,40%));outline:none}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;background:#fff;border:3px solid var(--tint,var(--gold));cursor:pointer;box-shadow:0 2px 6px rgba(0,0,0,.4)}
+input[type=range]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;background:#fff;border:3px solid var(--tint,var(--gold));cursor:pointer}
+.hint{font-size:12.5px;color:var(--muted);margin-top:7px}
+.btn{display:inline-flex;align-items:center;gap:8px;justify-content:center;cursor:pointer;padding:13px 22px;border-radius:10px;border:1px solid var(--line);background:var(--panel2);color:var(--ink);font-size:15px;font-weight:600;transition:transform .05s,filter .15s}
+.btn:hover{filter:brightness(1.12)}.btn:active{transform:translateY(1px)}
+.btn.primary{background:linear-gradient(180deg,var(--gold2),var(--gold));color:#2a1e04;border-color:var(--gold)}
+.btn.ghost{background:transparent}.btn.wide{width:100%}
+.btnrow{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
+.work{background:#0a1830;border:1px solid var(--line);border-radius:10px;padding:12px 14px;margin-top:12px;font-size:12.5px;line-height:1.7;font-variant-numeric:tabular-nums}
+.work .row{color:#cfe0f5}.work b{color:var(--gold2)}
+.reinforce{background:var(--panel2);border:1px solid var(--line);border-left:4px solid var(--info);border-radius:11px;padding:16px;margin-top:14px}
+.reinforce h3{color:var(--gold2)}
+.chips{display:flex;gap:7px;flex-wrap:wrap;margin-top:10px}.chip{font-size:12px;padding:4px 11px;border-radius:20px;background:#0a1c33;border:1px solid var(--line);color:var(--muted)}
+.flag{border-radius:9px;padding:11px 14px;font-size:13.5px;margin:10px 0}
+.flag.ok{background:rgba(67,181,129,.12);border:1px solid rgba(67,181,129,.35)}
+.flag.info{background:rgba(74,144,217,.12);border:1px solid rgba(74,144,217,.35)}
+.flag.bad{background:rgba(229,89,77,.12);border:1px solid rgba(229,89,77,.35)}
+.flag.warn{background:rgba(232,163,61,.12);border:1px solid rgba(232,163,61,.35)}
+.mppbar{display:flex;align-items:flex-end;gap:16px;height:150px;padding:10px 6px 0;border-bottom:1px solid var(--line)}
+.mppbar .col{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%}
+.mppbar .bar{width:60%;border-radius:6px 6px 0 0;transition:height .12s}
+.mppbar .lab{font-size:11px;color:var(--muted);margin-top:6px}
+.recap{display:flex;flex-direction:column;gap:6px;margin-top:8px}
+.recap .r{display:flex;gap:10px;align-items:baseline;font-size:13px}
+.recap .r b{color:var(--gold2);min-width:74px}
+svg{display:block;width:100%;height:auto}.center{text-align:center}
+
+/* =====================================================================
+   BUILD VISUAL LAYER (shared across Level 2 acts) — appended; original
+   stylesheet untouched. Market-terminal identity matching the rest of the
+   course. Charts draw their lines in on entry, then fills and points settle.
+   Dependency-free; reduced motion and keyboard focus honoured at the bottom.
+   ===================================================================== */
+:root{
+  --bg:#081321;--panel:#102647;--panel2:#153059;--line:#213f6b;--line2:#2e568f;
+  --ink:#eaf1fb;--muted:#93abcd;--faint:#647fa6;
+  --gold:#e7bd54;--gold2:#f2d585;--gold-soft:rgba(231,189,84,.14);
+  --grid:rgba(120,160,215,.10);
+  --shadow:0 18px 44px -22px rgba(0,0,0,.75),0 3px 10px -4px rgba(0,0,0,.5);
+  --shadow-sm:0 8px 22px -14px rgba(0,0,0,.7);
+  --ease:cubic-bezier(.22,.7,.2,1);
+}
+body{background:
+    radial-gradient(1200px 620px at 72% -12%, #123055 0%, rgba(18,48,85,0) 60%),
+    linear-gradient(180deg,#0a1727 0%, var(--bg) 55%);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+  background-size:52px 52px;-webkit-mask-image:radial-gradient(1000px 700px at 72% 0%,#000 0%,transparent 78%);
+          mask-image:radial-gradient(1000px 700px at 72% 0%,#000 0%,transparent 78%);opacity:.5}
+.wrap{position:relative;z-index:1}
+.mono,.card .v,.work,label.field .cap .val,.chip,.small,.tiny{font-variant-numeric:tabular-nums}
+.topbar{background:linear-gradient(180deg,rgba(12,24,42,.94),rgba(12,24,42,.72));border-color:var(--line);box-shadow:0 1px 0 rgba(120,160,215,.05),var(--shadow-sm)}
+.brand .dot{box-shadow:0 0 12px var(--gold);animation:tick 2.4s var(--ease) infinite}
+.step{color:var(--muted)}
+.panel{position:relative;overflow:hidden;
+  background:linear-gradient(180deg,rgba(255,255,255,.02),rgba(255,255,255,0) 30%),linear-gradient(180deg,var(--panel) 0%,#0c1d34 100%);
+  border-color:var(--line);border-radius:16px;box-shadow:var(--shadow);animation:panelIn .5s var(--ease) both}
+.panel::before{content:"";position:absolute;left:16px;right:16px;top:0;height:1px;background:linear-gradient(90deg,transparent,rgba(160,195,245,.25),transparent)}
+h1,h2{letter-spacing:-.01em}
+.card{background:linear-gradient(180deg,#0e2340,#0b1d38);border-color:var(--line);box-shadow:var(--shadow-sm);
+  transition:transform .16s var(--ease),border-color .16s var(--ease);animation:cardIn .42s var(--ease) both}
+.card:hover{transform:translateY(-2px);border-color:var(--line2)}
+.grid .card:nth-child(1){animation-delay:.04s}.grid .card:nth-child(2){animation-delay:.1s}.grid .card:nth-child(3){animation-delay:.16s}
+.card .v{text-shadow:0 0 18px rgba(231,189,84,.14)}
+label.field .cap .val{text-shadow:0 0 16px rgba(231,189,84,.3)}
+input[type=range]{border:1px solid var(--line)}
+input[type=range]::-webkit-slider-thumb{box-shadow:0 0 0 4px rgba(231,189,84,.16),0 3px 8px rgba(0,0,0,.5);transition:box-shadow .15s var(--ease)}
+input[type=range]:hover::-webkit-slider-thumb{box-shadow:0 0 0 6px rgba(231,189,84,.22),0 3px 10px rgba(0,0,0,.55)}
+input[type=range]:active::-webkit-slider-thumb{box-shadow:0 0 0 8px rgba(231,189,84,.26)}
+.work{background:linear-gradient(180deg,#0a1b33,#081627);box-shadow:inset 0 1px 0 rgba(160,195,245,.04)}
+.reinforce{box-shadow:var(--shadow-sm);animation:reveal .5s var(--ease) both}
+.flag{animation:reveal .4s var(--ease) both}
+.chip{background:var(--gold-soft);transition:transform .15s var(--ease)}.chip:hover{transform:translateY(-1px)}
+.example .ex{box-shadow:var(--shadow-sm)}
+.speak{background:var(--gold-soft)}
+.btn{border-radius:10px;transition:transform .12s var(--ease),filter .15s var(--ease),box-shadow .15s var(--ease)}
+.btn:hover{transform:translateY(-1px)}.btn:active{transform:translateY(0) scale(.985)}
+.btn.primary{box-shadow:0 10px 24px -12px rgba(231,189,84,.6),inset 0 1px 0 rgba(255,255,255,.35)}
+:focus-visible{outline:2px solid var(--gold);outline-offset:2px;border-radius:8px}
+svg circle{filter:drop-shadow(0 0 4px currentColor)}
+svg text{font-variant-numeric:tabular-nums}
+svg.chartIn{animation:fadeIn .3s var(--ease) both}
+svg.chartIn path[fill="none"]{stroke-dasharray:2200;stroke-dashoffset:2200;animation:draw .85s var(--ease) .08s forwards}
+svg.chartIn polygon,svg.chartIn path[fill]:not([fill="none"]){opacity:0;animation:fadeIn .55s var(--ease) .5s forwards}
+svg.chartIn circle{opacity:0;animation:fadeIn .4s var(--ease) .62s forwards}
+svg.chartIn line[stroke="#fff"]{opacity:0;animation:fadeIn .4s var(--ease) .58s forwards}
+@keyframes panelIn{from{opacity:0;transform:translateY(10px) scale(.994)}to{opacity:1;transform:none}}
+@keyframes cardIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@keyframes reveal{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes draw{to{stroke-dashoffset:0}}
+@keyframes tick{0%{box-shadow:0 0 0 0 rgba(231,189,84,.55),0 0 12px var(--gold)}70%{box-shadow:0 0 0 7px rgba(231,189,84,0),0 0 12px var(--gold)}100%{box-shadow:0 0 0 0 rgba(231,189,84,0),0 0 12px var(--gold)}}
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important}
+  svg.chartIn path[fill="none"]{stroke-dashoffset:0!important}
+  svg.chartIn polygon,svg.chartIn path[fill]:not([fill="none"]),svg.chartIn circle,svg.chartIn line[stroke="#fff"]{opacity:1!important}
+  body::before{opacity:.32}.brand .dot{animation:none}
+}
+
+
+/* bespoke widget polish: equimarginal bars that glide toward level */
+.mppbar{height:164px}
+.mppbar .bar{transition:height .34s var(--ease);box-shadow:inset 0 1px 0 rgba(255,255,255,.2),0 -3px 10px -4px rgba(0,0,0,.4);border-radius:7px 7px 0 0}
+#mpavg{transition:bottom .34s var(--ease)}
+
+/* persistent hub link */
+.hublink{margin-left:auto;font-size:11px;color:var(--muted);text-decoration:none;padding:5px 11px;border:1px solid var(--line);border-radius:20px;transition:color .15s,border-color .15s,background .15s}
+.hublink:hover{color:var(--gold2);border-color:var(--gold);background:rgba(231,189,84,.06)}
+</style>
+<script>window.__L2QB={"open": {"q": "The EQUIMARGINAL principle says allocate a fixed resource so that:", "opts": ["Every activity gets an equal share", "Marginal benefit per rupee is equal across activities", "The most profitable activity gets everything", "You minimise total cost"], "a": 1}, "close": {"q": "You have 60 engineering hours to split across three projects. You should stop shifting hours when:", "opts": ["Every project has the same total hours", "The last hour on each project produces the same marginal contribution", "The lowest-value project runs out", "Deadlines force it"], "a": 1}};</script>
+</head>
+<body>
+<div class="wrap">
+  <div class="topbar">
+    <div class="brand"><span class="dot"></span><b>EconVenture <span class="gold">Level 2</span></b></div>
+    <div class="step">Act 6 · Not enough to go around</div><a class="hublink" href="EconVenture_Hub.html" title="Back to hub">◄ Hub</a></div>
+  <div id="app"></div>
+  <div class="center tiny muted" style="margin-top:18px">Level 2, Act 6 (finale) · offline single file · continues from Act 5 (cross-price elasticity).</div>
+</div>
+
+<script>
+/* EconVenture classroom helper — must be identical across every act.
+   Enforces the faculty gate for THIS act (network required; fail-closed after a grace period)
+   and reports position + completion to the classroom backend. */
+const CLASS_URL='';  /* faculty pastes the same Apps Script /exec URL used by Hub/Founder */
+const CLS={
+  cfg:{ actIdx:-1, actKind:'act', graceMs:15000, pollMs:6000, pingMs:20000 },
+  state:{ code:'', sid:'', name:'', gate:null, lastOk:0, tries:0, active:false },
+  init(){ try{ const r=localStorage.getItem('econventure_class_v1'); if(r){ const c=JSON.parse(r)||{}; this.state.code=c.code||''; this.state.sid=c.sid||''; this.state.name=c.name||''; } }catch(e){} },
+  online(){ return !!(CLASS_URL||'').trim(); },
+  call(params, cb){
+    if(!this.online()){ cb&&cb(null); return; }
+    try{
+      const qs=Object.keys(params).map(k=>k+'='+encodeURIComponent(params[k])).join('&');
+      fetch((CLASS_URL||'').trim()+'?api=1&'+qs,{cache:'no-store'})
+        .then(r=>r.json()).then(j=>cb&&cb(j))
+        .catch(()=>cb&&cb(null));
+    }catch(e){ cb&&cb(null); }
+  },
+  isOpenForMe(){
+    const g=this.state.gate; if(!g) return false;
+    if(g.paused) return false;
+    if(!g.paced) return true;                     // teacher turned pacing off => everyone can proceed
+    if(this.cfg.actKind==='act'){
+      return Array.isArray(g.open) && g.open.indexOf(this.cfg.actIdx)>=0;
+    }
+    return Array.isArray(g.l1open) && g.l1open.indexOf(this.cfg.actIdx)>=0;
+  },
+  showGate(msg, sub){
+    if(this._gateEl){ this._gateEl.remove(); this._gateEl=null; }
+    const el=document.createElement('div');
+    el.id='__cls_gate';
+    el.style.cssText='position:fixed;inset:0;z-index:99999;background:rgba(8,19,33,.97);display:flex;align-items:center;justify-content:center;padding:24px;backdrop-filter:blur(6px);font:15px/1.5 system-ui,Segoe UI,Roboto,sans-serif;color:#eef4fb';
+    el.innerHTML='<div style="max-width:520px;text-align:center;padding:28px 32px;background:linear-gradient(180deg,#0d1f38,#0b1d38);border:1px solid #1d3a5f;border-radius:16px;box-shadow:0 22px 44px -18px rgba(0,0,0,.7)">'+
+      '<div style="font-size:11px;letter-spacing:1px;text-transform:uppercase;color:#93abcd;margin-bottom:8px">Paced by your teacher</div>'+
+      '<div style="font-size:22px;font-weight:700;margin-bottom:10px">'+msg+'</div>'+
+      '<div style="font-size:14px;color:#93abcd">'+sub+'</div>'+
+      '</div>';
+    document.body.appendChild(el); this._gateEl=el;
+  },
+  hideGate(){ if(this._gateEl){ this._gateEl.remove(); this._gateEl=null; } },
+  refreshGate(cb){
+    if(!this.state.code){ this.showGate('Sign in through the Hub first', 'This act only opens when you are joined to your teacher\u2019s classroom. Return to the Hub, enter your name, roll and the class code, then come back.'); cb&&cb(false); return; }
+    if(!this.online()){ this.showGate('This game is not connected to a class', 'The classroom server is not configured on this page. Ask your teacher.'); cb&&cb(false); return; }
+    this.call({action:'gate',code:this.state.code}, g=>{
+      this.state.tries++;
+      if(g && g.ok!==false){
+        this.state.gate=g; this.state.lastOk=Date.now(); this.state.tries=0;
+        if(this.isOpenForMe()){ this.hideGate(); cb&&cb(true); }
+        else {
+          const name=(g.name||this.state.code);
+          this.showGate(g.paused?('Class '+name+' is on hold'):('Waiting for your teacher to open this stage'), g.paused?'Your teacher paused the class. You will unlock when they resume.':'You are ahead of the class, or your teacher has not opened this stage yet. It will open automatically the moment they do.');
+          cb&&cb(false);
+        }
+      } else {
+        const age=Date.now()-this.state.lastOk;
+        if(this.state.lastOk && age<this.cfg.graceMs){ /* recent good state, no scary UI */ cb&&cb(this.isOpenForMe()); }
+        else { this.showGate('Reconnecting to your class', 'Your device lost the classroom server. This will retry automatically. If it stays down for a minute, tell your teacher.'); cb&&cb(false); }
+      }
+    });
+  },
+  start(actIdx, actKind){
+    this.cfg.actIdx=actIdx; this.cfg.actKind=actKind||'act';
+    this.init();
+    if(this.state.active) return; this.state.active=true;
+    this.refreshGate();
+    this._poll=setInterval(()=>this.refreshGate(),this.cfg.pollMs);
+    this._ping=setInterval(()=>{ this._doPing(); },this.cfg.pingMs);
+    this._doPing();  /* immediate so roster shows position instantly */
+    if(this._initCloudSave) this._initCloudSave();
+  },
+  _doPing(){
+    if(!this.state.code || !this.state.sid) return;
+    this.call({action:'ping',sid:this.state.sid,pos:(this.cfg.actKind==='act'?'A:':'L1:')+this.cfg.actIdx}, r=>{
+      if(!r || !r.directive) return;
+      this._handleDirective(r.directive);
+    });
+  },
+  _handleDirective(d){
+    if(!d || !d.kind) return;
+    if(d.kind==='kick'){
+      try{ localStorage.removeItem('econventure_class_v1'); }catch(e){}
+      this.showGate('You have been removed from this class', 'Your teacher removed you from the classroom. Return to the Hub if you want to rejoin with a new code.');
+      return;
+    }
+    if(d.kind==='goto'){
+      const kind = d.posKind==='act'?'act':'concept';
+      const pos = Number(d.pos)||0;
+      // If the target IS this file's own act at same kind, just clear the gate wall (they're already here).
+      if(kind==='act' && this.cfg.actKind==='act' && pos===this.cfg.actIdx){ this.hideGate(); return; }
+      // Otherwise navigate to the Hub target file. Same-directory relative link.
+      const files = ['EconVenture_L1_Aggregation.html','EconVenture_Founder.html','EconVenture_L2_Act1.html','EconVenture_L2_Act2.html','EconVenture_L2_Act3.html','EconVenture_L2_Act4.html','EconVenture_L2_Act5.html','EconVenture_L2_Act6.html','EconVenture_L2_Act7.html','EconVenture_L2_Act8.html','EconVenture_Live.html'];
+      if(kind==='act' && files[pos]){
+        try{ location.href=files[pos]; }catch(e){}
+        return;
+      }
+      if(kind==='concept'){
+        // Send them into Founder at that concept. Founder reads its own directive on boot.
+        try{ localStorage.setItem('econventure_pending_goto', JSON.stringify({posKind:'concept',pos:pos,at:Date.now()})); }catch(e){}
+        try{ location.href='EconVenture_Founder.html'; }catch(e){}
+      }
+    }
+  },
+  complete(){ if(!this.state.code || !this.state.sid) return;
+    this.call({action:'quiz',code:this.state.code,sid:this.state.sid,concept:100+this.cfg.actIdx,phase:'post',score:1,total:1},()=>{}); },
+  needsClassroom(){ return !this.state.code; }
+};
+
+/* Cloud save: bundle every econventure_* localStorage key, ship on change (debounced).
+   Called by CLS.start automatically once we have code + uid. Fetch on Hub finish (Hub side). */
+CLS._saveKey='econventure_cloudsave_lasthash';
+CLS._collectBundle=function(){
+  const bundle={};
+  try{
+    for(let i=0;i<localStorage.length;i++){
+      const k=localStorage.key(i);
+      if(!k) continue;
+      if(k.indexOf('econventure_')!==0) continue;
+      if(k==='econventure_cloudsave_lasthash') continue;    /* housekeeping key: don't ship */
+      bundle[k]=localStorage.getItem(k);
+    }
+  }catch(e){}
+  return bundle;
+};
+CLS._hash=function(s){ let h=0; for(let i=0;i<s.length;i++){ h=(h*31+s.charCodeAt(i))|0; } return String(h); };
+CLS._pushSave=function(force){
+  if(!this.state.code || !this.state.uid) return;
+  const bundle=this._collectBundle();
+  const payload=JSON.stringify(bundle);
+  const hash=this._hash(payload);
+  if(!force){
+    try{ if(localStorage.getItem(this._saveKey)===hash) return; }catch(e){}
+  }
+  this.call({action:'save',code:this.state.code,uid:this.state.uid,gsub:this.state.gsub||'',email:this.state.email||'',name:this.state.name||'',roll:this.state.roll||'',payload:payload}, r=>{
+    if(r && r.ok){ try{ localStorage.setItem(this._saveKey, hash); }catch(e){} }
+  });
+};
+CLS._initCloudSave=function(){
+  /* Re-read identity to include uid/gsub/email if the Hub wrote them. */
+  try{
+    const raw=localStorage.getItem('econventure_class_v1');
+    if(raw){ const c=JSON.parse(raw)||{};
+      this.state.code=c.code||this.state.code;
+      this.state.sid=c.sid||this.state.sid;
+      this.state.name=c.name||this.state.name;
+      this.state.uid=c.uid||'';
+      if(c.google){ this.state.gsub=c.google.sub||''; this.state.email=c.google.email||''; }
+      if(c.roll) this.state.roll=c.roll;
+    }
+  }catch(e){}
+  if(!this._cloudInited && this.state.code && this.state.uid){
+    this._cloudInited=true;
+    /* First push after 1s (gives boot code a moment to settle), then every 30s if changed, then on unload. */
+    setTimeout(()=>this._pushSave(false), 1000);
+    setInterval(()=>this._pushSave(false), 30000);
+    window.addEventListener('beforeunload', ()=>{ try{ this._pushSave(true); }catch(e){} });
+  }
+};
+
+
+/* ============================================================================
+   LEVEL 2 · ACT 6 (FINALE) — resource allocation under scarcity.
+   One shared resource: 20,000 factory HOURS this quarter, split across the
+   three tiers. Diminishing returns in production: the q-th unit of a tier costs
+   more hours than the last (fixed plant, more output crowds it):
+       marginal hours(t,q) = h0_t * (1 + q/K_t)
+   Constant margin m_t per unit. This single mechanism produces all three ideas:
+     - PPF (production possibility frontier) that BOWS outward,
+     - OPPORTUNITY COST that rises as you specialize,
+     - an interior EQUIMARGINAL optimum where marginal profit per hour is equal
+       across all tiers.
+   Verified optimum: basic 1037, mid 1952, premium 1316 -> ₹400k, marg profit/hr
+   17.26 in every tier; opportunity cost of premium rises 1.7 -> 2.9 basic units.
+   ============================================================================ */
+const H=20000;
+const T={
+  basic:  {name:'Basic',   m:39,  h0:2.0, K:8000, color:'#6f97c4'},
+  mid:    {name:'Mid',     m:84,  h0:3.5, K:5000, color:'#4a90d9'},
+  premium:{name:'Premium', m:149, h0:6.0, K:3000, color:'#e0b54a'}
+};
+const keys=['basic','mid','premium'];
+const cumHours=(t,Q)=>T[t].h0*(Q+Q*Q/(2*T[t].K));
+const margHours=(t,q)=>T[t].h0*(1+q/T[t].K);
+const mpph=(t,q)=>T[t].m/margHours(t,q);
+const fillTier=(t,hrs)=>{if(hrs<=0)return 0;const a=T[t].h0/(2*T[t].K),b=T[t].h0,c=-hrs;return Math.max(0,Math.floor((-b+Math.sqrt(b*b-4*a*c))/(2*a)));};
+const profitOf=plan=>keys.reduce((s,t)=>s+T[t].m*plan[t],0);
+const maxBasicGivenPremium=P=>{const hp=cumHours('premium',P),hb=H-hp;return fillTier('basic',hb);};
+const OPT={basic:1037,mid:1952,premium:1316,profit:400495};
+const OPT_MPPH=17.26;
+const inr=n=>{n=Math.round(n||0);const neg=n<0;n=Math.abs(n);return (neg?'-₹':'₹')+n.toLocaleString('en-IN');};
+
+// allocation from three weights (normalized to split H hours)
+function allocFromWeights(wb,wm,wp){
+  const sum=wb+wm+wp||1;
+  const hrs={basic:H*wb/sum,mid:H*wm/sum,premium:H*wp/sum};
+  const plan={basic:fillTier('basic',hrs.basic),mid:fillTier('mid',hrs.mid),premium:fillTier('premium',hrs.premium)};
+  return {hrs,plan,profit:Math.round(profitOf(plan))};
+}
+
+/* ---- PPF chart: bowed frontier, basic vs premium ------------------------- */
+function ppfSVG(premUnits){
+  const W=380,H2=240,padL=44,padR=14,padT=14,padB=28;
+  const Pmax=1950, Bmax=7200;
+  const px=p=>padL+p/Pmax*(W-padL-padR), py=b=>padT+(1-b/Bmax)*(H2-padT-padB);
+  let curve='';for(let p=0;p<=Pmax;p+=40){curve+=(curve?'L':'M')+px(p).toFixed(1)+' '+py(maxBasicGivenPremium(p)).toFixed(1)+' ';}
+  const B=maxBasicGivenPremium(premUnits);
+  let grid='';[0,2000,4000,6000].forEach(b=>{grid+=`<line x1="${padL}" y1="${py(b)}" x2="${W-padR}" y2="${py(b)}" stroke="var(--line)" stroke-width="1" opacity=".5"/><text x="${padL-6}" y="${py(b)+4}" text-anchor="end" font-size="10" fill="var(--muted)">${b/1000}k</text>`;});
+  [0,500,1000,1500].forEach(p=>{grid+=`<text x="${px(p)}" y="${H2-9}" text-anchor="middle" font-size="10" fill="var(--muted)">${p}</text>`;});
+  // opportunity-cost tangent hint: short segment showing local slope
+  const dP=60, B2=maxBasicGivenPremium(premUnits+dP);
+  return `<svg viewBox="0 0 ${W} ${H2}">${grid}
+    <path d="${curve} L ${px(Pmax)} ${py(0)} L ${px(0)} ${py(0)} Z" fill="#4a90d9" fill-opacity=".07"/>
+    <path d="${curve}" fill="none" stroke="#cfe0f5" stroke-width="2.5"/>
+    <line x1="${px(premUnits)}" y1="${py(0)}" x2="${px(premUnits)}" y2="${py(B)}" stroke="#fff" stroke-width="1" stroke-dasharray="3 3" opacity=".4"/>
+    <line x1="${px(0)}" y1="${py(B)}" x2="${px(premUnits)}" y2="${py(B)}" stroke="#fff" stroke-width="1" stroke-dasharray="3 3" opacity=".4"/>
+    <circle cx="${px(premUnits)}" cy="${py(B)}" r="5" fill="var(--gold)" stroke="#0a1626" stroke-width="2"/>
+    <text x="${px(Pmax)-4}" y="${py(Bmax)+12}" text-anchor="end" font-size="10" fill="var(--muted)">premium units →</text>
+    <text x="${padL}" y="11" font-size="10" fill="var(--muted)">↑ basic units</text></svg>`;
+}
+
+/* ---- equimarginal bars: marginal profit per hour of each tier ------------ */
+function mpphBars(plan){
+  const vals=keys.map(t=>mpph(t,plan[t]));
+  const mx=Math.max(...vals,OPT_MPPH*1.2);
+  const avgLine=OPT_MPPH/mx*100;
+  const cols=keys.map((t,i)=>{const h=Math.max(3,vals[i]/mx*100);
+    return `<div class="col"><div class="bar" id="mpbar-${t}" style="height:${h}%;background:${T[t].color}"></div>
+      <div class="mono" id="mpval-${t}" style="font-size:12px;margin-top:4px">${vals[i].toFixed(1)}</div>
+      <div class="lab">${T[t].name}</div></div>`;}).join('');
+  return `<div style="position:relative"><div class="mppbar">${cols}</div>
+    <div id="mpavg" style="position:absolute;left:6px;right:6px;bottom:${28+avgLine*1.5}px;border-top:1px dashed var(--gold);opacity:.6"></div></div>`;
+}
+function updateBars(plan){
+  const box=document.getElementById('barsBox'); if(!box) return;
+  if(!document.getElementById('mpbar-'+keys[0])){ box.innerHTML=mpphBars(plan); return; }
+  const vals=keys.map(t=>mpph(t,plan[t])); const mx=Math.max(...vals,OPT_MPPH*1.2); const avgLine=OPT_MPPH/mx*100;
+  keys.forEach((t,i)=>{ const b=document.getElementById('mpbar-'+t); if(b)b.style.height=Math.max(3,vals[i]/mx*100)+'%'; const v=document.getElementById('mpval-'+t); if(v)v.textContent=vals[i].toFixed(1); });
+  const avg=document.getElementById('mpavg'); if(avg)avg.style.bottom=(28+avgLine*1.5)+'px';
+}
+
+/* --------------------------------- STATE -------------------------------- */
+const SAVE='econventure_L2A6_v1';
+let ST={phase:'primer', prem:600, wb:34, wm:33, wp:33, committed:false};
+try{const r=localStorage.getItem(SAVE);if(r)ST=Object.assign(ST,JSON.parse(r));}catch(e){}
+const save=()=>{try{localStorage.setItem(SAVE,JSON.stringify(ST));}catch(e){}};
+
+/* ------------------------------- PRIMER --------------------------------- */
+function primer(){
+  return `<div class="panel">
+    <div class="step" style="margin-bottom:4px">Before we start · the finale</div>
+    <h1>You have every tool now. Here is the wall they all run into.</h1>
+    <p class="muted">Across this level you learned to see surplus, capture it three ways, ride the income cycle, and read a rival. Every one of those assumed you could simply build whatever the analysis told you to. You cannot. Your factory has a fixed number of hours this quarter, and every hour spent on premium is an hour not spent on basic. This is the oldest idea in economics, and it is where the others finally collide: <b>scarcity</b>.</p>
+    <div class="speak"><span class="who">Priya:</span> "Premium has the fattest margin, so the instinct is to pour everything into it. But premium is craft-heavy, each unit eats hours, and as you flood the line those hours get less productive. The right answer is never all-in on one tier. It is a balance, and there is a precise rule for finding it."</div>
+    <p class="small">Three ideas, and they are joined at the hip:</p>
+    <div class="example">
+      <div class="ex"><b>Production frontier</b><br>The menu of output combinations your hours can afford. It bows, because the more you specialize, the more each extra unit costs you.</div>
+      <div class="ex"><b>Opportunity cost</b><br>The real price of a premium unit is not rupees, it is the basic units you gave up to make it. And that price rises as you specialize.</div>
+      <div class="ex"><b>Equimarginal rule</b><br>Profit is highest when the last hour spent on each tier earns the same. If one tier pays more per hour, move hours to it until they even out.</div>
+    </div>
+    <div class="btnrow"><button class="btn primary wide" id="go">See the frontier →</button></div>
+  </div>`;
+}
+
+/* ------------------------- BEAT 1 · PPF --------------------------------- */
+function ppfScreen(){
+  const B=maxBasicGivenPremium(ST.prem);
+  const dP=100, B2=maxBasicGivenPremium(ST.prem+dP);
+  const oc=((B-B2)/dP*100/100); // basic given up per premium added, per unit
+  const ocNext=((B-B2)/dP).toFixed(2);
+  return `<div class="panel">
+    <div class="step" style="margin-bottom:4px">Beat 1 · the frontier and its price</div>
+    <h2>Every premium unit is basic units given up.</h2>
+    <p class="small muted" style="margin-top:0">Ignore mid for a moment and split your hours between just basic and premium. The curve is every combination you can afford. Drag along it and watch the opportunity cost, the basic units you sacrifice for the next premium unit, climb as you specialize. That rising cost is why the frontier bows.</p>
+    <div class="grid cols2">
+      <div id="ppfbox">${ppfSVG(ST.prem)}</div>
+      <div>
+        <label class="field"><div class="cap"><b>Premium units</b> <span class="val" id="pVal">${ST.prem.toLocaleString('en-IN')}</span></div>
+          <input id="pSlide" type="range" min="0" max="1900" step="20" value="${ST.prem}" style="--tint:#e0b54a"></label>
+        <div class="grid cols2">
+          <div class="card"><div class="l">Basic you can still make</div><div class="v mono" id="bNow" style="color:var(--basic)">${Math.round(B).toLocaleString('en-IN')}</div></div>
+          <div class="card"><div class="l">Opportunity cost now</div><div class="v mono" id="ocNow" style="color:var(--gold)">${ocNext} basic</div></div>
+        </div>
+        <div class="hint" id="ocHint">The next 100 premium units cost you about ${Math.round((B-B2)).toLocaleString('en-IN')} basic units. Slide right and watch this number grow, that growth is the bow in the curve.</div>
+      </div>
+    </div>
+    <div class="btnrow"><button class="btn primary wide" id="toAlloc">Now allocate across all three tiers →</button></div>
+  </div>`;
+}
+
+/* ------------------------- BEAT 2 · EQUIMARGINAL ------------------------ */
+function allocScreen(){
+  const a=allocFromWeights(ST.wb,ST.wm,ST.wp);
+  const vals=keys.map(t=>mpph(t,a.plan[t]));
+  const spread=Math.max(...vals)-Math.min(...vals);
+  const balanced=spread<0.8;
+  return `<div class="panel">
+    <div class="step" style="margin-bottom:4px">Beat 2 · balance the last hour</div>
+    <h2>Split 20,000 hours across three tiers.</h2>
+    <p class="small muted" style="margin-top:0">Now all three tiers compete for the same hours. The bars show the <b>marginal profit per hour</b> of each tier at your current plan, the return on the very next hour you would give it. When a bar is taller, that tier is starved and deserves more hours. You have found the profit-max mix when all three bars are level. That is the equimarginal rule.</p>
+    <div class="grid cols2">
+      <div>
+        <div class="card"><div class="l">Marginal profit per hour (level them out)</div><div id="barsBox">${mpphBars(a.plan)}</div></div>
+        <div id="balanceMsg" style="margin-top:8px"></div>
+      </div>
+      <div>
+        ${['basic','mid','premium'].map(t=>{const w=t==='basic'?'wb':t==='mid'?'wm':'wp';
+          return `<label class="field"><div class="cap"><b style="color:${T[t].color}">${T[t].name} hours</b> <span class="val mono" id="${t}Hrs">${Math.round(a.hrs[t]).toLocaleString('en-IN')}</span></div>
+            <input id="w_${t}" type="range" min="1" max="100" step="1" value="${ST[w]}" style="--tint:${T[t].color}">
+            <div class="tiny mono" id="${t}Units">${a.plan[t].toLocaleString('en-IN')} units · ${inr(T[t].m)} margin each</div></label>`;}).join('')}
+        <div class="grid cols2" style="margin-top:4px">
+          <div class="card"><div class="l">Total profit</div><div class="v mono" id="profV" style="color:${a.profit>=OPT.profit*0.985?'var(--good)':'var(--ink)'}">${inr(a.profit)}</div></div>
+          <div class="card"><div class="l">Best possible</div><div class="v mono">${inr(OPT.profit)}</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="work" id="work">${allocWork(a)}</div>
+    <div class="btnrow">
+      <button class="btn ghost" id="balanceBtn">Balance it for me</button>
+      <button class="btn primary" id="lock">Lock in the allocation</button>
+    </div>
+    <div id="after"></div>
+  </div>`;
+}
+function allocWork(a){
+  const vals=keys.map(t=>mpph(t,a.plan[t]));
+  const hi=keys[vals.indexOf(Math.max(...vals))], lo=keys[vals.indexOf(Math.min(...vals))];
+  const spread=Math.max(...vals)-Math.min(...vals);
+  const rows=keys.map(t=>`<div class="row"><b style="color:${T[t].color}">${T[t].name}</b>: next hour earns margin ₹${T[t].m} ÷ ${margHours(t,a.plan[t]).toFixed(2)} hrs/unit = <b>₹${mpph(t,a.plan[t]).toFixed(2)}/hour</b></div>`).join('');
+  const advice = spread<0.8 ? 'All three are level. Moving an hour anywhere would lose as much as it gains. This is the equimarginal optimum.'
+    : `${T[hi].name} earns more per hour than ${T[lo].name}. Shift hours from ${T[lo].name} to ${T[hi].name} and total profit rises until they meet.`;
+  return rows+`<div class="row" style="border-top:1px solid var(--line);margin-top:6px;padding-top:6px">${advice}</div>`;
+}
+
+function afterLock(){
+  const a=allocFromWeights(ST.wb,ST.wm,ST.wp);
+  const vals=keys.map(t=>mpph(t,a.plan[t]));
+  const spread=Math.max(...vals)-Math.min(...vals), eff=a.profit/OPT.profit;
+  let head;
+  if(spread<0.8 && eff>0.99){
+    head=`<div class="flag ok"><b>Balanced.</b> Your three marginal returns are level at about ₹${vals[0].toFixed(0)}/hour and profit is ${inr(a.profit)}, right at the ceiling. You did not chase the fat premium margin blindly; you spread hours until the last one earned the same everywhere. That is the equimarginal rule in your hands.</div>`;
+  } else if(a.plan.premium>a.plan.mid && mpph('premium',a.plan.premium)<mpph('basic',a.plan.basic)){
+    head=`<div class="flag bad"><b>You over-invested in premium.</b> Its fat margin is tempting, but you poured so many hours in that the last premium hour earns less than a basic or mid hour would. Those hours are worth more elsewhere. Pull some back until the returns level out.</div>`;
+  } else if(eff<0.98){
+    head=`<div class="flag warn">You are at ${inr(a.profit)} against a ${inr(OPT.profit)} ceiling. The bars are not level yet, which means an hour is worth more in one tier than another. Move hours toward the taller bar until all three match.</div>`;
+  } else {
+    head=`<div class="flag ok">Close to optimal at ${inr(a.profit)}. The marginal returns are nearly level; nudge the last few hours toward the tallest bar to finish.</div>`;
+  }
+  return head+`<div class="reinforce">
+    <div class="chip" style="margin-bottom:6px">Resource allocation under scarcity</div>
+    <h3>The frontier, the true cost, and the balancing rule</h3>
+    <p class="small" style="margin:.2em 0 0">Scarce hours forced three linked ideas. The <b>production possibility frontier</b> is every output mix your resources can afford; it bows outward because resources are not equally productive everywhere, so specializing gets costlier. <b>Opportunity cost</b> is the true price of any choice, measured in the best alternative you gave up, not in rupees, and along a bowed frontier it rises as you specialize. The <b>equimarginal rule</b> is how you land on the best point: allocate a scarce resource so its marginal return is equal in every use. If one use pays more at the margin, move resource to it; you stop exactly when they are level, because past that you would give up more than you gain. This single rule sits under labour, capital, advertising budgets, study time, anything scarce.</p>
+    <p class="small" style="margin:.6em 0 0">Notice it beat both extremes. Pouring everything into the high-margin premium tier earned less than balancing, because diminishing returns dragged the last premium hours below what basic and mid would have paid. Chasing the biggest margin is not the same as chasing the biggest profit.</p>
+    <div class="chips"><span class="chip">Production possibility frontier</span><span class="chip">Opportunity cost</span><span class="chip">Equimarginal principle</span><span class="chip">Diminishing returns</span><span class="chip">Scarcity</span></div>
+  </div>
+  <div class="reinforce" style="border-left-color:var(--gold)">
+    <div class="chip" style="margin-bottom:6px">Half of Level 2 done</div>
+    <h3>Six acts inside your firm. Now step outside it.</h3>
+    <div class="recap">
+      <div class="r"><b>Act 1</b> <span>Welfare: the surplus a single price leaves on the table.</span></div>
+      <div class="r"><b>Act 2</b> <span>Price discrimination: capture it by sorting buyers you can identify.</span></div>
+      <div class="r"><b>Act 3</b> <span>Versioning: a three-tier ladder that sorts buyers for you.</span></div>
+      <div class="r"><b>Act 4</b> <span>Income elasticity: rotate the tiers as the economy rises and falls.</span></div>
+      <div class="r"><b>Act 5</b> <span>Cross-price elasticity: read substitutes and complements, expect the rival to react.</span></div>
+      <div class="r"><b>Act 6</b> <span>Resource allocation: fund it all from scarce hours by the equimarginal rule.</span></div>
+    </div>
+    <p class="small" style="margin:.7em 0 0">Every act above assumed <i>you</i> set the price. Real firms live inside a market structure that decides how much freedom that even is. The next three acts step out of your firm and into the market: perfect competition (many firms, no pricing power), oligopoly (a few firms watching each other), and the tournament where those forces hit you at once.</p>
+  </div>
+  <div class="btnrow"><button class="btn primary" id="nextAct">Continue · Act 7 · Perfect competition →</button><button class="btn ghost" id="replay">Adjust the allocation again</button></div>`;
+}
+
+/* ------------------------------- RENDER --------------------------------- */
+const setFill=el=>el&&el.style.setProperty('--fill',((el.value-el.min)/(el.max-el.min)*100)+'%');
+const prefersReduced=()=>{ try{ return window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches; }catch(e){ return false; } };
+// ---- smooth SVG morphing: patch geometry in place so charts glide instead of snapping ----
+function _mvTok(str){ const re=/-?\d*\.?\d+(?:[eE][-+]?\d+)?/g; let m,last=0,tmpl=[],nums=[]; while((m=re.exec(str))){ tmpl.push(str.slice(last,m.index)); nums.push(parseFloat(m[0])); last=m.index+m[0].length; } tmpl.push(str.slice(last)); return {tmpl,nums}; }
+function _mvBuild(tmpl,nums){ let s=tmpl[0]; for(let i=0;i<nums.length;i++){ s+=(Math.round(nums[i]*100)/100)+tmpl[i+1]; } return s; }
+const _MVNUM=['cx','cy','r','rx','ry','x','y','width','height','x1','y1','x2','y2','opacity','fill-opacity','stroke-opacity','stroke-width','offset','font-size'];
+function morphSVG(host,newHTML,dur){
+  try{
+    dur=(dur==null?120:dur);
+    const cur=host.querySelector('svg'); const tmp=document.createElement('div'); tmp.innerHTML=newHTML; const nx=tmp.querySelector('svg');
+    if(!cur||!nx){ host.innerHTML=newHTML; return; }
+    const O=cur.querySelectorAll('*'), N=nx.querySelectorAll('*');
+    if(O.length!==N.length){ cur.replaceWith(nx); return; }
+    for(let i=0;i<O.length;i++){ if(O[i].tagName!==N[i].tagName){ cur.replaceWith(nx); return; } }
+    const plans=[];
+    for(let i=0;i<O.length;i++){ const o=O[i],n=N[i],p={o,nums:[],pts:null,d:null};
+      for(const a of _MVNUM){ if(n.hasAttribute(a)){ const to=parseFloat(n.getAttribute(a)); let fr=o.hasAttribute(a)?parseFloat(o.getAttribute(a)):to; if(!isNaN(to)&&!isNaN(fr)) p.nums.push({a,fr,to}); } }
+      for(const at of n.attributes){ const nm=at.name; if(_MVNUM.indexOf(nm)<0&&nm!=='points'&&nm!=='d'){ if(o.getAttribute(nm)!==at.value) o.setAttribute(nm,at.value); } }
+      if(n.hasAttribute('points')){ const T=_mvTok(n.getAttribute('points')),F=_mvTok(o.getAttribute('points')||n.getAttribute('points')); if(F.nums.length===T.nums.length) p.pts={fr:F.nums,to:T.nums,tmpl:T.tmpl}; else o.setAttribute('points',n.getAttribute('points')); }
+      if(n.hasAttribute('d')){ const ds=n.getAttribute('d'); const T=_mvTok(ds),F=_mvTok(o.getAttribute('d')||ds); if(F.nums.length===T.nums.length&&F.tmpl.join('\u0001')===T.tmpl.join('\u0001')) p.d={fr:F.nums,to:T.nums,tmpl:T.tmpl}; else o.setAttribute('d',ds); }
+      if(n.children.length===0&&o.textContent!==n.textContent) o.textContent=n.textContent;
+      plans.push(p);
+    }
+    if(host._mvRAF){ cancelAnimationFrame(host._mvRAF); host._mvRAF=null; }
+    if(prefersReduced()||dur<=0){ for(const p of plans){ for(const x of p.nums)p.o.setAttribute(x.a,x.to); if(p.pts)p.o.setAttribute('points',_mvBuild(p.pts.tmpl,p.pts.to)); if(p.d)p.o.setAttribute('d',_mvBuild(p.d.tmpl,p.d.to)); } return; }
+    const t0=performance.now();
+    const step=now=>{ const k=Math.min(1,(now-t0)/dur),e=1-Math.pow(1-k,3);
+      for(const p of plans){ for(const x of p.nums)p.o.setAttribute(x.a,x.fr+(x.to-x.fr)*e);
+        if(p.pts){ const a=p.pts.fr,b=p.pts.to; p.o.setAttribute('points',_mvBuild(p.pts.tmpl,a.map((v,j)=>v+(b[j]-v)*e))); }
+        if(p.d){ const a=p.d.fr,b=p.d.to; p.o.setAttribute('d',_mvBuild(p.d.tmpl,a.map((v,j)=>v+(b[j]-v)*e))); } }
+      if(k<1) host._mvRAF=requestAnimationFrame(step);
+      else { for(const p of plans){ for(const x of p.nums)p.o.setAttribute(x.a,x.to); if(p.pts)p.o.setAttribute('points',_mvBuild(p.pts.tmpl,p.pts.to)); if(p.d)p.o.setAttribute('d',_mvBuild(p.d.tmpl,p.d.to)); } host._mvRAF=null; }
+    };
+    host._mvRAF=requestAnimationFrame(step);
+  }catch(e){ try{ host.innerHTML=newHTML; }catch(_){} }
+}
+
+function render(){
+  const app=document.getElementById('app');
+  if(ST.phase==='primer'){ app.innerHTML=primer(); document.getElementById('go').onclick=()=>{ST.phase='ppf';save();render();}; return; }
+  if(ST.phase==='ppf'){
+    app.innerHTML=ppfScreen();
+    const pS=document.getElementById('pSlide');
+    const refresh=()=>{
+      ST.prem=+pS.value;
+      const B=maxBasicGivenPremium(ST.prem), B2=maxBasicGivenPremium(ST.prem+100);
+      document.getElementById('pVal').textContent=ST.prem.toLocaleString('en-IN');
+      morphSVG(document.getElementById('ppfbox'),ppfSVG(ST.prem));
+      document.getElementById('bNow').textContent=Math.round(B).toLocaleString('en-IN');
+      document.getElementById('ocNow').textContent=((B-B2)/100).toFixed(2)+' basic';
+      document.getElementById('ocHint').textContent=`The next 100 premium units cost you about ${Math.round(B-B2).toLocaleString('en-IN')} basic units. Slide right and watch this number grow, that growth is the bow in the curve.`;
+      setFill(pS); save();
+    };
+    setFill(pS); pS.oninput=refresh;
+    document.getElementById('toAlloc').onclick=()=>{ST.phase='alloc';save();render();};
+    return;
+  }
+  // alloc
+  app.innerHTML=allocScreen();
+  const sl={basic:document.getElementById('w_basic'),mid:document.getElementById('w_mid'),premium:document.getElementById('w_premium')};
+  const refresh=()=>{
+    ST.wb=+sl.basic.value; ST.wm=+sl.mid.value; ST.wp=+sl.premium.value;
+    const a=allocFromWeights(ST.wb,ST.wm,ST.wp);
+    for(const t of keys){
+      document.getElementById(t+'Hrs').textContent=Math.round(a.hrs[t]).toLocaleString('en-IN');
+      document.getElementById(t+'Units').textContent=a.plan[t].toLocaleString('en-IN')+' units · '+inr(T[t].m)+' margin each';
+    }
+    // redraw bars
+    updateBars(a.plan);
+    const pv=document.getElementById('profV'); pv.textContent=inr(a.profit); pv.style.color=a.profit>=OPT.profit*0.985?'var(--good)':'var(--ink)';
+    const vals=keys.map(t=>mpph(t,a.plan[t])); const spread=Math.max(...vals)-Math.min(...vals);
+    document.getElementById('balanceMsg').innerHTML = spread<0.8
+      ? `<div class="flag ok">✓ Marginal returns are level. This is the equimarginal optimum.</div>`
+      : `<div class="flag warn">Bars uneven by ₹${spread.toFixed(1)}/hour. Shift hours toward the taller bar.</div>`;
+    document.getElementById('work').innerHTML=allocWork(a);
+    Object.values(sl).forEach(setFill); save();
+  };
+  Object.values(sl).forEach(setFill);
+  Object.values(sl).forEach(s=>s.oninput=refresh);
+  refresh();
+  document.getElementById('balanceBtn').onclick=()=>{
+    // set weights proportional to the optimum hour split
+    const hb=cumHours('basic',OPT.basic),hm=cumHours('mid',OPT.mid),hp=cumHours('premium',OPT.premium),tot=hb+hm+hp;
+    ST.wb=Math.round(hb/tot*100); ST.wm=Math.round(hm/tot*100); ST.wp=Math.round(hp/tot*100);
+    sl.basic.value=ST.wb; sl.mid.value=ST.wm; sl.premium.value=ST.wp; refresh();
+  };
+  const doLock=()=>{ST.committed=true;save(); try{ CLS.completeWithQuiz(); }catch(e){}
+    document.getElementById('after').innerHTML=afterLock();
+    const rp=document.getElementById('replay'); if(rp) rp.onclick=()=>{ST.committed=false;save();document.getElementById('after').innerHTML='';};};
+  document.getElementById('lock').onclick=doLock;
+  if(ST.committed) doLock();
+}
+const _renderCore=render;
+render=function(){ _renderCore.apply(this,arguments);
+  if(prefersReduced()) return;
+  try{ document.querySelectorAll('#app svg').forEach(s=>s.classList.add('chartIn')); }catch(e){}
+};
+render();
+
+document.addEventListener('click',function(e){ var t=e.target; while(t&&t!==document){ if(t.id==='nextAct'){ try{ location.href='EconVenture_L2_Act7.html'; }catch(_){ } return; } t=t.parentNode; } });
+
+/* classroom gate + roster ping — must be after render() defined */
+/* Level 2 wall quiz: one opening question before entry, one closing after commit.
+   Bundle is looked up from window.__L2QB, injected per-file. Progress persisted per-act. */
+CLS._quizKey=function(kind){ return 'econventure_l2q_'+CLS.cfg.actIdx+'_'+kind; };
+CLS._loadQuizFlag=function(kind){ try{ return localStorage.getItem(CLS._quizKey(kind))==='1'; }catch(e){ return false; } };
+CLS._setQuizFlag=function(kind){ try{ localStorage.setItem(CLS._quizKey(kind),'1'); }catch(e){} };
+CLS._showQuiz=function(bundle, kind, onDone){
+  if(!bundle){ onDone&&onDone(); return; }
+  const q = kind==='open' ? bundle.open : bundle.close;
+  if(!q){ onDone&&onDone(); return; }
+  if(this._quizEl){ this._quizEl.remove(); }
+  const el=document.createElement('div');
+  el.id='__cls_quiz';
+  el.style.cssText='position:fixed;inset:0;z-index:99998;background:rgba(8,19,33,.97);display:flex;align-items:center;justify-content:center;padding:24px;backdrop-filter:blur(6px);font:15px/1.5 system-ui,Segoe UI,Roboto,sans-serif;color:#eef4fb';
+  const opts=q.opts.map((o,i)=>'<div data-i="'+i+'" style="cursor:pointer;padding:12px 14px;border:1px solid #1d3a5f;border-radius:10px;margin-top:8px;background:#0a1830;transition:background .15s,border-color .15s" onmouseover="this.style.background=\'#0f2342\'" onmouseout="this.style.background=\'#0a1830\'">'+o+'</div>').join('');
+  el.innerHTML='<div style="max-width:560px;padding:26px 30px;background:linear-gradient(180deg,#0d1f38,#0b1d38);border:1px solid #1d3a5f;border-radius:16px;box-shadow:0 22px 44px -18px rgba(0,0,0,.7)">'+
+    '<div style="font-size:11px;letter-spacing:1px;text-transform:uppercase;color:#93abcd;margin-bottom:8px">'+(kind==='open'?'Before we start':'What did you take away')+'</div>'+
+    '<div style="font-size:19px;font-weight:600;margin-bottom:6px">'+q.q+'</div>'+
+    '<div id="__q_opts">'+opts+'</div>'+
+    '<div style="font-size:12px;color:#5c7396;margin-top:12px">'+(kind==='open'?'One quick check, then the act opens.':'One closing question, then this act is marked complete.')+'</div>'+
+    '</div>';
+  document.body.appendChild(el); this._quizEl=el;
+  Array.prototype.forEach.call(el.querySelectorAll('[data-i]'), function(node){
+    node.onclick=function(){
+      const chosen=Number(node.getAttribute('data-i'));
+      const ok = chosen===q.a ? 1 : 0;
+      CLS.call({action:'quiz',code:CLS.state.code,sid:CLS.state.sid,concept:200+CLS.cfg.actIdx,phase:kind==='open'?'pre':'post',score:ok,total:1},function(){});
+      CLS._setQuizFlag(kind);
+      if(CLS._quizEl){ CLS._quizEl.remove(); CLS._quizEl=null; }
+      onDone&&onDone(ok);
+    };
+  });
+};
+/* Wrap refreshGate: when gate opens, if opening quiz not taken, show it before hiding the wall. */
+CLS._origHideGate = CLS.hideGate.bind(CLS);
+CLS.hideGate = function(){
+  const b = (typeof window!=='undefined' && window.__L2QB) ? window.__L2QB : null;
+  if(!b || CLS._loadQuizFlag('open') || !CLS.state.code){ CLS._origHideGate(); return; }
+  CLS._origHideGate();
+  CLS._showQuiz(b,'open', function(){});
+};
+/* Called by an act's lock/commit code (via CLS.completeWithQuiz) instead of CLS.complete(). */
+CLS.completeWithQuiz = function(){
+  const b = (typeof window!=='undefined' && window.__L2QB) ? window.__L2QB : null;
+  if(!b || CLS._loadQuizFlag('close') || !CLS.state.code){ CLS.complete(); return; }
+  CLS._showQuiz(b,'close', function(){ CLS.complete(); });
+};
+
+try{ CLS.start(7,'act'); }catch(e){}
+</script>
+</body>
+</html>

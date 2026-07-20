@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>EconVenture · Level 2 · Act 5</title>
+<style>
+:root{
+  --bg:#081321;--panel:#0e2038;--panel2:#122a49;--line:#1e3a5f;
+  --ink:#e8eef7;--muted:#93a7c4;--gold:#e0b54a;--gold2:#f0cf7a;
+  --sub:#e5594d;--comp:#43b581;--you:#e0b54a;--good:#43b581;--bad:#e5594d;--info:#4a90d9;--warn:#e8a33d;
+  --shadow:0 6px 24px rgba(0,0,0,.35);
+}
+*{box-sizing:border-box}html,body{margin:0;padding:0}
+body{background:radial-gradient(1100px 560px at 72% -12%,#0d2540 0,var(--bg) 55%),var(--bg);
+  color:var(--ink);font-family:"Segoe UI",system-ui,-apple-system,Roboto,Helvetica,Arial,sans-serif;
+  font-size:15px;line-height:1.55;-webkit-font-smoothing:antialiased}
+.wrap{max-width:960px;margin:0 auto;padding:16px 16px 64px}
+h1,h2,h3{margin:0 0 .4em;font-weight:700;letter-spacing:.2px}h1{font-size:23px}h2{font-size:18px}h3{font-size:15px}
+.gold{color:var(--gold)}.muted{color:var(--muted)}.small{font-size:13px}.tiny{font-size:12px}.mono{font-variant-numeric:tabular-nums}
+a{color:var(--gold2);cursor:pointer}
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:12px 16px;background:linear-gradient(180deg,#0f2542,#0b1c33);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);margin-bottom:16px}
+.brand{display:flex;align-items:center;gap:10px}.brand .dot{width:11px;height:11px;border-radius:50%;background:var(--gold);box-shadow:0 0 12px var(--gold)}
+.brand b{font-size:17px;letter-spacing:.4px}.step{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.8px}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:20px;box-shadow:var(--shadow);margin-bottom:16px}
+.grid{display:grid;gap:14px}
+@media(min-width:780px){.grid.cols2{grid-template-columns:1fr 1fr}.grid.cols3{grid-template-columns:1fr 1fr 1fr}}
+.card{background:var(--panel2);border:1px solid var(--line);border-radius:11px;padding:13px}
+.card .l{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.6px;margin-bottom:3px}
+.card .v{font-size:20px;font-weight:700}
+.card.sub{border-left:4px solid var(--sub)}.card.comp{border-left:4px solid var(--comp)}
+.speak{border-left:3px solid var(--gold);background:rgba(224,181,74,.07);padding:10px 14px;border-radius:0 8px 8px 0;font-size:14px;margin:12px 0;color:#dbe6f5}
+.who{color:var(--gold2);font-weight:700}
+.example{display:flex;gap:10px;flex-wrap:wrap;margin:12px 0}
+.example .ex{flex:1;min-width:150px;background:#0a1c33;border:1px solid var(--line);border-radius:10px;padding:11px 13px;font-size:13px}
+.example .ex b{color:var(--gold2)}
+label.field{display:block;margin:6px 0 2px}
+label.field .cap{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:7px}
+label.field .cap b{font-size:14px}label.field .cap .val{font-variant-numeric:tabular-nums;color:var(--gold);font-weight:700;font-size:16px}
+input[type=range]{-webkit-appearance:none;width:100%;height:7px;border-radius:6px;background:linear-gradient(90deg,var(--tint,var(--gold)) 0%,var(--tint,var(--gold)) var(--fill,40%),#20375a var(--fill,40%));outline:none}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;background:#fff;border:3px solid var(--tint,var(--gold));cursor:pointer;box-shadow:0 2px 6px rgba(0,0,0,.4)}
+input[type=range]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;background:#fff;border:3px solid var(--tint,var(--gold));cursor:pointer}
+.hint{font-size:12.5px;color:var(--muted);margin-top:7px}
+.btn{display:inline-flex;align-items:center;gap:8px;justify-content:center;cursor:pointer;padding:13px 22px;border-radius:10px;border:1px solid var(--line);background:var(--panel2);color:var(--ink);font-size:15px;font-weight:600;transition:transform .05s,filter .15s}
+.btn:hover{filter:brightness(1.12)}.btn:active{transform:translateY(1px)}
+.btn.primary{background:linear-gradient(180deg,var(--gold2),var(--gold));color:#2a1e04;border-color:var(--gold)}
+.btn.ghost{background:transparent}.btn.wide{width:100%}
+.btnrow{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
+.work{background:#0a1830;border:1px solid var(--line);border-radius:10px;padding:12px 14px;margin-top:12px;font-size:12.5px;line-height:1.7;font-variant-numeric:tabular-nums}
+.work .row{color:#cfe0f5}.work b{color:var(--gold2)}
+.reinforce{background:var(--panel2);border:1px solid var(--line);border-left:4px solid var(--info);border-radius:11px;padding:16px;margin-top:14px}
+.reinforce h3{color:var(--gold2)}
+.chips{display:flex;gap:7px;flex-wrap:wrap;margin-top:10px}.chip{font-size:12px;padding:4px 11px;border-radius:20px;background:#0a1c33;border:1px solid var(--line);color:var(--muted)}
+.flag{border-radius:9px;padding:11px 14px;font-size:13.5px;margin:10px 0}
+.flag.ok{background:rgba(67,181,129,.12);border:1px solid rgba(67,181,129,.35)}
+.flag.info{background:rgba(74,144,217,.12);border:1px solid rgba(74,144,217,.35)}
+.flag.bad{background:rgba(229,89,77,.12);border:1px solid rgba(229,89,77,.35)}
+.flag.warn{background:rgba(232,163,61,.12);border:1px solid rgba(232,163,61,.35)}
+svg{display:block;width:100%;height:auto}.center{text-align:center}
+
+/* =====================================================================
+   BUILD VISUAL LAYER (shared across Level 2 acts) — appended; original
+   stylesheet untouched. Market-terminal identity matching the rest of the
+   course. Charts draw their lines in on entry, then fills and points settle.
+   Dependency-free; reduced motion and keyboard focus honoured at the bottom.
+   ===================================================================== */
+:root{
+  --bg:#081321;--panel:#102647;--panel2:#153059;--line:#213f6b;--line2:#2e568f;
+  --ink:#eaf1fb;--muted:#93abcd;--faint:#647fa6;
+  --gold:#e7bd54;--gold2:#f2d585;--gold-soft:rgba(231,189,84,.14);
+  --grid:rgba(120,160,215,.10);
+  --shadow:0 18px 44px -22px rgba(0,0,0,.75),0 3px 10px -4px rgba(0,0,0,.5);
+  --shadow-sm:0 8px 22px -14px rgba(0,0,0,.7);
+  --ease:cubic-bezier(.22,.7,.2,1);
+}
+body{background:
+    radial-gradient(1200px 620px at 72% -12%, #123055 0%, rgba(18,48,85,0) 60%),
+    linear-gradient(180deg,#0a1727 0%, var(--bg) 55%);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+  background-size:52px 52px;-webkit-mask-image:radial-gradient(1000px 700px at 72% 0%,#000 0%,transparent 78%);
+          mask-image:radial-gradient(1000px 700px at 72% 0%,#000 0%,transparent 78%);opacity:.5}
+.wrap{position:relative;z-index:1}
+.mono,.card .v,.work,label.field .cap .val,.chip,.small,.tiny{font-variant-numeric:tabular-nums}
+.topbar{background:linear-gradient(180deg,rgba(12,24,42,.94),rgba(12,24,42,.72));border-color:var(--line);box-shadow:0 1px 0 rgba(120,160,215,.05),var(--shadow-sm)}
+.brand .dot{box-shadow:0 0 12px var(--gold);animation:tick 2.4s var(--ease) infinite}
+.step{color:var(--muted)}
+.panel{position:relative;overflow:hidden;
+  background:linear-gradient(180deg,rgba(255,255,255,.02),rgba(255,255,255,0) 30%),linear-gradient(180deg,var(--panel) 0%,#0c1d34 100%);
+  border-color:var(--line);border-radius:16px;box-shadow:var(--shadow);animation:panelIn .5s var(--ease) both}
+.panel::before{content:"";position:absolute;left:16px;right:16px;top:0;height:1px;background:linear-gradient(90deg,transparent,rgba(160,195,245,.25),transparent)}
+h1,h2{letter-spacing:-.01em}
+.card{background:linear-gradient(180deg,#0e2340,#0b1d38);border-color:var(--line);box-shadow:var(--shadow-sm);
+  transition:transform .16s var(--ease),border-color .16s var(--ease);animation:cardIn .42s var(--ease) both}
+.card:hover{transform:translateY(-2px);border-color:var(--line2)}
+.grid .card:nth-child(1){animation-delay:.04s}.grid .card:nth-child(2){animation-delay:.1s}.grid .card:nth-child(3){animation-delay:.16s}
+.card .v{text-shadow:0 0 18px rgba(231,189,84,.14)}
+label.field .cap .val{text-shadow:0 0 16px rgba(231,189,84,.3)}
+input[type=range]{border:1px solid var(--line)}
+input[type=range]::-webkit-slider-thumb{box-shadow:0 0 0 4px rgba(231,189,84,.16),0 3px 8px rgba(0,0,0,.5);transition:box-shadow .15s var(--ease)}
+input[type=range]:hover::-webkit-slider-thumb{box-shadow:0 0 0 6px rgba(231,189,84,.22),0 3px 10px rgba(0,0,0,.55)}
+input[type=range]:active::-webkit-slider-thumb{box-shadow:0 0 0 8px rgba(231,189,84,.26)}
+.work{background:linear-gradient(180deg,#0a1b33,#081627);box-shadow:inset 0 1px 0 rgba(160,195,245,.04)}
+.reinforce{box-shadow:var(--shadow-sm);animation:reveal .5s var(--ease) both}
+.flag{animation:reveal .4s var(--ease) both}
+.chip{background:var(--gold-soft);transition:transform .15s var(--ease)}.chip:hover{transform:translateY(-1px)}
+.example .ex{box-shadow:var(--shadow-sm)}
+.speak{background:var(--gold-soft)}
+.btn{border-radius:10px;transition:transform .12s var(--ease),filter .15s var(--ease),box-shadow .15s var(--ease)}
+.btn:hover{transform:translateY(-1px)}.btn:active{transform:translateY(0) scale(.985)}
+.btn.primary{box-shadow:0 10px 24px -12px rgba(231,189,84,.6),inset 0 1px 0 rgba(255,255,255,.35)}
+:focus-visible{outline:2px solid var(--gold);outline-offset:2px;border-radius:8px}
+svg circle{filter:drop-shadow(0 0 4px currentColor)}
+svg text{font-variant-numeric:tabular-nums}
+svg.chartIn{animation:fadeIn .3s var(--ease) both}
+svg.chartIn path[fill="none"]{stroke-dasharray:2200;stroke-dashoffset:2200;animation:draw .85s var(--ease) .08s forwards}
+svg.chartIn polygon,svg.chartIn path[fill]:not([fill="none"]){opacity:0;animation:fadeIn .55s var(--ease) .5s forwards}
+svg.chartIn circle{opacity:0;animation:fadeIn .4s var(--ease) .62s forwards}
+svg.chartIn line[stroke="#fff"]{opacity:0;animation:fadeIn .4s var(--ease) .58s forwards}
+@keyframes panelIn{from{opacity:0;transform:translateY(10px) scale(.994)}to{opacity:1;transform:none}}
+@keyframes cardIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@keyframes reveal{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes draw{to{stroke-dashoffset:0}}
+@keyframes tick{0%{box-shadow:0 0 0 0 rgba(231,189,84,.55),0 0 12px var(--gold)}70%{box-shadow:0 0 0 7px rgba(231,189,84,0),0 0 12px var(--gold)}100%{box-shadow:0 0 0 0 rgba(231,189,84,0),0 0 12px var(--gold)}}
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important}
+  svg.chartIn path[fill="none"]{stroke-dashoffset:0!important}
+  svg.chartIn polygon,svg.chartIn path[fill]:not([fill="none"]),svg.chartIn circle,svg.chartIn line[stroke="#fff"]{opacity:1!important}
+  body::before{opacity:.32}.brand .dot{animation:none}
+}
+
+
+/* persistent hub link */
+.hublink{margin-left:auto;font-size:11px;color:var(--muted);text-decoration:none;padding:5px 11px;border:1px solid var(--line);border-radius:20px;transition:color .15s,border-color .15s,background .15s}
+.hublink:hover{color:var(--gold2);border-color:var(--gold);background:rgba(231,189,84,.06)}
+</style>
+<script>window.__L2QB={"open": {"q": "Cross-price elasticity between two goods that are SUBSTITUTES is:", "opts": ["Negative", "Zero", "Positive", "Undefined"], "a": 2}, "close": {"q": "Your rival cuts price. If your good is a close SUBSTITUTE, your best response is likely to:", "opts": ["Ignore it, elasticity is small", "Cut price too or lose share, then reassess", "Raise price to signal quality", "Exit the market"], "a": 1}};</script>
+</head>
+<body>
+<div class="wrap">
+  <div class="topbar">
+    <div class="brand"><span class="dot"></span><b>EconVenture <span class="gold">Level 2</span></b></div>
+    <div class="step">Act 5 · When a rival moves</div><a class="hublink" href="EconVenture_Hub.html" title="Back to hub">◄ Hub</a></div>
+  <div id="app"></div>
+  <div class="center tiny muted" style="margin-top:18px">Level 2, Act 5 · offline single file · continues from Act 4 (income elasticity).</div>
+</div>
+
+<script>
+/* EconVenture classroom helper — must be identical across every act.
+   Enforces the faculty gate for THIS act (network required; fail-closed after a grace period)
+   and reports position + completion to the classroom backend. */
+const CLASS_URL='';  /* faculty pastes the same Apps Script /exec URL used by Hub/Founder */
+const CLS={
+  cfg:{ actIdx:-1, actKind:'act', graceMs:15000, pollMs:6000, pingMs:20000 },
+  state:{ code:'', sid:'', name:'', gate:null, lastOk:0, tries:0, active:false },
+  init(){ try{ const r=localStorage.getItem('econventure_class_v1'); if(r){ const c=JSON.parse(r)||{}; this.state.code=c.code||''; this.state.sid=c.sid||''; this.state.name=c.name||''; } }catch(e){} },
+  online(){ return !!(CLASS_URL||'').trim(); },
+  call(params, cb){
+    if(!this.online()){ cb&&cb(null); return; }
+    try{
+      const qs=Object.keys(params).map(k=>k+'='+encodeURIComponent(params[k])).join('&');
+      fetch((CLASS_URL||'').trim()+'?api=1&'+qs,{cache:'no-store'})
+        .then(r=>r.json()).then(j=>cb&&cb(j))
+        .catch(()=>cb&&cb(null));
+    }catch(e){ cb&&cb(null); }
+  },
+  isOpenForMe(){
+    const g=this.state.gate; if(!g) return false;
+    if(g.paused) return false;
+    if(!g.paced) return true;                     // teacher turned pacing off => everyone can proceed
+    if(this.cfg.actKind==='act'){
+      return Array.isArray(g.open) && g.open.indexOf(this.cfg.actIdx)>=0;
+    }
+    return Array.isArray(g.l1open) && g.l1open.indexOf(this.cfg.actIdx)>=0;
+  },
+  showGate(msg, sub){
+    if(this._gateEl){ this._gateEl.remove(); this._gateEl=null; }
+    const el=document.createElement('div');
+    el.id='__cls_gate';
+    el.style.cssText='position:fixed;inset:0;z-index:99999;background:rgba(8,19,33,.97);display:flex;align-items:center;justify-content:center;padding:24px;backdrop-filter:blur(6px);font:15px/1.5 system-ui,Segoe UI,Roboto,sans-serif;color:#eef4fb';
+    el.innerHTML='<div style="max-width:520px;text-align:center;padding:28px 32px;background:linear-gradient(180deg,#0d1f38,#0b1d38);border:1px solid #1d3a5f;border-radius:16px;box-shadow:0 22px 44px -18px rgba(0,0,0,.7)">'+
+      '<div style="font-size:11px;letter-spacing:1px;text-transform:uppercase;color:#93abcd;margin-bottom:8px">Paced by your teacher</div>'+
+      '<div style="font-size:22px;font-weight:700;margin-bottom:10px">'+msg+'</div>'+
+      '<div style="font-size:14px;color:#93abcd">'+sub+'</div>'+
+      '</div>';
+    document.body.appendChild(el); this._gateEl=el;
+  },
+  hideGate(){ if(this._gateEl){ this._gateEl.remove(); this._gateEl=null; } },
+  refreshGate(cb){
+    if(!this.state.code){ this.showGate('Sign in through the Hub first', 'This act only opens when you are joined to your teacher\u2019s classroom. Return to the Hub, enter your name, roll and the class code, then come back.'); cb&&cb(false); return; }
+    if(!this.online()){ this.showGate('This game is not connected to a class', 'The classroom server is not configured on this page. Ask your teacher.'); cb&&cb(false); return; }
+    this.call({action:'gate',code:this.state.code}, g=>{
+      this.state.tries++;
+      if(g && g.ok!==false){
+        this.state.gate=g; this.state.lastOk=Date.now(); this.state.tries=0;
+        if(this.isOpenForMe()){ this.hideGate(); cb&&cb(true); }
+        else {
+          const name=(g.name||this.state.code);
+          this.showGate(g.paused?('Class '+name+' is on hold'):('Waiting for your teacher to open this stage'), g.paused?'Your teacher paused the class. You will unlock when they resume.':'You are ahead of the class, or your teacher has not opened this stage yet. It will open automatically the moment they do.');
+          cb&&cb(false);
+        }
+      } else {
+        const age=Date.now()-this.state.lastOk;
+        if(this.state.lastOk && age<this.cfg.graceMs){ /* recent good state, no scary UI */ cb&&cb(this.isOpenForMe()); }
+        else { this.showGate('Reconnecting to your class', 'Your device lost the classroom server. This will retry automatically. If it stays down for a minute, tell your teacher.'); cb&&cb(false); }
+      }
+    });
+  },
+  start(actIdx, actKind){
+    this.cfg.actIdx=actIdx; this.cfg.actKind=actKind||'act';
+    this.init();
+    if(this.state.active) return; this.state.active=true;
+    this.refreshGate();
+    this._poll=setInterval(()=>this.refreshGate(),this.cfg.pollMs);
+    this._ping=setInterval(()=>{ this._doPing(); },this.cfg.pingMs);
+    this._doPing();  /* immediate so roster shows position instantly */
+    if(this._initCloudSave) this._initCloudSave();
+  },
+  _doPing(){
+    if(!this.state.code || !this.state.sid) return;
+    this.call({action:'ping',sid:this.state.sid,pos:(this.cfg.actKind==='act'?'A:':'L1:')+this.cfg.actIdx}, r=>{
+      if(!r || !r.directive) return;
+      this._handleDirective(r.directive);
+    });
+  },
+  _handleDirective(d){
+    if(!d || !d.kind) return;
+    if(d.kind==='kick'){
+      try{ localStorage.removeItem('econventure_class_v1'); }catch(e){}
+      this.showGate('You have been removed from this class', 'Your teacher removed you from the classroom. Return to the Hub if you want to rejoin with a new code.');
+      return;
+    }
+    if(d.kind==='goto'){
+      const kind = d.posKind==='act'?'act':'concept';
+      const pos = Number(d.pos)||0;
+      // If the target IS this file's own act at same kind, just clear the gate wall (they're already here).
+      if(kind==='act' && this.cfg.actKind==='act' && pos===this.cfg.actIdx){ this.hideGate(); return; }
+      // Otherwise navigate to the Hub target file. Same-directory relative link.
+      const files = ['EconVenture_L1_Aggregation.html','EconVenture_Founder.html','EconVenture_L2_Act1.html','EconVenture_L2_Act2.html','EconVenture_L2_Act3.html','EconVenture_L2_Act4.html','EconVenture_L2_Act5.html','EconVenture_L2_Act6.html','EconVenture_L2_Act7.html','EconVenture_L2_Act8.html','EconVenture_Live.html'];
+      if(kind==='act' && files[pos]){
+        try{ location.href=files[pos]; }catch(e){}
+        return;
+      }
+      if(kind==='concept'){
+        // Send them into Founder at that concept. Founder reads its own directive on boot.
+        try{ localStorage.setItem('econventure_pending_goto', JSON.stringify({posKind:'concept',pos:pos,at:Date.now()})); }catch(e){}
+        try{ location.href='EconVenture_Founder.html'; }catch(e){}
+      }
+    }
+  },
+  complete(){ if(!this.state.code || !this.state.sid) return;
+    this.call({action:'quiz',code:this.state.code,sid:this.state.sid,concept:100+this.cfg.actIdx,phase:'post',score:1,total:1},()=>{}); },
+  needsClassroom(){ return !this.state.code; }
+};
+
+/* Cloud save: bundle every econventure_* localStorage key, ship on change (debounced).
+   Called by CLS.start automatically once we have code + uid. Fetch on Hub finish (Hub side). */
+CLS._saveKey='econventure_cloudsave_lasthash';
+CLS._collectBundle=function(){
+  const bundle={};
+  try{
+    for(let i=0;i<localStorage.length;i++){
+      const k=localStorage.key(i);
+      if(!k) continue;
+      if(k.indexOf('econventure_')!==0) continue;
+      if(k==='econventure_cloudsave_lasthash') continue;    /* housekeeping key: don't ship */
+      bundle[k]=localStorage.getItem(k);
+    }
+  }catch(e){}
+  return bundle;
+};
+CLS._hash=function(s){ let h=0; for(let i=0;i<s.length;i++){ h=(h*31+s.charCodeAt(i))|0; } return String(h); };
+CLS._pushSave=function(force){
+  if(!this.state.code || !this.state.uid) return;
+  const bundle=this._collectBundle();
+  const payload=JSON.stringify(bundle);
+  const hash=this._hash(payload);
+  if(!force){
+    try{ if(localStorage.getItem(this._saveKey)===hash) return; }catch(e){}
+  }
+  this.call({action:'save',code:this.state.code,uid:this.state.uid,gsub:this.state.gsub||'',email:this.state.email||'',name:this.state.name||'',roll:this.state.roll||'',payload:payload}, r=>{
+    if(r && r.ok){ try{ localStorage.setItem(this._saveKey, hash); }catch(e){} }
+  });
+};
+CLS._initCloudSave=function(){
+  /* Re-read identity to include uid/gsub/email if the Hub wrote them. */
+  try{
+    const raw=localStorage.getItem('econventure_class_v1');
+    if(raw){ const c=JSON.parse(raw)||{};
+      this.state.code=c.code||this.state.code;
+      this.state.sid=c.sid||this.state.sid;
+      this.state.name=c.name||this.state.name;
+      this.state.uid=c.uid||'';
+      if(c.google){ this.state.gsub=c.google.sub||''; this.state.email=c.google.email||''; }
+      if(c.roll) this.state.roll=c.roll;
+    }
+  }catch(e){}
+  if(!this._cloudInited && this.state.code && this.state.uid){
+    this._cloudInited=true;
+    /* First push after 1s (gives boot code a moment to settle), then every 30s if changed, then on unload. */
+    setTimeout(()=>this._pushSave(false), 1000);
+    setInterval(()=>this._pushSave(false), 30000);
+    window.addEventListener('beforeunload', ()=>{ try{ this._pushSave(true); }catch(e){} });
+  }
+};
+
+
+/* ============================================================================
+   LEVEL 2 · ACT 5 — cross-price elasticity of demand.
+   E_xy = %change in YOUR quantity / %change in the OTHER good's price.
+     Substitute:  E_xy > 0  (rival's price up  -> your demand up)
+     Complement:  E_xy < 0  (partner good's price up -> your demand down)
+   We isolate your PREMIUM tier and expose it to two outside prices:
+     - a rival's premium bulb  = SUBSTITUTE (positive cross-elasticity)
+     - a smart-home hub you don't sell = COMPLEMENT (bulbs plug into it; negative)
+   Your premium demand:
+     Dp = 2000 * (yourP/314)^-1.6 * (rivalP/314)^+0.8 * (hubP/1200)^-0.5
+   Baseline 2000 keeps continuity with Acts 3-4. premium unit cost 165.
+   Beat 2 is a one-shot reactive round: you cut price, the rival responds once,
+   and you see how much of your expected gain the reaction erased.
+   ============================================================================ */
+const BASE=2000, refY=314, refR=314, refH=1200, PCOST=165;
+const EOWN=1.6, EXS=0.8, EXC=0.5, REACT=0.5;
+const Dp=(y,r,h)=>Math.max(0,Math.round(BASE*Math.pow(y/refY,-EOWN)*Math.pow(r/refR,EXS)*Math.pow(h/refH,-EXC)));
+const premProfit=(y,r,h)=>Dp(y,r,h)*(y-PCOST);
+// measured cross-elasticity of your demand w.r.t. an external price, around reference
+function crossE(kind){
+  const bump=1.1;
+  if(kind==='sub'){const b=Dp(refY,refR,refH),u=Dp(refY,refR*bump,refH);return ((u-b)/b)/(bump-1);}
+  const b=Dp(refY,refR,refH),u=Dp(refY,refR,refH*bump);return ((u-b)/b)/(bump-1);
+}
+const inr=n=>{n=Math.round(n||0);const neg=n<0;n=Math.abs(n);return (neg?'-₹':'₹')+n.toLocaleString('en-IN');};
+const k=n=>(n<0?'-':'')+'₹'+Math.round(Math.abs(n)/1000)+'k';
+
+/* ---- mini chart: your demand as a function of ONE external price ---------- */
+function crossChartSVG(kind, cur){
+  const W=360,H=150,padL=32,padR=12,padT=12,padB=22;
+  const lo=kind==='sub'?200:820, hi=kind==='sub'?430:1580;
+  const val=x=>kind==='sub'?Dp(refY,x,refH):Dp(refY,refR,x);
+  const dmax=Math.max(val(lo),val(hi))*1.08, dmin=Math.min(val(lo),val(hi))*0.92;
+  const px=x=>padL+(x-lo)/(hi-lo)*(W-padL-padR), py=d=>padT+(1-(d-dmin)/(dmax-dmin))*(H-padT-padB);
+  let path='';for(let x=lo;x<=hi;x+=(hi-lo)/60){path+=(path?'L':'M')+px(x).toFixed(1)+' '+py(val(x)).toFixed(1)+' ';}
+  const col=kind==='sub'?'#e5594d':'#43b581';
+  const cx=px(cur),cy=py(val(cur));
+  return `<svg viewBox="0 0 ${W} ${H}">
+    <path d="${path}" fill="none" stroke="${col}" stroke-width="2.5"/>
+    <line x1="${cx}" y1="${padT}" x2="${cx}" y2="${H-padB}" stroke="#fff" stroke-width="1" stroke-dasharray="3 3" opacity=".5"/>
+    <circle cx="${cx}" cy="${cy}" r="4.5" fill="${col}" stroke="#0a1626" stroke-width="2"/>
+    <text x="${padL}" y="10" font-size="10" fill="var(--muted)">your premium demand</text>
+    <text x="${cx}" y="${H-8}" text-anchor="middle" font-size="10" fill="#fff">${kind==='sub'?'rival ₹'+cur:'hub ₹'+cur}</text>
+    <text x="${W-padR}" y="${py(val(hi))<padT+16?padT+26:padT+12}" text-anchor="end" font-size="9.5" fill="${col}">${kind==='sub'?'slopes UP → substitute':'slopes DOWN → complement'}</text></svg>`;
+}
+
+/* --------------------------------- STATE -------------------------------- */
+const SAVE='econventure_L2A5_v1';
+let ST={phase:'primer', rivalP:314, hubP:1200, yourP:314, committed:false};
+try{const r=localStorage.getItem(SAVE);if(r)ST=Object.assign(ST,JSON.parse(r));}catch(e){}
+const save=()=>{try{localStorage.setItem(SAVE,JSON.stringify(ST));}catch(e){}};
+
+/* ------------------------------- PRIMER --------------------------------- */
+function primer(){
+  return `<div class="panel">
+    <div class="step" style="margin-bottom:4px">Before we start · connect the idea</div>
+    <h1>Act 4 was the whole market rising and falling. Now one rival moves against you.</h1>
+    <p class="muted">Income elasticity was about the economy lifting or sinking every firm together. This is different and more personal. A competitor changes <i>their</i> price, and your sales move even though you did nothing. And it is not only rivals: sometimes another company's product is glued to yours, so when it gets cheaper, you sell more.</p>
+    <div class="speak"><span class="who">Priya:</span> "Two kinds of outsiders bend your demand. A <b>substitute</b>, a rival buyers would switch to, and a <b>complement</b>, a product people use alongside yours. Cross-price elasticity measures both, and the sign tells you which is which."</div>
+    <p class="small"><b>Cross-price elasticity</b> = the percent change in <i>your</i> sales divided by the percent change in <i>another product's</i> price. The sign is the whole lesson:</p>
+    <div class="example">
+      <div class="ex"><b style="color:var(--sub)">Substitutes → positive</b><br>Pepsi and Coke. When Coke's price rises, Pepsi sells more. Their price up, your demand up. Same sign, so the number is positive.</div>
+      <div class="ex"><b style="color:var(--comp)">Complements → negative</b><br>Printers and ink, phones and cases, consoles and games. When the printer gets pricier, fewer sell, so less ink sells too. Their price up, your demand down. Opposite sign, so negative.</div>
+    </div>
+    <p class="small">Here your <b style="color:var(--you)">premium bulb</b> sits between two outsiders: a rival's premium bulb (a substitute) and a smart-home hub that your bulbs plug into (a complement you don't even sell). First you will feel both forces by moving their prices. Then you will cut your own price to steal the rival's buyers, and watch the rival do the one thing beginners forget: react.</p>
+    <div class="btnrow"><button class="btn primary wide" id="go">Feel the two forces →</button></div>
+  </div>`;
+}
+
+/* ------------------------- BEAT 1 · EXPLORE ----------------------------- */
+function explore(){
+  const d=Dp(refY,ST.rivalP,ST.hubP), base=Dp(refY,refR,refH);
+  const subE=crossE('sub'), compE=crossE('comp');
+  return `<div class="panel">
+    <div class="step" style="margin-bottom:4px">Beat 1 · feel the forces</div>
+    <h2>Your premium price is fixed. Move the outsiders.</h2>
+    <p class="small muted" style="margin-top:0">Hold your own premium price at ${inr(refY)} and drag the other two. Watch your demand rise when the substitute gets pricier, and fall when the complement gets pricier. The sign of each cross-elasticity is the label.</p>
+    <div class="grid cols2">
+      <div class="card sub">
+        <div class="l" style="color:var(--sub)">Rival premium bulb · SUBSTITUTE</div>
+        <div id="subChart">${crossChartSVG('sub',ST.rivalP)}</div>
+        <label class="field" style="margin-top:6px"><div class="cap"><b>Rival's price</b> <span class="val" id="rVal">${inr(ST.rivalP)}</span></div>
+          <input id="rSlide" type="range" min="200" max="430" step="2" value="${ST.rivalP}" style="--tint:#e5594d"></label>
+        <div class="tiny mono">cross-elasticity ≈ <b style="color:var(--sub)">+${subE.toFixed(2)}</b> · positive → substitute</div>
+      </div>
+      <div class="card comp">
+        <div class="l" style="color:var(--comp)">Smart-home hub · COMPLEMENT</div>
+        <div id="compChart">${crossChartSVG('comp',ST.hubP)}</div>
+        <label class="field" style="margin-top:6px"><div class="cap"><b>Hub price</b> <span class="val" id="hVal">${inr(ST.hubP)}</span></div>
+          <input id="hSlide" type="range" min="820" max="1580" step="10" value="${ST.hubP}" style="--tint:#43b581"></label>
+        <div class="tiny mono">cross-elasticity ≈ <b style="color:var(--comp)">${compE.toFixed(2)}</b> · negative → complement</div>
+      </div>
+    </div>
+    <div class="card" style="margin-top:6px;text-align:center">
+      <div class="l">Your premium demand right now</div>
+      <div class="v mono" id="dNow" style="font-size:26px;color:var(--you)">${d.toLocaleString('en-IN')}</div>
+      <div class="tiny muted" id="dDelta">${d===base?'at baseline':((d>base?'+':'')+(d-base).toLocaleString('en-IN')+' vs baseline '+base.toLocaleString('en-IN'))}</div>
+    </div>
+    <div class="work" id="work">${exploreWork()}</div>
+    <div class="btnrow"><button class="btn primary wide" id="toCompete">Now compete on price →</button></div>
+  </div>`;
+}
+function exploreWork(){
+  const d=Dp(refY,ST.rivalP,ST.hubP);
+  return `<div class="row">Your premium demand = 2000 × (your ₹${refY}/₹${refY})^-1.6 × (rival ₹${ST.rivalP}/₹${refR})^<b>+0.8</b> × (hub ₹${ST.hubP}/₹${refH})^<b>-0.5</b> = <b>${d.toLocaleString('en-IN')}</b></div>
+    <div class="row">The rival's exponent is <b>positive</b>: their price and your demand move together (substitute). The hub's exponent is <b>negative</b>: its price and your demand move opposite (complement).</div>`;
+}
+
+/* ------------------------- BEAT 2 · REACTIVE ---------------------------- */
+function compete(){
+  const naive=Dp(ST.yourP,refR,refH), naiveP=premProfit(ST.yourP,refR,refH);
+  const hold=premProfit(refY,refR,refH);
+  return `<div class="panel">
+    <div class="step" style="margin-bottom:4px">Beat 2 · the reactive round</div>
+    <h2>Cut your price to steal the rival's buyers. Then watch them react.</h2>
+    <p class="small muted" style="margin-top:0">The substitute cuts both ways. If a rival's low price steals from you, your low price should steal from them. Set your premium price below the rival's ₹${inr(refR)} and the projection assumes the rival sits still. They will not. Commit, and the rival responds once.</p>
+    <label class="field"><div class="cap"><b>Your premium price</b> <span class="val" id="yVal">${inr(ST.yourP)}</span></div>
+      <input id="ySlide" type="range" min="210" max="360" step="1" value="${ST.yourP}" style="--tint:#e0b54a"></label>
+    <div class="grid cols3">
+      <div class="card"><div class="l">Demand if rival frozen</div><div class="v mono" id="nD">${naive.toLocaleString('en-IN')}</div></div>
+      <div class="card"><div class="l">Premium profit (naive)</div><div class="v mono" id="nP">${inr(naiveP)}</div></div>
+      <div class="card"><div class="l">If you hold at ₹314</div><div class="v mono">${inr(hold)}</div></div>
+    </div>
+    <div class="hint">The naive numbers assume the rival keeps their price at ₹${inr(refR)}. That is the beginner's mistake.</div>
+    <div class="btnrow"><button class="btn primary wide" id="commit">Commit price · let the rival respond</button></div>
+    <div id="after"></div>
+  </div>`;
+}
+
+function afterCommit(){
+  const y=ST.yourP;
+  const naiveD=Dp(y,refR,refH), naiveP=premProfit(y,refR,refH);
+  const cut=refR-y;                         // how much you undercut the rival
+  const rivalNew=Math.round(refR - (cut>0?REACT*cut:0)); // rival matches half your cut (only if you undercut)
+  const realD=Dp(y,rivalNew,refH), realP=Dp(y,rivalNew,refH)*(y-PCOST);
+  const hold=premProfit(refY,refR,refH);
+  const erased = (naiveP-realP);
+  let head;
+  if(cut<=0){
+    head=`<div class="flag info">You did not undercut, so the rival held at ₹${inr(refR)} and there was nothing to react to. Notice holding near ₹${inr(refY)} earns ${inr(hold)}. Try cutting below the rival next, that is where the reaction bites.</div>`;
+  } else if(realP<hold){
+    head=`<div class="flag bad"><b>You started a price war and lost.</b> You expected ${inr(naiveP)} assuming the rival froze. They cut to ₹${inr(rivalNew)} in response, your demand came in at ${realD.toLocaleString('en-IN')} instead of ${naiveD.toLocaleString('en-IN')}, and premium profit landed at <b>${inr(realP)}</b>, below the ${inr(hold)} you would have made by simply holding. Against a substitute rival who reacts, a price cut mostly just thins everyone's margin.</div>`;
+  } else {
+    head=`<div class="flag warn"><b>The reaction ate into your gain.</b> Naive profit ${inr(naiveP)} assumed a frozen rival. They cut to ₹${inr(rivalNew)}, so real profit was <b>${inr(realP)}</b>, ${inr(erased)} less than you expected. You still beat holding, but the rival clawed back a third of what you thought you'd win.</div>`;
+  }
+  return head+`<div class="card" style="margin-top:8px"><div class="grid cols3">
+      <div><div class="l">Your price</div><div class="v mono">${inr(y)}</div></div>
+      <div><div class="l">Rival's response</div><div class="v mono" style="color:var(--sub)">${inr(rivalNew)}</div></div>
+      <div><div class="l">Real premium profit</div><div class="v mono" style="color:${realP>=hold?'var(--good)':'var(--bad)'}">${inr(realP)}</div></div>
+    </div></div>
+  <div class="reinforce">
+    <div class="chip" style="margin-bottom:6px">Cross-price elasticity of demand</div>
+    <h3>The sign tells you the relationship; the reaction tells you the danger</h3>
+    <p class="small" style="margin:.2em 0 0"><b>Cross-price elasticity</b> is the percent change in your demand divided by the percent change in another good's price. Its <b>sign</b> classifies the relationship: <b style="color:var(--sub)">positive means substitutes</b> (a rival buyers switch to, so their price and your sales rise together) and <b style="color:var(--comp)">negative means complements</b> (a good used alongside yours, so its price and your sales move opposite). The <b>size</b> tells you how tightly the two are linked. A big positive number means a close, dangerous rival; a big negative number means a partner good whose price you should care about even though you don't sell it.</p>
+    <p class="small" style="margin:.6em 0 0">The reactive round is the strategic half. Because you and the rival are substitutes, your price cut is their problem, so they answer it. Planning as if the rival will freeze is how price wars start: both sides cut, both margins shrink, and for a differentiated premium the extra volume rarely covers the lost margin. This is the doorway to game theory and strategic interdependence, which is exactly where the competitive finale lives. Complements point the other way: because a cheaper hub sells more of your bulbs, firms sometimes push a partner's price <i>down</i> (or subsidise it) to lift their own demand, the logic behind selling a console cheap to sell the games.</p>
+    <div class="chips"><span class="chip">Cross-price elasticity</span><span class="chip">Substitutes vs complements</span><span class="chip">Strategic interdependence</span><span class="chip">Price war</span><span class="chip">Razor-and-blades pricing</span></div>
+  </div>
+  <div class="reinforce" style="border-left-color:var(--gold)">
+    <div class="chip" style="margin-bottom:6px">What comes next</div>
+    <h3>Everything you can't do at once</h3>
+    <p class="small" style="margin:.2em 0 0">You now have the full toolkit: consumer surplus, the three ways to capture it, income elasticity across the cycle, and cross-price elasticity against rivals and partners. The finale ties them together under one hard constraint you have ignored so far, <b>limited resources</b>. You cannot build every tier at full tilt, so the last act is about allocating scarce capacity and budget across the product line while the economy turns and rivals push back. That is where managerial economics stops being separate lessons and becomes one decision.</p>
+  </div>
+  <div class="btnrow"><button class="btn primary" id="nextAct">Continue · Act 6 · Resource allocation →</button><button class="btn ghost" id="retry">Try a different price</button></div>`;
+}
+
+/* ------------------------------- RENDER --------------------------------- */
+const setFill=el=>el&&el.style.setProperty('--fill',((el.value-el.min)/(el.max-el.min)*100)+'%');
+const prefersReduced=()=>{ try{ return window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches; }catch(e){ return false; } };
+// ---- smooth SVG morphing: patch geometry in place so charts glide instead of snapping ----
+function _mvTok(str){ const re=/-?\d*\.?\d+(?:[eE][-+]?\d+)?/g; let m,last=0,tmpl=[],nums=[]; while((m=re.exec(str))){ tmpl.push(str.slice(last,m.index)); nums.push(parseFloat(m[0])); last=m.index+m[0].length; } tmpl.push(str.slice(last)); return {tmpl,nums}; }
+function _mvBuild(tmpl,nums){ let s=tmpl[0]; for(let i=0;i<nums.length;i++){ s+=(Math.round(nums[i]*100)/100)+tmpl[i+1]; } return s; }
+const _MVNUM=['cx','cy','r','rx','ry','x','y','width','height','x1','y1','x2','y2','opacity','fill-opacity','stroke-opacity','stroke-width','offset','font-size'];
+function morphSVG(host,newHTML,dur){
+  try{
+    dur=(dur==null?120:dur);
+    const cur=host.querySelector('svg'); const tmp=document.createElement('div'); tmp.innerHTML=newHTML; const nx=tmp.querySelector('svg');
+    if(!cur||!nx){ host.innerHTML=newHTML; return; }
+    const O=cur.querySelectorAll('*'), N=nx.querySelectorAll('*');
+    if(O.length!==N.length){ cur.replaceWith(nx); return; }
+    for(let i=0;i<O.length;i++){ if(O[i].tagName!==N[i].tagName){ cur.replaceWith(nx); return; } }
+    const plans=[];
+    for(let i=0;i<O.length;i++){ const o=O[i],n=N[i],p={o,nums:[],pts:null,d:null};
+      for(const a of _MVNUM){ if(n.hasAttribute(a)){ const to=parseFloat(n.getAttribute(a)); let fr=o.hasAttribute(a)?parseFloat(o.getAttribute(a)):to; if(!isNaN(to)&&!isNaN(fr)) p.nums.push({a,fr,to}); } }
+      for(const at of n.attributes){ const nm=at.name; if(_MVNUM.indexOf(nm)<0&&nm!=='points'&&nm!=='d'){ if(o.getAttribute(nm)!==at.value) o.setAttribute(nm,at.value); } }
+      if(n.hasAttribute('points')){ const T=_mvTok(n.getAttribute('points')),F=_mvTok(o.getAttribute('points')||n.getAttribute('points')); if(F.nums.length===T.nums.length) p.pts={fr:F.nums,to:T.nums,tmpl:T.tmpl}; else o.setAttribute('points',n.getAttribute('points')); }
+      if(n.hasAttribute('d')){ const ds=n.getAttribute('d'); const T=_mvTok(ds),F=_mvTok(o.getAttribute('d')||ds); if(F.nums.length===T.nums.length&&F.tmpl.join('\u0001')===T.tmpl.join('\u0001')) p.d={fr:F.nums,to:T.nums,tmpl:T.tmpl}; else o.setAttribute('d',ds); }
+      if(n.children.length===0&&o.textContent!==n.textContent) o.textContent=n.textContent;
+      plans.push(p);
+    }
+    if(host._mvRAF){ cancelAnimationFrame(host._mvRAF); host._mvRAF=null; }
+    if(prefersReduced()||dur<=0){ for(const p of plans){ for(const x of p.nums)p.o.setAttribute(x.a,x.to); if(p.pts)p.o.setAttribute('points',_mvBuild(p.pts.tmpl,p.pts.to)); if(p.d)p.o.setAttribute('d',_mvBuild(p.d.tmpl,p.d.to)); } return; }
+    const t0=performance.now();
+    const step=now=>{ const k=Math.min(1,(now-t0)/dur),e=1-Math.pow(1-k,3);
+      for(const p of plans){ for(const x of p.nums)p.o.setAttribute(x.a,x.fr+(x.to-x.fr)*e);
+        if(p.pts){ const a=p.pts.fr,b=p.pts.to; p.o.setAttribute('points',_mvBuild(p.pts.tmpl,a.map((v,j)=>v+(b[j]-v)*e))); }
+        if(p.d){ const a=p.d.fr,b=p.d.to; p.o.setAttribute('d',_mvBuild(p.d.tmpl,a.map((v,j)=>v+(b[j]-v)*e))); } }
+      if(k<1) host._mvRAF=requestAnimationFrame(step);
+      else { for(const p of plans){ for(const x of p.nums)p.o.setAttribute(x.a,x.to); if(p.pts)p.o.setAttribute('points',_mvBuild(p.pts.tmpl,p.pts.to)); if(p.d)p.o.setAttribute('d',_mvBuild(p.d.tmpl,p.d.to)); } host._mvRAF=null; }
+    };
+    host._mvRAF=requestAnimationFrame(step);
+  }catch(e){ try{ host.innerHTML=newHTML; }catch(_){} }
+}
+
+function render(){
+  const app=document.getElementById('app');
+  if(ST.phase==='primer'){ app.innerHTML=primer(); document.getElementById('go').onclick=()=>{ST.phase='explore';save();render();}; return; }
+  if(ST.phase==='explore'){
+    app.innerHTML=explore();
+    const rS=document.getElementById('rSlide'), hS=document.getElementById('hSlide');
+    const refresh=()=>{
+      ST.rivalP=+rS.value; ST.hubP=+hS.value;
+      const d=Dp(refY,ST.rivalP,ST.hubP), base=Dp(refY,refR,refH);
+      document.getElementById('rVal').textContent=inr(ST.rivalP);
+      document.getElementById('hVal').textContent=inr(ST.hubP);
+      morphSVG(document.getElementById('subChart'),crossChartSVG('sub',ST.rivalP));
+      morphSVG(document.getElementById('compChart'),crossChartSVG('comp',ST.hubP));
+      document.getElementById('dNow').textContent=d.toLocaleString('en-IN');
+      document.getElementById('dDelta').textContent=d===base?'at baseline':((d>base?'+':'')+(d-base).toLocaleString('en-IN')+' vs baseline '+base.toLocaleString('en-IN'));
+      document.getElementById('work').innerHTML=exploreWork();
+      setFill(rS); setFill(hS); save();
+    };
+    setFill(rS); setFill(hS);
+    rS.oninput=refresh; hS.oninput=refresh;
+    document.getElementById('toCompete').onclick=()=>{ST.phase='compete';save();render();};
+    return;
+  }
+  // compete
+  app.innerHTML=compete();
+  const yS=document.getElementById('ySlide');
+  const refresh=()=>{
+    ST.yourP=+yS.value;
+    document.getElementById('yVal').textContent=inr(ST.yourP);
+    document.getElementById('nD').textContent=Dp(ST.yourP,refR,refH).toLocaleString('en-IN');
+    document.getElementById('nP').textContent=inr(premProfit(ST.yourP,refR,refH));
+    setFill(yS); save();
+  };
+  setFill(yS); yS.oninput=refresh;
+  const doCommit=()=>{ST.committed=true;save(); try{ CLS.completeWithQuiz(); }catch(e){}
+    document.getElementById('after').innerHTML=afterCommit();
+    const rt=document.getElementById('retry'); if(rt) rt.onclick=()=>{ST.committed=false;save();document.getElementById('after').innerHTML='';};};
+  document.getElementById('commit').onclick=doCommit;
+  if(ST.committed) doCommit();
+}
+const _renderCore=render;
+render=function(){ _renderCore.apply(this,arguments);
+  if(prefersReduced()) return;
+  try{ document.querySelectorAll('#app svg').forEach(s=>s.classList.add('chartIn')); }catch(e){}
+};
+render();
+
+document.addEventListener('click',function(e){ var t=e.target; while(t&&t!==document){ if(t.id==='nextAct'){ try{ location.href='EconVenture_L2_Act6.html'; }catch(_){ } return; } t=t.parentNode; } });
+
+/* classroom gate + roster ping — must be after render() defined */
+/* Level 2 wall quiz: one opening question before entry, one closing after commit.
+   Bundle is looked up from window.__L2QB, injected per-file. Progress persisted per-act. */
+CLS._quizKey=function(kind){ return 'econventure_l2q_'+CLS.cfg.actIdx+'_'+kind; };
+CLS._loadQuizFlag=function(kind){ try{ return localStorage.getItem(CLS._quizKey(kind))==='1'; }catch(e){ return false; } };
+CLS._setQuizFlag=function(kind){ try{ localStorage.setItem(CLS._quizKey(kind),'1'); }catch(e){} };
+CLS._showQuiz=function(bundle, kind, onDone){
+  if(!bundle){ onDone&&onDone(); return; }
+  const q = kind==='open' ? bundle.open : bundle.close;
+  if(!q){ onDone&&onDone(); return; }
+  if(this._quizEl){ this._quizEl.remove(); }
+  const el=document.createElement('div');
+  el.id='__cls_quiz';
+  el.style.cssText='position:fixed;inset:0;z-index:99998;background:rgba(8,19,33,.97);display:flex;align-items:center;justify-content:center;padding:24px;backdrop-filter:blur(6px);font:15px/1.5 system-ui,Segoe UI,Roboto,sans-serif;color:#eef4fb';
+  const opts=q.opts.map((o,i)=>'<div data-i="'+i+'" style="cursor:pointer;padding:12px 14px;border:1px solid #1d3a5f;border-radius:10px;margin-top:8px;background:#0a1830;transition:background .15s,border-color .15s" onmouseover="this.style.background=\'#0f2342\'" onmouseout="this.style.background=\'#0a1830\'">'+o+'</div>').join('');
+  el.innerHTML='<div style="max-width:560px;padding:26px 30px;background:linear-gradient(180deg,#0d1f38,#0b1d38);border:1px solid #1d3a5f;border-radius:16px;box-shadow:0 22px 44px -18px rgba(0,0,0,.7)">'+
+    '<div style="font-size:11px;letter-spacing:1px;text-transform:uppercase;color:#93abcd;margin-bottom:8px">'+(kind==='open'?'Before we start':'What did you take away')+'</div>'+
+    '<div style="font-size:19px;font-weight:600;margin-bottom:6px">'+q.q+'</div>'+
+    '<div id="__q_opts">'+opts+'</div>'+
+    '<div style="font-size:12px;color:#5c7396;margin-top:12px">'+(kind==='open'?'One quick check, then the act opens.':'One closing question, then this act is marked complete.')+'</div>'+
+    '</div>';
+  document.body.appendChild(el); this._quizEl=el;
+  Array.prototype.forEach.call(el.querySelectorAll('[data-i]'), function(node){
+    node.onclick=function(){
+      const chosen=Number(node.getAttribute('data-i'));
+      const ok = chosen===q.a ? 1 : 0;
+      CLS.call({action:'quiz',code:CLS.state.code,sid:CLS.state.sid,concept:200+CLS.cfg.actIdx,phase:kind==='open'?'pre':'post',score:ok,total:1},function(){});
+      CLS._setQuizFlag(kind);
+      if(CLS._quizEl){ CLS._quizEl.remove(); CLS._quizEl=null; }
+      onDone&&onDone(ok);
+    };
+  });
+};
+/* Wrap refreshGate: when gate opens, if opening quiz not taken, show it before hiding the wall. */
+CLS._origHideGate = CLS.hideGate.bind(CLS);
+CLS.hideGate = function(){
+  const b = (typeof window!=='undefined' && window.__L2QB) ? window.__L2QB : null;
+  if(!b || CLS._loadQuizFlag('open') || !CLS.state.code){ CLS._origHideGate(); return; }
+  CLS._origHideGate();
+  CLS._showQuiz(b,'open', function(){});
+};
+/* Called by an act's lock/commit code (via CLS.completeWithQuiz) instead of CLS.complete(). */
+CLS.completeWithQuiz = function(){
+  const b = (typeof window!=='undefined' && window.__L2QB) ? window.__L2QB : null;
+  if(!b || CLS._loadQuizFlag('close') || !CLS.state.code){ CLS.complete(); return; }
+  CLS._showQuiz(b,'close', function(){ CLS.complete(); });
+};
+
+try{ CLS.start(6,'act'); }catch(e){}
+</script>
+</body>
+</html>

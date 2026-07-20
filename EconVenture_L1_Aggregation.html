@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>EconVenture · Foundations · Aggregation</title>
+<style>
+:root{
+  --bg:#081321;--panel:#0e2038;--panel2:#122a49;--line:#1e3a5f;
+  --ink:#e8eef7;--muted:#93a7c4;--gold:#e0b54a;--gold2:#f0cf7a;
+  --b1:#4a90d9;--b2:#43b581;--b3:#b07de0;--mkt:#e0b54a;--good:#43b581;--bad:#e5594d;--info:#4a90d9;--warn:#e8a33d;
+  --shadow:0 6px 24px rgba(0,0,0,.35);
+}
+*{box-sizing:border-box}html,body{margin:0;padding:0}
+body{background:radial-gradient(1100px 560px at 72% -12%,#0d2540 0,var(--bg) 55%),var(--bg);
+  color:var(--ink);font-family:"Segoe UI",system-ui,-apple-system,Roboto,Helvetica,Arial,sans-serif;
+  font-size:15px;line-height:1.55;-webkit-font-smoothing:antialiased}
+.wrap{max-width:960px;margin:0 auto;padding:16px 16px 64px}
+h1,h2,h3{margin:0 0 .4em;font-weight:700;letter-spacing:.2px}h1{font-size:23px}h2{font-size:18px}h3{font-size:15px}
+.gold{color:var(--gold)}.muted{color:var(--muted)}.small{font-size:13px}.tiny{font-size:12px}.mono{font-variant-numeric:tabular-nums}
+a{color:var(--gold2);cursor:pointer}
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:12px 16px;background:linear-gradient(180deg,#0f2542,#0b1c33);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);margin-bottom:16px}
+.brand{display:flex;align-items:center;gap:10px}.brand .dot{width:11px;height:11px;border-radius:50%;background:var(--gold);box-shadow:0 0 12px var(--gold)}
+.brand b{font-size:17px;letter-spacing:.4px}.step{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.8px}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:20px;box-shadow:var(--shadow);margin-bottom:16px}
+.grid{display:grid;gap:14px}
+@media(min-width:780px){.grid.cols2{grid-template-columns:1.05fr .95fr}.grid.cols3{grid-template-columns:1fr 1fr 1fr}}
+.card{background:var(--panel2);border:1px solid var(--line);border-radius:11px;padding:13px}
+.card .l{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.6px;margin-bottom:3px}
+.card .v{font-size:20px;font-weight:700}
+.speak{border-left:3px solid var(--gold);background:rgba(224,181,74,.07);padding:10px 14px;border-radius:0 8px 8px 0;font-size:14px;margin:12px 0;color:#dbe6f5}
+.who{color:var(--gold2);font-weight:700}
+.example{display:flex;gap:10px;flex-wrap:wrap;margin:12px 0}
+.example .ex{flex:1;min-width:150px;background:#0a1c33;border:1px solid var(--line);border-radius:10px;padding:11px 13px;font-size:13px}
+.example .ex b{color:var(--gold2)}
+label.field{display:block;margin:6px 0 2px}
+label.field .cap{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:7px}
+label.field .cap b{font-size:14px}label.field .cap .val{font-variant-numeric:tabular-nums;color:var(--gold);font-weight:700;font-size:16px}
+input[type=range]{-webkit-appearance:none;width:100%;height:7px;border-radius:6px;background:linear-gradient(90deg,var(--tint,var(--gold)) 0%,var(--tint,var(--gold)) var(--fill,40%),#20375a var(--fill,40%));outline:none}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;background:#fff;border:3px solid var(--tint,var(--gold));cursor:pointer;box-shadow:0 2px 6px rgba(0,0,0,.4)}
+input[type=range]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;background:#fff;border:3px solid var(--tint,var(--gold));cursor:pointer}
+.hint{font-size:12.5px;color:var(--muted);margin-top:7px}
+.btn{display:inline-flex;align-items:center;gap:8px;justify-content:center;cursor:pointer;padding:13px 22px;border-radius:10px;border:1px solid var(--line);background:var(--panel2);color:var(--ink);font-size:15px;font-weight:600;transition:transform .05s,filter .15s}
+.btn:hover{filter:brightness(1.12)}.btn:active{transform:translateY(1px)}
+.btn.primary{background:linear-gradient(180deg,var(--gold2),var(--gold));color:#2a1e04;border-color:var(--gold)}
+.btn.ghost{background:transparent}.btn.wide{width:100%}
+.btnrow{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
+.work{background:#0a1830;border:1px solid var(--line);border-radius:10px;padding:12px 14px;margin-top:12px;font-size:12.5px;line-height:1.7;font-variant-numeric:tabular-nums}
+.work .row{color:#cfe0f5}.work b{color:var(--gold2)}
+.reinforce{background:var(--panel2);border:1px solid var(--line);border-left:4px solid var(--info);border-radius:11px;padding:16px;margin-top:14px}
+.reinforce h3{color:var(--gold2)}
+.chips{display:flex;gap:7px;flex-wrap:wrap;margin-top:10px}.chip{font-size:12px;padding:4px 11px;border-radius:20px;background:#0a1c33;border:1px solid var(--line);color:var(--muted)}
+.flag{border-radius:9px;padding:11px 14px;font-size:13.5px;margin:10px 0}
+.flag.ok{background:rgba(67,181,129,.12);border:1px solid rgba(67,181,129,.35)}
+.flag.info{background:rgba(74,144,217,.12);border:1px solid rgba(74,144,217,.35)}
+.flag.bad{background:rgba(229,89,77,.12);border:1px solid rgba(229,89,77,.35)}
+.flag.warn{background:rgba(232,163,61,.12);border:1px solid rgba(232,163,61,.35)}
+.legend{display:flex;gap:12px;flex-wrap:wrap;margin-top:8px;font-size:12px}
+.legend .k{display:inline-flex;align-items:center;gap:6px}.sw{width:12px;height:3px;border-radius:2px;display:inline-block}
+svg{display:block;width:100%;height:auto}.center{text-align:center}
+
+/* =====================================================================
+   BUILD VISUAL LAYER — appended; original stylesheet untouched.
+   Same market-terminal identity as the Founder file. The signature here
+   is horizontal summation: the individual buyer/firm curves draw in first,
+   then the gold market curve forms as their sum. Dependency-free; reduced
+   motion and keyboard focus honoured at the bottom.
+   ===================================================================== */
+:root{
+  --bg:#081321;--panel:#102647;--panel2:#153059;--line:#213f6b;--line2:#2e568f;
+  --ink:#eaf1fb;--muted:#93abcd;--faint:#647fa6;
+  --gold:#e7bd54;--gold2:#f2d585;--gold-soft:rgba(231,189,84,.14);
+  --grid:rgba(120,160,215,.10);
+  --shadow:0 18px 44px -22px rgba(0,0,0,.75),0 3px 10px -4px rgba(0,0,0,.5);
+  --shadow-sm:0 8px 22px -14px rgba(0,0,0,.7);
+  --ease:cubic-bezier(.22,.7,.2,1);
+}
+body{background:
+    radial-gradient(1200px 620px at 72% -12%, #123055 0%, rgba(18,48,85,0) 60%),
+    linear-gradient(180deg,#0a1727 0%, var(--bg) 55%);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+  background-size:52px 52px;-webkit-mask-image:radial-gradient(1000px 700px at 72% 0%,#000 0%,transparent 78%);
+          mask-image:radial-gradient(1000px 700px at 72% 0%,#000 0%,transparent 78%);opacity:.5}
+.wrap{position:relative;z-index:1}
+.mono,.card .v,.work,label.field .cap .val,.chip,.small,.tiny{font-variant-numeric:tabular-nums}
+
+.topbar{background:linear-gradient(180deg,rgba(12,24,42,.94),rgba(12,24,42,.72));border-color:var(--line);box-shadow:0 1px 0 rgba(120,160,215,.05),var(--shadow-sm)}
+.brand .dot{box-shadow:0 0 12px var(--gold);animation:tick 2.4s var(--ease) infinite}
+.step{color:var(--muted)}
+
+.panel{position:relative;overflow:hidden;
+  background:linear-gradient(180deg,rgba(255,255,255,.02),rgba(255,255,255,0) 30%),linear-gradient(180deg,var(--panel) 0%,#0c1d34 100%);
+  border-color:var(--line);border-radius:16px;box-shadow:var(--shadow);animation:panelIn .5s var(--ease) both}
+.panel::before{content:"";position:absolute;left:16px;right:16px;top:0;height:1px;background:linear-gradient(90deg,transparent,rgba(160,195,245,.25),transparent)}
+h1,h2{letter-spacing:-.01em}
+
+.card{background:linear-gradient(180deg,#0e2340,#0b1d38);border-color:var(--line);box-shadow:var(--shadow-sm);
+  transition:transform .16s var(--ease),border-color .16s var(--ease);animation:cardIn .42s var(--ease) both}
+.card:hover{transform:translateY(-2px);border-color:var(--line2)}
+.grid .card:nth-child(1){animation-delay:.04s}.grid .card:nth-child(2){animation-delay:.1s}.grid .card:nth-child(3){animation-delay:.16s}
+.card .v{text-shadow:0 0 18px rgba(231,189,84,.14)}
+
+label.field .cap .val{font-size:17px;text-shadow:0 0 16px rgba(231,189,84,.3)}
+input[type=range]{height:8px;background:linear-gradient(90deg,var(--tint,var(--gold)) 0%,var(--tint,var(--gold)) var(--fill,40%),#1b3358 var(--fill,40%),#1b3358 100%);border:1px solid var(--line)}
+input[type=range]::-webkit-slider-thumb{width:20px;height:20px;background:radial-gradient(circle at 35% 30%,#fff,#e9eef7);border:3px solid var(--tint,var(--gold));box-shadow:0 0 0 4px rgba(231,189,84,.16),0 3px 8px rgba(0,0,0,.5);transition:box-shadow .15s var(--ease)}
+input[type=range]:hover::-webkit-slider-thumb{box-shadow:0 0 0 6px rgba(231,189,84,.22),0 3px 10px rgba(0,0,0,.55)}
+input[type=range]:active::-webkit-slider-thumb{box-shadow:0 0 0 8px rgba(231,189,84,.26)}
+input[type=range]::-moz-range-thumb{width:18px;height:18px;background:radial-gradient(circle at 35% 30%,#fff,#e9eef7);border:3px solid var(--tint,var(--gold));box-shadow:0 0 0 4px rgba(231,189,84,.16)}
+
+.work{background:linear-gradient(180deg,#0a1b33,#081627);box-shadow:inset 0 1px 0 rgba(160,195,245,.04)}
+.reinforce{background:linear-gradient(180deg,#0e2340,#0b1d38);box-shadow:var(--shadow-sm);animation:reveal .5s var(--ease) both}
+.flag{animation:reveal .4s var(--ease) both}
+.flag.ok{background:rgba(62,192,138,.12);border-color:rgba(62,192,138,.4)}
+.chip{background:var(--gold-soft);transition:transform .15s var(--ease)}.chip:hover{transform:translateY(-1px)}
+.example .ex{background:linear-gradient(180deg,#0d2140,#0a1c37);box-shadow:var(--shadow-sm)}
+.speak{background:var(--gold-soft)}
+
+.btn{border-radius:10px;transition:transform .12s var(--ease),filter .15s var(--ease),box-shadow .15s var(--ease)}
+.btn:hover{transform:translateY(-1px)}.btn:active{transform:translateY(0) scale(.985)}
+.btn.primary{box-shadow:0 10px 24px -12px rgba(231,189,84,.6),inset 0 1px 0 rgba(255,255,255,.35)}
+:focus-visible{outline:2px solid var(--gold);outline-offset:2px;border-radius:8px}
+
+/* charts read like a live market panel; points glow */
+svg circle{filter:drop-shadow(0 0 4px currentColor)}
+svg text{font-variant-numeric:tabular-nums}
+svg line[stroke="var(--line)"]{shape-rendering:crispEdges}
+/* the summation reveal: individuals draw first, the market curve forms after */
+svg.chartIn{animation:fadeIn .3s var(--ease) both}
+svg.chartIn path[fill="none"]{stroke-dasharray:2000;stroke-dashoffset:2000}
+svg.chartIn path[stroke-width="1.6"]{animation:draw .7s var(--ease) .05s forwards}
+svg.chartIn path[stroke-width="3"]{animation:draw .85s var(--ease) .38s forwards}
+svg.chartIn circle{opacity:0;animation:fadeIn .4s var(--ease) .78s forwards}
+svg.chartIn line[stroke="#fff"]{opacity:0;animation:fadeIn .4s var(--ease) .7s forwards}
+
+@keyframes panelIn{from{opacity:0;transform:translateY(10px) scale(.994)}to{opacity:1;transform:none}}
+@keyframes cardIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@keyframes reveal{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes draw{to{stroke-dashoffset:0}}
+@keyframes tick{0%{box-shadow:0 0 0 0 rgba(231,189,84,.55),0 0 12px var(--gold)}70%{box-shadow:0 0 0 7px rgba(231,189,84,0),0 0 12px var(--gold)}100%{box-shadow:0 0 0 0 rgba(231,189,84,0),0 0 12px var(--gold)}}
+
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important}
+  svg.chartIn path[fill="none"]{stroke-dashoffset:0!important}
+  svg.chartIn circle,svg.chartIn line[stroke="#fff"]{opacity:1!important}
+  body::before{opacity:.32}.brand .dot{animation:none}
+}
+
+/* persistent hub link */
+.hublink{margin-left:auto;font-size:11px;color:var(--muted);text-decoration:none;padding:5px 11px;border:1px solid var(--line);border-radius:20px;transition:color .15s,border-color .15s,background .15s}
+.hublink:hover{color:var(--gold2);border-color:var(--gold);background:rgba(231,189,84,.06)}
+</style>
+<script>window.__L2QB={"open": {"q": "When adding two individual demand curves to get the market demand curve, you sum:", "opts": ["Prices at each quantity", "Quantities at each price", "Elasticities at each price", "Slopes"], "a": 1}, "close": {"q": "If a third identical buyer joins the market, the market demand curve at each price:", "opts": ["Shifts left", "Rotates clockwise", "Adds another buyer\u2019s quantity, shifting right", "Becomes vertical"], "a": 2}};</script>
+</head>
+<body>
+<div class="wrap">
+  <div class="topbar">
+    <div class="brand"><span class="dot"></span><b>EconVenture <span class="gold">Foundations</span></b></div>
+    <div class="step">From one buyer to the whole market</div><a class="hublink" href="EconVenture_Hub.html" title="Back to hub">◄ Hub</a></div>
+  <div id="app"></div>
+  <div class="center tiny muted" style="margin-top:18px">Foundations · builds the market demand and supply curves that Level 1 then uses.</div>
+</div>
+
+<script>
+/* EconVenture classroom helper — must be identical across every act.
+   Enforces the faculty gate for THIS act (network required; fail-closed after a grace period)
+   and reports position + completion to the classroom backend. */
+const CLASS_URL='';  /* faculty pastes the same Apps Script /exec URL used by Hub/Founder */
+const CLS={
+  cfg:{ actIdx:-1, actKind:'act', graceMs:15000, pollMs:6000, pingMs:20000 },
+  state:{ code:'', sid:'', name:'', gate:null, lastOk:0, tries:0, active:false },
+  init(){ try{ const r=localStorage.getItem('econventure_class_v1'); if(r){ const c=JSON.parse(r)||{}; this.state.code=c.code||''; this.state.sid=c.sid||''; this.state.name=c.name||''; } }catch(e){} },
+  online(){ return !!(CLASS_URL||'').trim(); },
+  call(params, cb){
+    if(!this.online()){ cb&&cb(null); return; }
+    try{
+      const qs=Object.keys(params).map(k=>k+'='+encodeURIComponent(params[k])).join('&');
+      fetch((CLASS_URL||'').trim()+'?api=1&'+qs,{cache:'no-store'})
+        .then(r=>r.json()).then(j=>cb&&cb(j))
+        .catch(()=>cb&&cb(null));
+    }catch(e){ cb&&cb(null); }
+  },
+  isOpenForMe(){
+    const g=this.state.gate; if(!g) return false;
+    if(g.paused) return false;
+    if(!g.paced) return true;                     // teacher turned pacing off => everyone can proceed
+    if(this.cfg.actKind==='act'){
+      return Array.isArray(g.open) && g.open.indexOf(this.cfg.actIdx)>=0;
+    }
+    return Array.isArray(g.l1open) && g.l1open.indexOf(this.cfg.actIdx)>=0;
+  },
+  showGate(msg, sub){
+    if(this._gateEl){ this._gateEl.remove(); this._gateEl=null; }
+    const el=document.createElement('div');
+    el.id='__cls_gate';
+    el.style.cssText='position:fixed;inset:0;z-index:99999;background:rgba(8,19,33,.97);display:flex;align-items:center;justify-content:center;padding:24px;backdrop-filter:blur(6px);font:15px/1.5 system-ui,Segoe UI,Roboto,sans-serif;color:#eef4fb';
+    el.innerHTML='<div style="max-width:520px;text-align:center;padding:28px 32px;background:linear-gradient(180deg,#0d1f38,#0b1d38);border:1px solid #1d3a5f;border-radius:16px;box-shadow:0 22px 44px -18px rgba(0,0,0,.7)">'+
+      '<div style="font-size:11px;letter-spacing:1px;text-transform:uppercase;color:#93abcd;margin-bottom:8px">Paced by your teacher</div>'+
+      '<div style="font-size:22px;font-weight:700;margin-bottom:10px">'+msg+'</div>'+
+      '<div style="font-size:14px;color:#93abcd">'+sub+'</div>'+
+      '</div>';
+    document.body.appendChild(el); this._gateEl=el;
+  },
+  hideGate(){ if(this._gateEl){ this._gateEl.remove(); this._gateEl=null; } },
+  refreshGate(cb){
+    if(!this.state.code){ this.showGate('Sign in through the Hub first', 'This act only opens when you are joined to your teacher\u2019s classroom. Return to the Hub, enter your name, roll and the class code, then come back.'); cb&&cb(false); return; }
+    if(!this.online()){ this.showGate('This game is not connected to a class', 'The classroom server is not configured on this page. Ask your teacher.'); cb&&cb(false); return; }
+    this.call({action:'gate',code:this.state.code}, g=>{
+      this.state.tries++;
+      if(g && g.ok!==false){
+        this.state.gate=g; this.state.lastOk=Date.now(); this.state.tries=0;
+        if(this.isOpenForMe()){ this.hideGate(); cb&&cb(true); }
+        else {
+          const name=(g.name||this.state.code);
+          this.showGate(g.paused?('Class '+name+' is on hold'):('Waiting for your teacher to open this stage'), g.paused?'Your teacher paused the class. You will unlock when they resume.':'You are ahead of the class, or your teacher has not opened this stage yet. It will open automatically the moment they do.');
+          cb&&cb(false);
+        }
+      } else {
+        const age=Date.now()-this.state.lastOk;
+        if(this.state.lastOk && age<this.cfg.graceMs){ /* recent good state, no scary UI */ cb&&cb(this.isOpenForMe()); }
+        else { this.showGate('Reconnecting to your class', 'Your device lost the classroom server. This will retry automatically. If it stays down for a minute, tell your teacher.'); cb&&cb(false); }
+      }
+    });
+  },
+  start(actIdx, actKind){
+    this.cfg.actIdx=actIdx; this.cfg.actKind=actKind||'act';
+    this.init();
+    if(this.state.active) return; this.state.active=true;
+    this.refreshGate();
+    this._poll=setInterval(()=>this.refreshGate(),this.cfg.pollMs);
+    this._ping=setInterval(()=>{ this._doPing(); },this.cfg.pingMs);
+    this._doPing();  /* immediate so roster shows position instantly */
+    if(this._initCloudSave) this._initCloudSave();
+  },
+  _doPing(){
+    if(!this.state.code || !this.state.sid) return;
+    this.call({action:'ping',sid:this.state.sid,pos:(this.cfg.actKind==='act'?'A:':'L1:')+this.cfg.actIdx}, r=>{
+      if(!r || !r.directive) return;
+      this._handleDirective(r.directive);
+    });
+  },
+  _handleDirective(d){
+    if(!d || !d.kind) return;
+    if(d.kind==='kick'){
+      try{ localStorage.removeItem('econventure_class_v1'); }catch(e){}
+      this.showGate('You have been removed from this class', 'Your teacher removed you from the classroom. Return to the Hub if you want to rejoin with a new code.');
+      return;
+    }
+    if(d.kind==='goto'){
+      const kind = d.posKind==='act'?'act':'concept';
+      const pos = Number(d.pos)||0;
+      // If the target IS this file's own act at same kind, just clear the gate wall (they're already here).
+      if(kind==='act' && this.cfg.actKind==='act' && pos===this.cfg.actIdx){ this.hideGate(); return; }
+      // Otherwise navigate to the Hub target file. Same-directory relative link.
+      const files = ['EconVenture_L1_Aggregation.html','EconVenture_Founder.html','EconVenture_L2_Act1.html','EconVenture_L2_Act2.html','EconVenture_L2_Act3.html','EconVenture_L2_Act4.html','EconVenture_L2_Act5.html','EconVenture_L2_Act6.html','EconVenture_L2_Act7.html','EconVenture_L2_Act8.html','EconVenture_Live.html'];
+      if(kind==='act' && files[pos]){
+        try{ location.href=files[pos]; }catch(e){}
+        return;
+      }
+      if(kind==='concept'){
+        // Send them into Founder at that concept. Founder reads its own directive on boot.
+        try{ localStorage.setItem('econventure_pending_goto', JSON.stringify({posKind:'concept',pos:pos,at:Date.now()})); }catch(e){}
+        try{ location.href='EconVenture_Founder.html'; }catch(e){}
+      }
+    }
+  },
+  complete(){ if(!this.state.code || !this.state.sid) return;
+    this.call({action:'quiz',code:this.state.code,sid:this.state.sid,concept:100+this.cfg.actIdx,phase:'post',score:1,total:1},()=>{}); },
+  needsClassroom(){ return !this.state.code; }
+};
+
+/* Cloud save: bundle every econventure_* localStorage key, ship on change (debounced).
+   Called by CLS.start automatically once we have code + uid. Fetch on Hub finish (Hub side). */
+CLS._saveKey='econventure_cloudsave_lasthash';
+CLS._collectBundle=function(){
+  const bundle={};
+  try{
+    for(let i=0;i<localStorage.length;i++){
+      const k=localStorage.key(i);
+      if(!k) continue;
+      if(k.indexOf('econventure_')!==0) continue;
+      if(k==='econventure_cloudsave_lasthash') continue;    /* housekeeping key: don't ship */
+      bundle[k]=localStorage.getItem(k);
+    }
+  }catch(e){}
+  return bundle;
+};
+CLS._hash=function(s){ let h=0; for(let i=0;i<s.length;i++){ h=(h*31+s.charCodeAt(i))|0; } return String(h); };
+CLS._pushSave=function(force){
+  if(!this.state.code || !this.state.uid) return;
+  const bundle=this._collectBundle();
+  const payload=JSON.stringify(bundle);
+  const hash=this._hash(payload);
+  if(!force){
+    try{ if(localStorage.getItem(this._saveKey)===hash) return; }catch(e){}
+  }
+  this.call({action:'save',code:this.state.code,uid:this.state.uid,gsub:this.state.gsub||'',email:this.state.email||'',name:this.state.name||'',roll:this.state.roll||'',payload:payload}, r=>{
+    if(r && r.ok){ try{ localStorage.setItem(this._saveKey, hash); }catch(e){} }
+  });
+};
+CLS._initCloudSave=function(){
+  /* Re-read identity to include uid/gsub/email if the Hub wrote them. */
+  try{
+    const raw=localStorage.getItem('econventure_class_v1');
+    if(raw){ const c=JSON.parse(raw)||{};
+      this.state.code=c.code||this.state.code;
+      this.state.sid=c.sid||this.state.sid;
+      this.state.name=c.name||this.state.name;
+      this.state.uid=c.uid||'';
+      if(c.google){ this.state.gsub=c.google.sub||''; this.state.email=c.google.email||''; }
+      if(c.roll) this.state.roll=c.roll;
+    }
+  }catch(e){}
+  if(!this._cloudInited && this.state.code && this.state.uid){
+    this._cloudInited=true;
+    /* First push after 1s (gives boot code a moment to settle), then every 30s if changed, then on unload. */
+    setTimeout(()=>this._pushSave(false), 1000);
+    setInterval(()=>this._pushSave(false), 30000);
+    window.addEventListener('beforeunload', ()=>{ try{ this._pushSave(true); }catch(e){} });
+  }
+};
+
+
+/* ============================================================================
+   FOUNDATIONS — INDIVIDUAL vs MARKET demand and supply (horizontal summation).
+   This is MICRO aggregation, not the macro AD-AS model: no GDP, no price level.
+   The one market curve Level 1 hands you is built here from individuals.
+
+   RULE: to build a market curve, add the QUANTITIES at each price (sum sideways),
+   never the prices. Because participants have different cut-off prices, the
+   market curve KINKS where a group drops out (demand) or a firm enters (supply).
+   Same bulb market and ₹ scale as Level 1; equilibrium lands at ~₹125, in Level
+   1's competitive band. (Level 1 then smooths this into a single straight line.)
+   ============================================================================ */
+const BUYERS=[
+  {name:'Students',   a:9000, b:60, color:'#4a90d9'}, // choke ₹150 (price-sensitive)
+  {name:'Households', a:8000, b:32, color:'#43b581'}, // choke ₹250
+  {name:'Offices',    a:3000, b:8,  color:'#b07de0'}  // choke ₹375 (price-insensitive)
+];
+const FIRMS=[
+  {name:'Firm A', a:70,  b:0.006, color:'#4a90d9'},   // enters ₹70 (low cost)
+  {name:'Firm B', a:95,  b:0.007, color:'#43b581'},   // enters ₹95
+  {name:'Firm C', a:110, b:0.009, color:'#b07de0'}    // enters ₹110 (high cost)
+];
+const bQ=(x,P)=>Math.max(0, x.a-x.b*P);
+const fQ=(f,P)=> P>f.a ? (P-f.a)/(2*f.b) : 0;
+const marketD=P=>BUYERS.reduce((s,x)=>s+bQ(x,P),0);
+const marketS=P=>FIRMS.reduce((s,f)=>s+fQ(f,P),0);
+let EQ=(()=>{let lo=70,hi=375,P;for(let i=0;i<90;i++){P=(lo+hi)/2;(marketD(P)>marketS(P))?lo=P:hi=P;}return {P:Math.round(P),Q:Math.round(marketD(P))};})();
+const inr=n=>'₹'+Math.round(n).toLocaleString('en-IN');
+const nQ=n=>Math.round(n).toLocaleString('en-IN');
+
+/* ---- generic P-Q chart; individuals thin, market thick ------------------- */
+const CW=380,CH=260,PADL=44,PADR=16,PADT=14,PADB=30,QMAX=20500,PMAX=380;
+const cx=q=>PADL+q/QMAX*(CW-PADL-PADR);
+const cy=p=>PADT+(1-p/PMAX)*(CH-PADT-PADB);
+function axes(){
+  let g='';[0,100,200,300].forEach(p=>{g+=`<line x1="${PADL}" y1="${cy(p)}" x2="${CW-PADR}" y2="${cy(p)}" stroke="var(--line)" stroke-width="1" opacity=".5"/><text x="${PADL-6}" y="${cy(p)+4}" text-anchor="end" font-size="10" fill="var(--muted)">₹${p}</text>`;});
+  [0,10000,20000].forEach(q=>{g+=`<text x="${cx(q)}" y="${CH-10}" text-anchor="middle" font-size="10" fill="var(--muted)">${q/1000}k</text>`;});
+  g+=`<text x="${PADL}" y="11" font-size="10" fill="var(--muted)">price ↑</text><text x="${CW-PADR}" y="${CH-10}" text-anchor="end" font-size="10" fill="var(--muted)">quantity →</text>`;
+  return g;
+}
+// a demand line for buyer x: from (a,0) at P=0 down to (0, choke)
+function demandPath(x){ const p0=cy(0),x0=cx(x.a), pC=cy(x.a/x.b),xC=cx(0); return `M ${x0} ${p0} L ${xC} ${pC}`; }
+function marketDPath(){ let d='';for(let P=0;P<=PMAX;P+=5){d+=(d?'L':'M')+cx(marketD(P)).toFixed(1)+' '+cy(P).toFixed(1)+' ';} return d; }
+function supplyPath(f){ let d='';for(let P=f.a;P<=PMAX;P+=5){d+=(d?'L':'M')+cx(fQ(f,P)).toFixed(1)+' '+cy(P).toFixed(1)+' ';} return d; }
+function marketSPath(){ let d='';for(let P=0;P<=PMAX;P+=5){d+=(d?'L':'M')+cx(marketS(P)).toFixed(1)+' '+cy(P).toFixed(1)+' ';} return d; }
+
+function demandChart(P){
+  let ind=BUYERS.map(x=>`<path d="${demandPath(x)}" fill="none" stroke="${x.color}" stroke-width="1.6" opacity=".8"/>
+     <circle cx="${cx(bQ(x,P))}" cy="${cy(P)}" r="3.5" fill="${x.color}"/>`).join('');
+  return `<svg viewBox="0 0 ${CW} ${CH}">${axes()}
+    ${ind}
+    <path d="${marketDPath()}" fill="none" stroke="var(--mkt)" stroke-width="3"/>
+    <line x1="${PADL}" y1="${cy(P)}" x2="${CW-PADR}" y2="${cy(P)}" stroke="#fff" stroke-width="1" stroke-dasharray="4 3" opacity=".55"/>
+    <circle cx="${cx(marketD(P))}" cy="${cy(P)}" r="5" fill="var(--mkt)" stroke="#0a1626" stroke-width="2"/>
+    <text x="${cx(marketD(P))}" y="${cy(P)-9}" text-anchor="middle" font-size="10" fill="var(--mkt)">market</text></svg>`;
+}
+function supplyChart(P){
+  let ind=FIRMS.map(f=>`<path d="${supplyPath(f)}" fill="none" stroke="${f.color}" stroke-width="1.6" opacity=".8"/>
+     <circle cx="${cx(fQ(f,P))}" cy="${cy(P)}" r="3.5" fill="${f.color}"/>`).join('');
+  return `<svg viewBox="0 0 ${CW} ${CH}">${axes()}
+    ${ind}
+    <path d="${marketSPath()}" fill="none" stroke="var(--mkt)" stroke-width="3"/>
+    <line x1="${PADL}" y1="${cy(P)}" x2="${CW-PADR}" y2="${cy(P)}" stroke="#fff" stroke-width="1" stroke-dasharray="4 3" opacity=".55"/>
+    <circle cx="${cx(marketS(P))}" cy="${cy(P)}" r="5" fill="var(--mkt)" stroke="#0a1626" stroke-width="2"/>
+    <text x="${cx(marketS(P))}" y="${cy(P)-9}" text-anchor="middle" font-size="10" fill="var(--mkt)">market</text></svg>`;
+}
+function eqChart(P){
+  const qd=marketD(P), qs=marketS(P);
+  return `<svg viewBox="0 0 ${CW} ${CH}">${axes()}
+    <path d="${marketDPath()}" fill="none" stroke="#4a90d9" stroke-width="3"/>
+    <path d="${marketSPath()}" fill="none" stroke="#e5594d" stroke-width="3"/>
+    <circle cx="${cx(EQ.Q)}" cy="${cy(EQ.P)}" r="4" fill="#fff"/>
+    <text x="${cx(EQ.Q)+6}" y="${cy(EQ.P)-6}" font-size="10" fill="#fff">equilibrium ₹${EQ.P}</text>
+    <line x1="${PADL}" y1="${cy(P)}" x2="${CW-PADR}" y2="${cy(P)}" stroke="#fff" stroke-width="1" stroke-dasharray="4 3" opacity=".55"/>
+    <circle cx="${cx(qd)}" cy="${cy(P)}" r="4.5" fill="#4a90d9"/><circle cx="${cx(qs)}" cy="${cy(P)}" r="4.5" fill="#e5594d"/>
+    <text x="${CW-PADR}" y="${cy(20)}" text-anchor="end" font-size="10" fill="#4a90d9">demand</text>
+    <text x="${CW-PADR}" y="${cy(20)+13}" text-anchor="end" font-size="10" fill="#e5594d">supply</text></svg>`;
+}
+
+/* --------------------------------- STATE -------------------------------- */
+const SAVE='econventure_agg_v1';
+let ST={phase:'primer', dP:120, sP:120, eP:170, committed:false};
+try{const r=localStorage.getItem(SAVE);if(r)ST=Object.assign(ST,JSON.parse(r));}catch(e){}
+const save=()=>{try{localStorage.setItem(SAVE,JSON.stringify(ST));}catch(e){}};
+
+/* ------------------------------- PRIMER --------------------------------- */
+function primer(){
+  return `<div class="panel">
+    <div class="step" style="margin-bottom:4px">Before Level 1 · where the curves come from</div>
+    <h1>Level 1 hands you a market curve. But a market is not one person.</h1>
+    <p class="muted">Every demand curve you will use in this course is really a crowd of individual buyers added together, and every supply curve is a set of individual firms added together. Before you price against a market, you should see how that market curve is actually built. It takes ten seconds and it fixes a lot of confusion later.</p>
+    <div class="speak"><span class="who">Priya:</span> "The one rule that trips people up: to combine buyers, you add their <i>quantities</i> at each price, not their prices. Line the buyers up at ₹100, ask each how many they want, add those numbers. Do it at every price and you have traced the market demand curve."</div>
+    <p class="small">Two everyday truths make this click:</p>
+    <div class="example">
+      <div class="ex"><b>Buyers differ</b><br>A student bows out of an expensive bulb long before an office does. So as price climbs, groups drop off one by one, and the market demand curve <b>bends</b> each time one leaves.</div>
+      <div class="ex"><b>Firms differ</b><br>A low-cost firm will sell at ₹70; a high-cost one won't bother until ₹110. So as price climbs, more firms switch on, and the market supply curve <b>bends</b> each time one enters.</div>
+    </div>
+    <p class="small muted">You will build market demand, then market supply, then find where they cross. That crossing is the competitive price Level 1 talks about.</p>
+    <div class="btnrow"><button class="btn primary wide" id="go">Build the market demand curve →</button></div>
+  </div>`;
+}
+
+/* ------------------------- BEAT 1 · DEMAND ------------------------------ */
+function demandScreen(){
+  const P=ST.dP;
+  return `<div class="panel">
+    <div class="step" style="margin-bottom:4px">Beat 1 · demand adds sideways</div>
+    <h2>Three kinds of buyer, one market demand curve.</h2>
+    <p class="small muted" style="margin-top:0">Drag the price line. At that price each buyer group wants some quantity; add those three numbers and you get the point on the gold market curve. Watch the market curve bend where a group hits its limit and drops to zero.</p>
+    <div class="grid cols2">
+      <div><div id="dChart">${demandChart(P)}</div>
+        <div class="legend">${BUYERS.map(b=>`<span class="k"><span class="sw" style="background:${b.color}"></span>${b.name}</span>`).join('')}<span class="k"><span class="sw" style="background:var(--mkt);height:4px"></span>Market (the sum)</span></div>
+      </div>
+      <div>
+        <label class="field"><div class="cap"><b>Price</b> <span class="val" id="dpVal">${inr(P)}</span></div>
+          <input id="dp" type="range" min="0" max="360" step="5" value="${P}"></label>
+        <div class="work" id="dwork">${dWork()}</div>
+      </div>
+    </div>
+    <div class="btnrow"><button class="btn primary wide" id="toSupply">Now build market supply →</button></div>
+  </div>`;
+}
+function dWork(){
+  const P=ST.dP, parts=BUYERS.map(b=>`${b.name} ${nQ(bQ(b,P))}`);
+  const dropped=BUYERS.filter(b=>bQ(b,P)<=0).map(b=>b.name);
+  return `<div class="row">At <b>${inr(P)}</b>:  ${parts.join('  +  ')}  =  <b>${nQ(marketD(P))}</b> units</div>
+    <div class="row">That sum is one point on the market demand curve. Do it at every price and you trace the whole curve.</div>
+    ${dropped.length?`<div class="row" style="color:var(--warn)">${dropped.join(' and ')} ${dropped.length>1?'have':'has'} dropped out here (price above their limit), which is why the market curve is flatter above this point. That bend is a kink.</div>`:''}`;
+}
+
+/* ------------------------- BEAT 2 · SUPPLY ------------------------------ */
+function supplyScreen(){
+  const P=ST.sP;
+  return `<div class="panel">
+    <div class="step" style="margin-bottom:4px">Beat 2 · supply adds sideways too</div>
+    <h2>Three firms, one market supply curve.</h2>
+    <p class="small muted" style="margin-top:0">Same rule, other side. Each firm only produces once the price clears its cost, and makes more as price rises. Add the three quantities at each price to get market supply. The curve bends upward each time a new firm switches on.</p>
+    <div class="grid cols2">
+      <div><div id="sChart">${supplyChart(P)}</div>
+        <div class="legend">${FIRMS.map(f=>`<span class="k"><span class="sw" style="background:${f.color}"></span>${f.name} (from ${inr(f.a)})</span>`).join('')}<span class="k"><span class="sw" style="background:var(--mkt);height:4px"></span>Market</span></div>
+      </div>
+      <div>
+        <label class="field"><div class="cap"><b>Price</b> <span class="val" id="spVal">${inr(P)}</span></div>
+          <input id="sp" type="range" min="0" max="360" step="5" value="${P}"></label>
+        <div class="work" id="swork">${sWork()}</div>
+      </div>
+    </div>
+    <div class="btnrow"><button class="btn primary wide" id="toEq">Find where they cross →</button></div>
+  </div>`;
+}
+function sWork(){
+  const P=ST.sP, parts=FIRMS.map(f=>`${f.name} ${nQ(fQ(f,P))}`);
+  const off=FIRMS.filter(f=>fQ(f,P)<=0).map(f=>f.name);
+  return `<div class="row">At <b>${inr(P)}</b>:  ${parts.join('  +  ')}  =  <b>${nQ(marketS(P))}</b> units</div>
+    <div class="row">Each firm supplies where price covers its marginal cost; below that it makes nothing.</div>
+    ${off.length?`<div class="row" style="color:var(--warn)">${off.join(' and ')} ${off.length>1?'are':'is'} still switched off here (price below their cost). As price rises they switch on, and the market supply curve kinks outward.</div>`:'<div class="row" style="color:var(--good)">All three firms are producing at this price.</div>'}`;
+}
+
+/* ------------------------- BEAT 3 · EQUILIBRIUM ------------------------- */
+function eqScreen(){
+  const P=ST.eP, qd=marketD(P), qs=marketS(P), gap=qd-qs;
+  return `<div class="panel">
+    <div class="step" style="margin-bottom:4px">Beat 3 · where the two meet</div>
+    <h2>Slide the price until buyers and sellers want the same amount.</h2>
+    <p class="small muted" style="margin-top:0">Now both market curves are on one chart. Above the crossing, sellers want to make more than buyers will take (a surplus, price falls). Below it, buyers want more than sellers make (a shortage, price rises). Only one price clears the market.</p>
+    <div class="grid cols2">
+      <div id="eChart">${eqChart(P)}</div>
+      <div>
+        <label class="field"><div class="cap"><b>Price</b> <span class="val" id="epVal">${inr(P)}</span></div>
+          <input id="ep" type="range" min="80" max="300" step="2" value="${P}"></label>
+        <div class="grid cols2">
+          <div class="card"><div class="l">Buyers want</div><div class="v mono" id="qdV" style="color:#4a90d9">${nQ(qd)}</div></div>
+          <div class="card"><div class="l">Sellers make</div><div class="v mono" id="qsV" style="color:#e5594d">${nQ(qs)}</div></div>
+        </div>
+        <div id="eqMsg" style="margin-top:8px"></div>
+      </div>
+    </div>
+    <div class="btnrow"><button class="btn primary wide" id="lock">Lock in the market price</button></div>
+    <div id="after"></div>
+  </div>`;
+}
+
+function afterLock(){
+  const P=ST.eP, gap=marketD(P)-marketS(P), atEq=Math.abs(P-EQ.P)<=4;
+  let head;
+  if(atEq){
+    head=`<div class="flag ok"><b>That is the equilibrium.</b> At about <b>${inr(EQ.P)}</b> buyers want and sellers make the same ${nQ(EQ.Q)} units, so nothing pushes the price either way. This is the competitive price Level 1 starts from, and now you know it is just where the summed demand meets the summed supply.</div>`;
+  } else if(gap>0){
+    head=`<div class="flag warn">At ${inr(P)} buyers want ${nQ(marketD(P))} but sellers only make ${nQ(marketS(P))}. That is a <b>shortage</b> of ${nQ(gap)}. Buyers bid the price up. Slide up toward ${inr(EQ.P)}.</div>`;
+  } else {
+    head=`<div class="flag warn">At ${inr(P)} sellers make ${nQ(marketS(P))} but buyers only want ${nQ(marketD(P))}. That is a <b>surplus</b> of ${nQ(-gap)}. Unsold stock pushes the price down. Slide down toward ${inr(EQ.P)}.</div>`;
+  }
+  return head+`<div class="reinforce">
+    <div class="chip" style="margin-bottom:6px">Individual vs market curves</div>
+    <h3>The market curve is a sum, and equilibrium is where two sums meet</h3>
+    <p class="small" style="margin:.2em 0 0"><b>Market demand</b> is the horizontal sum of every buyer's demand: at each price you add the quantities individuals want, never their prices. <b>Market supply</b> is the horizontal sum of every firm's supply, where each firm produces only once the price covers its marginal cost. Because buyers have different cut-off prices and firms have different cost floors, both market curves <b>kink</b>, bending each time a buyer drops out or a firm switches on. That kinked shape is the fingerprint of aggregation; a perfectly straight market curve is a convenient approximation, which is exactly what Level 1 uses to keep the arithmetic clean.</p>
+    <p class="small" style="margin:.6em 0 0"><b>Equilibrium</b> is the single price where the two sums are equal, so the quantity buyers want equals the quantity sellers make. Above it, a surplus drags price down; below it, a shortage pushes price up; only the crossing is stable. Everything in Level 1, the competitive benchmark, the way a monopolist departs from it, the welfare triangles of Level 2, sits on top of this one construction. This is the floor the whole course stands on.</p>
+    <div class="chips"><span class="chip">Individual vs market demand</span><span class="chip">Horizontal summation</span><span class="chip">Market supply</span><span class="chip">Market equilibrium</span><span class="chip">Surplus & shortage</span></div>
+  </div>
+  <div class="reinforce" style="border-left-color:var(--gold)">
+    <div class="chip" style="margin-bottom:6px">Ready for Level 1</div>
+    <h3>Now the single market curve makes sense</h3>
+    <p class="small" style="margin:.2em 0 0">When Level 1 hands you a demand curve and a competitive price, you now know both are built from the individuals underneath. From here the course zooms in on one firm's decisions: cost, pricing, and how a firm with market power sets a price above this competitive crossing. Head back to the hub and start Level 1.</p>
+  </div>
+  <div class="btnrow"><button class="btn primary" id="nextAct">Continue · Act 1 · Consumer surplus & DWL →</button><button class="btn ghost" id="replay">Slide the price again</button></div>`;
+}
+
+/* ------------------------------- RENDER --------------------------------- */
+const setFill=el=>el&&el.style.setProperty('--fill',((el.value-el.min)/(el.max-el.min)*100)+'%');
+const prefersReduced=()=>{ try{ return window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches; }catch(e){ return false; } };
+// ---- smooth SVG morphing: patch geometry in place so charts glide instead of snapping ----
+function _mvTok(str){ const re=/-?\d*\.?\d+(?:[eE][-+]?\d+)?/g; let m,last=0,tmpl=[],nums=[]; while((m=re.exec(str))){ tmpl.push(str.slice(last,m.index)); nums.push(parseFloat(m[0])); last=m.index+m[0].length; } tmpl.push(str.slice(last)); return {tmpl,nums}; }
+function _mvBuild(tmpl,nums){ let s=tmpl[0]; for(let i=0;i<nums.length;i++){ s+=(Math.round(nums[i]*100)/100)+tmpl[i+1]; } return s; }
+const _MVNUM=['cx','cy','r','rx','ry','x','y','width','height','x1','y1','x2','y2','opacity','fill-opacity','stroke-opacity','stroke-width','offset','font-size'];
+function morphSVG(host,newHTML,dur){
+  try{
+    dur=(dur==null?120:dur);
+    const cur=host.querySelector('svg'); const tmp=document.createElement('div'); tmp.innerHTML=newHTML; const nx=tmp.querySelector('svg');
+    if(!cur||!nx){ host.innerHTML=newHTML; return; }
+    const O=cur.querySelectorAll('*'), N=nx.querySelectorAll('*');
+    if(O.length!==N.length){ cur.replaceWith(nx); return; }
+    for(let i=0;i<O.length;i++){ if(O[i].tagName!==N[i].tagName){ cur.replaceWith(nx); return; } }
+    const plans=[];
+    for(let i=0;i<O.length;i++){ const o=O[i],n=N[i],p={o,nums:[],pts:null,d:null};
+      for(const a of _MVNUM){ if(n.hasAttribute(a)){ const to=parseFloat(n.getAttribute(a)); let fr=o.hasAttribute(a)?parseFloat(o.getAttribute(a)):to; if(!isNaN(to)&&!isNaN(fr)) p.nums.push({a,fr,to}); } }
+      for(const at of n.attributes){ const nm=at.name; if(_MVNUM.indexOf(nm)<0&&nm!=='points'&&nm!=='d'){ if(o.getAttribute(nm)!==at.value) o.setAttribute(nm,at.value); } }
+      if(n.hasAttribute('points')){ const T=_mvTok(n.getAttribute('points')),F=_mvTok(o.getAttribute('points')||n.getAttribute('points')); if(F.nums.length===T.nums.length) p.pts={fr:F.nums,to:T.nums,tmpl:T.tmpl}; else o.setAttribute('points',n.getAttribute('points')); }
+      if(n.hasAttribute('d')){ const ds=n.getAttribute('d'); const T=_mvTok(ds),F=_mvTok(o.getAttribute('d')||ds); if(F.nums.length===T.nums.length&&F.tmpl.join('\u0001')===T.tmpl.join('\u0001')) p.d={fr:F.nums,to:T.nums,tmpl:T.tmpl}; else o.setAttribute('d',ds); }
+      if(n.children.length===0&&o.textContent!==n.textContent) o.textContent=n.textContent;
+      plans.push(p);
+    }
+    if(host._mvRAF){ cancelAnimationFrame(host._mvRAF); host._mvRAF=null; }
+    if(prefersReduced()||dur<=0){ for(const p of plans){ for(const x of p.nums)p.o.setAttribute(x.a,x.to); if(p.pts)p.o.setAttribute('points',_mvBuild(p.pts.tmpl,p.pts.to)); if(p.d)p.o.setAttribute('d',_mvBuild(p.d.tmpl,p.d.to)); } return; }
+    const t0=performance.now();
+    const step=now=>{ const k=Math.min(1,(now-t0)/dur),e=1-Math.pow(1-k,3);
+      for(const p of plans){ for(const x of p.nums)p.o.setAttribute(x.a,x.fr+(x.to-x.fr)*e);
+        if(p.pts){ const a=p.pts.fr,b=p.pts.to; p.o.setAttribute('points',_mvBuild(p.pts.tmpl,a.map((v,j)=>v+(b[j]-v)*e))); }
+        if(p.d){ const a=p.d.fr,b=p.d.to; p.o.setAttribute('d',_mvBuild(p.d.tmpl,a.map((v,j)=>v+(b[j]-v)*e))); } }
+      if(k<1) host._mvRAF=requestAnimationFrame(step);
+      else { for(const p of plans){ for(const x of p.nums)p.o.setAttribute(x.a,x.to); if(p.pts)p.o.setAttribute('points',_mvBuild(p.pts.tmpl,p.pts.to)); if(p.d)p.o.setAttribute('d',_mvBuild(p.d.tmpl,p.d.to)); } host._mvRAF=null; }
+    };
+    host._mvRAF=requestAnimationFrame(step);
+  }catch(e){ try{ host.innerHTML=newHTML; }catch(_){} }
+}
+function render(){
+  const app=document.getElementById('app');
+  if(ST.phase==='primer'){ app.innerHTML=primer(); document.getElementById('go').onclick=()=>{ST.phase='demand';save();render();}; return; }
+  if(ST.phase==='demand'){
+    app.innerHTML=demandScreen();
+    const dp=document.getElementById('dp');
+    const refresh=()=>{ST.dP=+dp.value; document.getElementById('dpVal').textContent=inr(ST.dP);
+      morphSVG(document.getElementById('dChart'),demandChart(ST.dP)); document.getElementById('dwork').innerHTML=dWork(); setFill(dp); save();};
+    setFill(dp); dp.oninput=refresh;
+    document.getElementById('toSupply').onclick=()=>{ST.phase='supply';save();render();};
+    return;
+  }
+  if(ST.phase==='supply'){
+    app.innerHTML=supplyScreen();
+    const sp=document.getElementById('sp');
+    const refresh=()=>{ST.sP=+sp.value; document.getElementById('spVal').textContent=inr(ST.sP);
+      morphSVG(document.getElementById('sChart'),supplyChart(ST.sP)); document.getElementById('swork').innerHTML=sWork(); setFill(sp); save();};
+    setFill(sp); sp.oninput=refresh;
+    document.getElementById('toEq').onclick=()=>{ST.phase='eq';save();render();};
+    return;
+  }
+  // equilibrium
+  app.innerHTML=eqScreen();
+  const ep=document.getElementById('ep');
+  const refresh=()=>{ST.eP=+ep.value; const qd=marketD(ST.eP),qs=marketS(ST.eP),gap=qd-qs;
+    document.getElementById('epVal').textContent=inr(ST.eP);
+    morphSVG(document.getElementById('eChart'),eqChart(ST.eP));
+    document.getElementById('qdV').textContent=nQ(qd); document.getElementById('qsV').textContent=nQ(qs);
+    document.getElementById('eqMsg').innerHTML = Math.abs(gap)<120
+      ? `<div class="flag ok">✓ Buyers and sellers want almost the same amount. This is equilibrium, about ${inr(EQ.P)}.</div>`
+      : gap>0 ? `<div class="flag warn">Shortage of ${nQ(gap)}: buyers want more than sellers make. Price gets bid up.</div>`
+              : `<div class="flag warn">Surplus of ${nQ(-gap)}: sellers make more than buyers want. Price gets pushed down.</div>`;
+    setFill(ep); save();};
+  setFill(ep); ep.oninput=refresh; refresh();
+  const doLock=()=>{ST.committed=true;save(); try{ CLS.completeWithQuiz(); }catch(e){}document.getElementById('after').innerHTML=afterLock();
+    const rp=document.getElementById('replay'); if(rp) rp.onclick=()=>{ST.committed=false;save();document.getElementById('after').innerHTML='';};};
+  document.getElementById('lock').onclick=doLock;
+  if(ST.committed) doLock();
+}
+const _renderCore=render;
+render=function(){ _renderCore.apply(this,arguments);
+  if(prefersReduced()) return;
+  try{ document.querySelectorAll('#dChart>svg,#sChart>svg,#eChart>svg').forEach(s=>s.classList.add('chartIn')); }catch(e){}
+};
+render();
+
+document.addEventListener('click',function(e){ var t=e.target; while(t&&t!==document){ if(t.id==='nextAct'){ try{ location.href='EconVenture_L2_Act1.html'; }catch(_){ } return; } t=t.parentNode; } });
+
+/* classroom gate + roster ping — must be after render() defined */
+/* Level 2 wall quiz: one opening question before entry, one closing after commit.
+   Bundle is looked up from window.__L2QB, injected per-file. Progress persisted per-act. */
+CLS._quizKey=function(kind){ return 'econventure_l2q_'+CLS.cfg.actIdx+'_'+kind; };
+CLS._loadQuizFlag=function(kind){ try{ return localStorage.getItem(CLS._quizKey(kind))==='1'; }catch(e){ return false; } };
+CLS._setQuizFlag=function(kind){ try{ localStorage.setItem(CLS._quizKey(kind),'1'); }catch(e){} };
+CLS._showQuiz=function(bundle, kind, onDone){
+  if(!bundle){ onDone&&onDone(); return; }
+  const q = kind==='open' ? bundle.open : bundle.close;
+  if(!q){ onDone&&onDone(); return; }
+  if(this._quizEl){ this._quizEl.remove(); }
+  const el=document.createElement('div');
+  el.id='__cls_quiz';
+  el.style.cssText='position:fixed;inset:0;z-index:99998;background:rgba(8,19,33,.97);display:flex;align-items:center;justify-content:center;padding:24px;backdrop-filter:blur(6px);font:15px/1.5 system-ui,Segoe UI,Roboto,sans-serif;color:#eef4fb';
+  const opts=q.opts.map((o,i)=>'<div data-i="'+i+'" style="cursor:pointer;padding:12px 14px;border:1px solid #1d3a5f;border-radius:10px;margin-top:8px;background:#0a1830;transition:background .15s,border-color .15s" onmouseover="this.style.background=\'#0f2342\'" onmouseout="this.style.background=\'#0a1830\'">'+o+'</div>').join('');
+  el.innerHTML='<div style="max-width:560px;padding:26px 30px;background:linear-gradient(180deg,#0d1f38,#0b1d38);border:1px solid #1d3a5f;border-radius:16px;box-shadow:0 22px 44px -18px rgba(0,0,0,.7)">'+
+    '<div style="font-size:11px;letter-spacing:1px;text-transform:uppercase;color:#93abcd;margin-bottom:8px">'+(kind==='open'?'Before we start':'What did you take away')+'</div>'+
+    '<div style="font-size:19px;font-weight:600;margin-bottom:6px">'+q.q+'</div>'+
+    '<div id="__q_opts">'+opts+'</div>'+
+    '<div style="font-size:12px;color:#5c7396;margin-top:12px">'+(kind==='open'?'One quick check, then the act opens.':'One closing question, then this act is marked complete.')+'</div>'+
+    '</div>';
+  document.body.appendChild(el); this._quizEl=el;
+  Array.prototype.forEach.call(el.querySelectorAll('[data-i]'), function(node){
+    node.onclick=function(){
+      const chosen=Number(node.getAttribute('data-i'));
+      const ok = chosen===q.a ? 1 : 0;
+      CLS.call({action:'quiz',code:CLS.state.code,sid:CLS.state.sid,concept:200+CLS.cfg.actIdx,phase:kind==='open'?'pre':'post',score:ok,total:1},function(){});
+      CLS._setQuizFlag(kind);
+      if(CLS._quizEl){ CLS._quizEl.remove(); CLS._quizEl=null; }
+      onDone&&onDone(ok);
+    };
+  });
+};
+/* Wrap refreshGate: when gate opens, if opening quiz not taken, show it before hiding the wall. */
+CLS._origHideGate = CLS.hideGate.bind(CLS);
+CLS.hideGate = function(){
+  const b = (typeof window!=='undefined' && window.__L2QB) ? window.__L2QB : null;
+  if(!b || CLS._loadQuizFlag('open') || !CLS.state.code){ CLS._origHideGate(); return; }
+  CLS._origHideGate();
+  CLS._showQuiz(b,'open', function(){});
+};
+/* Called by an act's lock/commit code (via CLS.completeWithQuiz) instead of CLS.complete(). */
+CLS.completeWithQuiz = function(){
+  const b = (typeof window!=='undefined' && window.__L2QB) ? window.__L2QB : null;
+  if(!b || CLS._loadQuizFlag('close') || !CLS.state.code){ CLS.complete(); return; }
+  CLS._showQuiz(b,'close', function(){ CLS.complete(); });
+};
+
+try{ CLS.start(0,'act'); }catch(e){}
+</script>
+</body>
+</html>

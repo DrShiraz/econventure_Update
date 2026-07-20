@@ -1,0 +1,1257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>EconVenture Live</title>
+<style>
+:root{
+  --bg:#081321; --panel:#0e2038; --panel2:#122a49; --line:#1e3a5f;
+  --ink:#e8eef7; --muted:#93a7c4; --gold:#e0b54a; --gold2:#f0cf7a;
+  --good:#43b581; --bad:#e5594d; --info:#4a90d9; --warn:#e8a33d;
+  --shadow:0 6px 24px rgba(0,0,0,.35);
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{background:radial-gradient(1200px 600px at 70% -10%,#0d2540 0,var(--bg) 55%),var(--bg);
+  color:var(--ink);font-family:"Segoe UI",system-ui,-apple-system,Roboto,Helvetica,Arial,sans-serif;
+  font-size:15px;line-height:1.5;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1080px;margin:0 auto;padding:16px 16px 60px}
+h1,h2,h3{margin:0 0 .4em;font-weight:700;letter-spacing:.2px}
+h1{font-size:22px}h2{font-size:18px}h3{font-size:15px}
+a{color:var(--gold2)}
+.mono{font-variant-numeric:tabular-nums}
+.gold{color:var(--gold)}
+.muted{color:var(--muted)}
+.small{font-size:13px}
+.tiny{font-size:12px}
+
+/* header / KPI bar */
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;
+  padding:12px 16px;background:linear-gradient(180deg,#0f2542,#0b1c33);border:1px solid var(--line);
+  border-radius:14px;box-shadow:var(--shadow);margin-bottom:14px}
+.brand{display:flex;align-items:center;gap:10px}
+.brand .dot{width:11px;height:11px;border-radius:50%;background:var(--gold);box-shadow:0 0 12px var(--gold)}
+.brand b{font-size:17px;letter-spacing:.4px}
+.kpis{display:flex;gap:10px;flex-wrap:wrap}
+.kpi{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:7px 11px;min-width:96px}
+.kpi .l{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.6px}
+.kpi .v{font-size:17px;font-weight:700}
+
+/* panels */
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;
+  box-shadow:var(--shadow);margin-bottom:14px}
+.grid{display:grid;gap:14px}
+@media(min-width:760px){.grid.cols2{grid-template-columns:1fr 1fr}.grid.cols3{grid-template-columns:1fr 1fr 1fr}}
+.card{background:var(--panel2);border:1px solid var(--line);border-radius:11px;padding:14px}
+.card .l{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.6px;margin-bottom:3px}
+.card .v{font-size:20px;font-weight:700}
+
+/* news banner */
+.news{display:flex;align-items:center;gap:12px;border-radius:12px;padding:12px 15px;margin-bottom:14px;
+  border:1px solid var(--line);background:linear-gradient(90deg,#132c4d,#0e2038)}
+.news .tag{font-size:11px;font-weight:700;letter-spacing:1px;padding:3px 9px;border-radius:20px;white-space:nowrap}
+.news.positive .tag{background:rgba(67,181,129,.18);color:var(--good);border:1px solid rgba(67,181,129,.4)}
+.news.negative .tag,.news.crisis .tag{background:rgba(229,89,77,.16);color:var(--bad);border:1px solid rgba(229,89,77,.4)}
+.news.neutral .tag{background:rgba(74,144,217,.16);color:var(--info);border:1px solid rgba(74,144,217,.4)}
+.news .txt{font-size:14px}
+
+/* controls */
+label.field{display:block;margin:0 0 14px}
+label.field .cap{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px}
+label.field .cap b{font-size:14px}
+label.field .cap .val{font-variant-numeric:tabular-nums;color:var(--gold);font-weight:700;font-size:15px}
+input[type=range]{-webkit-appearance:none;width:100%;height:6px;border-radius:6px;
+  background:linear-gradient(90deg,var(--gold) 0%,var(--gold) var(--fill,50%),#20375a var(--fill,50%));outline:none}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;
+  background:#fff;border:3px solid var(--gold);cursor:pointer;box-shadow:0 2px 6px rgba(0,0,0,.4)}
+input[type=range]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;background:#fff;border:3px solid var(--gold);cursor:pointer}
+input[type=number],input[type=text],select{width:100%;padding:10px 12px;border-radius:9px;border:1px solid var(--line);
+  background:#0a1c33;color:var(--ink);font-size:15px;font-variant-numeric:tabular-nums}
+input:focus,select:focus{border-color:var(--gold);outline:2px solid rgba(224,181,74,.25)}
+.hint{font-size:12px;color:var(--muted);margin-top:5px}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;gap:8px;justify-content:center;cursor:pointer;
+  padding:12px 20px;border-radius:10px;border:1px solid var(--line);background:var(--panel2);
+  color:var(--ink);font-size:15px;font-weight:600;transition:transform .05s,filter .15s}
+.btn:hover{filter:brightness(1.12)}.btn:active{transform:translateY(1px)}
+.btn.primary{background:linear-gradient(180deg,var(--gold2),var(--gold));color:#2a1e04;border-color:var(--gold)}
+.btn.ghost{background:transparent}
+.btn.wide{width:100%}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.btnrow{display:flex;gap:10px;flex-wrap:wrap;margin-top:8px}
+
+/* warnings */
+.flag{display:flex;gap:9px;align-items:flex-start;border-radius:9px;padding:9px 12px;font-size:13px;margin:8px 0}
+.flag.bad{background:rgba(229,89,77,.12);border:1px solid rgba(229,89,77,.35)}
+.flag.warn{background:rgba(232,163,61,.12);border:1px solid rgba(232,163,61,.35)}
+.flag.ok{background:rgba(67,181,129,.12);border:1px solid rgba(67,181,129,.35)}
+
+/* speak / lecture */
+.speak{border-left:3px solid var(--gold);background:rgba(224,181,74,.07);padding:9px 13px;border-radius:0 8px 8px 0;
+  font-size:13.5px;margin:10px 0;color:#dbe6f5}
+.lecture{background:var(--panel2);border:1px solid var(--line);border-left:4px solid var(--info);border-radius:10px;padding:14px;margin-top:12px}
+.lecture h3{color:var(--gold2)}
+.chips{display:flex;gap:7px;flex-wrap:wrap;margin-top:8px}
+.chip{font-size:12px;padding:4px 10px;border-radius:20px;background:#0a1c33;border:1px solid var(--line);color:var(--muted)}
+
+/* tables */
+table{width:100%;border-collapse:collapse;font-size:13.5px}
+th,td{text-align:right;padding:8px 8px;border-bottom:1px solid var(--line)}
+th:first-child,td:first-child{text-align:left}
+th{color:var(--muted);font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:.5px}
+tr.you td{background:rgba(224,181,74,.08);font-weight:600}
+.rankdot{display:inline-block;width:22px;height:22px;line-height:22px;text-align:center;border-radius:50%;
+  font-size:12px;font-weight:700;margin-right:6px}
+.r1{background:var(--gold);color:#2a1e04}.r2{background:#c8d2e0;color:#1a2436}.r3{background:#c98a52;color:#231202}
+.rx{background:#16304f;color:var(--muted)}
+
+svg{display:block;width:100%;height:auto}
+.center{text-align:center}
+.sep{height:1px;background:var(--line);margin:14px 0}
+.pill{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.6px;padding:3px 10px;border-radius:20px;
+  background:rgba(74,144,217,.15);color:var(--info);border:1px solid rgba(74,144,217,.35)}
+.pill.tourney{background:rgba(224,181,74,.15);color:var(--gold);border-color:rgba(224,181,74,.4)}
+
+/* =====================================================================
+   BUILD VISUAL LAYER (competitive run) — appended; original stylesheet
+   untouched. Market-terminal identity matching the rest of the course.
+   The net-worth lines draw in, the standings bars race out from the left,
+   the market-news banner slides in each quarter. Dependency-free; reduced
+   motion and keyboard focus honoured at the bottom.
+   ===================================================================== */
+:root{
+  --bg:#081321;--panel:#102647;--panel2:#153059;--line:#213f6b;--line2:#2e568f;
+  --ink:#eaf1fb;--muted:#93abcd;--faint:#647fa6;
+  --gold:#e7bd54;--gold2:#f2d585;--gold-soft:rgba(231,189,84,.14);
+  --grid:rgba(120,160,215,.10);
+  --shadow:0 18px 44px -22px rgba(0,0,0,.75),0 3px 10px -4px rgba(0,0,0,.5);
+  --shadow-sm:0 8px 22px -14px rgba(0,0,0,.7);--ease:cubic-bezier(.22,.7,.2,1);
+}
+body{background:
+    radial-gradient(1200px 620px at 72% -12%, #123055 0%, rgba(18,48,85,0) 60%),
+    linear-gradient(180deg,#0a1727 0%, var(--bg) 55%);-webkit-font-smoothing:antialiased}
+body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+  background-size:52px 52px;-webkit-mask-image:radial-gradient(1000px 700px at 72% 0%,#000 0%,transparent 78%);
+          mask-image:radial-gradient(1000px 700px at 72% 0%,#000 0%,transparent 78%);opacity:.5}
+.wrap{position:relative;z-index:1}
+.mono,.kpi .v,.card .v,.val,.chip,th,td,.small,.tiny{font-variant-numeric:tabular-nums}
+.topbar{background:linear-gradient(180deg,rgba(12,24,42,.94),rgba(12,24,42,.72));border-color:var(--line);box-shadow:0 1px 0 rgba(120,160,215,.05),var(--shadow-sm)}
+.brand .dot{box-shadow:0 0 12px var(--gold);animation:tick 2.4s var(--ease) infinite}
+.panel{position:relative;overflow:hidden;
+  background:linear-gradient(180deg,rgba(255,255,255,.02),rgba(255,255,255,0) 30%),linear-gradient(180deg,var(--panel) 0%,#0c1d34 100%);
+  border-color:var(--line);border-radius:16px;box-shadow:var(--shadow);animation:panelIn .5s var(--ease) both}
+.panel::before{content:"";position:absolute;left:16px;right:16px;top:0;height:1px;background:linear-gradient(90deg,transparent,rgba(160,195,245,.25),transparent)}
+
+/* KPI tiles: the running scoreboard */
+.kpi{background:linear-gradient(180deg,#0e2340,#0b1d38)!important;border:1px solid var(--line);border-radius:11px;box-shadow:var(--shadow-sm)}
+.kpi .l{color:var(--faint)}
+.kpi .v{text-shadow:0 0 16px rgba(231,189,84,.14)}
+
+.card{background:linear-gradient(180deg,#0e2340,#0b1d38);border-color:var(--line);box-shadow:var(--shadow-sm);transition:transform .16s var(--ease),border-color .16s var(--ease)}
+.card:hover{transform:translateY(-2px);border-color:var(--line2)}
+label.field .cap .val,.cap .val{text-shadow:0 0 16px rgba(231,189,84,.3)}
+input[type=range]{border:1px solid var(--line)}
+input[type=range]::-webkit-slider-thumb{box-shadow:0 0 0 4px rgba(231,189,84,.16),0 3px 8px rgba(0,0,0,.5);transition:box-shadow .15s var(--ease)}
+input[type=range]:hover::-webkit-slider-thumb{box-shadow:0 0 0 6px rgba(231,189,84,.22)}
+input[type=range]:active::-webkit-slider-thumb{box-shadow:0 0 0 8px rgba(231,189,84,.26)}
+
+/* market-news banner reads like a ticker; slides in each quarter */
+.news{animation:reveal .45s var(--ease) both;box-shadow:var(--shadow-sm)}
+.chip{background:var(--gold-soft);transition:transform .15s var(--ease)}.chip:hover{transform:translateY(-1px)}
+.btn{border-radius:10px;transition:transform .12s var(--ease),filter .15s var(--ease),box-shadow .15s var(--ease)}
+.btn:hover{transform:translateY(-1px)}.btn:active{transform:translateY(0) scale(.985)}
+.btn.primary{box-shadow:0 10px 24px -12px rgba(231,189,84,.6),inset 0 1px 0 rgba(255,255,255,.35)}
+:focus-visible{outline:2px solid var(--gold);outline-offset:2px;border-radius:8px}
+table{border:1px solid var(--line);border-radius:10px;overflow:hidden}
+tbody tr{transition:background .15s var(--ease)}tbody tr:hover{background:rgba(95,160,221,.05)}
+
+/* charts: net-worth lines draw, standings bars race out, points settle */
+svg circle{filter:drop-shadow(0 0 4px currentColor)}
+svg text{font-variant-numeric:tabular-nums}
+svg.chartIn{animation:fadeIn .3s var(--ease) both}
+svg.chartIn path[fill="none"]{stroke-dasharray:2200;stroke-dashoffset:2200;animation:draw .9s var(--ease) .1s forwards}
+svg.chartIn rect{transform-box:fill-box;transform-origin:left center;transform:scaleX(0);animation:growX .6s var(--ease) .15s forwards}
+svg.chartIn circle{opacity:0;animation:fadeIn .4s var(--ease) .72s forwards}
+
+@keyframes panelIn{from{opacity:0;transform:translateY(10px) scale(.994)}to{opacity:1;transform:none}}
+@keyframes reveal{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes draw{to{stroke-dashoffset:0}}
+@keyframes growX{to{transform:scaleX(1)}}
+@keyframes tick{0%{box-shadow:0 0 0 0 rgba(231,189,84,.55),0 0 12px var(--gold)}70%{box-shadow:0 0 0 7px rgba(231,189,84,0),0 0 12px var(--gold)}100%{box-shadow:0 0 0 0 rgba(231,189,84,0),0 0 12px var(--gold)}}
+
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important}
+  svg.chartIn path[fill="none"]{stroke-dashoffset:0!important}
+  svg.chartIn rect{transform:none!important}svg.chartIn circle{opacity:1!important}
+  body::before{opacity:.32}.brand .dot{animation:none}
+}
+
+</style>
+<script>window.__L2QB={"open": {"q": "When rivals react to your price each quarter, your safest anchor is:", "opts": ["The sticker price of the closest competitor", "Your own marginal cost", "Yesterday\u2019s revenue peak", "Fixed cost"], "a": 1}, "close": {"q": "Across four quarters against reacting rivals, the price that maximised total PROFIT was probably:", "opts": ["Always the highest", "Always the lowest", "Around MR = MC given the demand and rival response", "Whatever the boom quarter allowed"], "a": 2}};</script>
+</head>
+<body>
+<div class="wrap">
+  <div class="topbar">
+    <div class="brand"><span class="dot"></span><b>EconVenture <span class="gold">Live</span></b>
+      <span id="modePill" class="pill" style="display:none"></span></div>
+    <div class="kpis" id="kpis"></div>
+  </div>
+  <div id="app"></div>
+  <div class="center tiny muted" style="margin-top:18px">
+    EconVenture Live · offline build · runs with no server, no internet, no installs.
+    Class competition (shared leaderboard) attaches through your existing faculty console.
+  </div>
+</div>
+<script>
+/* EconVenture classroom helper — must be identical across every act.
+   Enforces the faculty gate for THIS act (network required; fail-closed after a grace period)
+   and reports position + completion to the classroom backend. */
+const CLASS_URL='';  /* faculty pastes the same Apps Script /exec URL used by Hub/Founder */
+const CLS={
+  cfg:{ actIdx:-1, actKind:'act', graceMs:15000, pollMs:6000, pingMs:20000 },
+  state:{ code:'', sid:'', name:'', gate:null, lastOk:0, tries:0, active:false },
+  init(){ try{ const r=localStorage.getItem('econventure_class_v1'); if(r){ const c=JSON.parse(r)||{}; this.state.code=c.code||''; this.state.sid=c.sid||''; this.state.name=c.name||''; } }catch(e){} },
+  online(){ return !!(CLASS_URL||'').trim(); },
+  call(params, cb){
+    if(!this.online()){ cb&&cb(null); return; }
+    try{
+      const qs=Object.keys(params).map(k=>k+'='+encodeURIComponent(params[k])).join('&');
+      fetch((CLASS_URL||'').trim()+'?api=1&'+qs,{cache:'no-store'})
+        .then(r=>r.json()).then(j=>cb&&cb(j))
+        .catch(()=>cb&&cb(null));
+    }catch(e){ cb&&cb(null); }
+  },
+  isOpenForMe(){
+    const g=this.state.gate; if(!g) return false;
+    if(g.paused) return false;
+    if(!g.paced) return true;                     // teacher turned pacing off => everyone can proceed
+    if(this.cfg.actKind==='act'){
+      return Array.isArray(g.open) && g.open.indexOf(this.cfg.actIdx)>=0;
+    }
+    return Array.isArray(g.l1open) && g.l1open.indexOf(this.cfg.actIdx)>=0;
+  },
+  showGate(msg, sub){
+    if(this._gateEl){ this._gateEl.remove(); this._gateEl=null; }
+    const el=document.createElement('div');
+    el.id='__cls_gate';
+    el.style.cssText='position:fixed;inset:0;z-index:99999;background:rgba(8,19,33,.97);display:flex;align-items:center;justify-content:center;padding:24px;backdrop-filter:blur(6px);font:15px/1.5 system-ui,Segoe UI,Roboto,sans-serif;color:#eef4fb';
+    el.innerHTML='<div style="max-width:520px;text-align:center;padding:28px 32px;background:linear-gradient(180deg,#0d1f38,#0b1d38);border:1px solid #1d3a5f;border-radius:16px;box-shadow:0 22px 44px -18px rgba(0,0,0,.7)">'+
+      '<div style="font-size:11px;letter-spacing:1px;text-transform:uppercase;color:#93abcd;margin-bottom:8px">Paced by your teacher</div>'+
+      '<div style="font-size:22px;font-weight:700;margin-bottom:10px">'+msg+'</div>'+
+      '<div style="font-size:14px;color:#93abcd">'+sub+'</div>'+
+      '</div>';
+    document.body.appendChild(el); this._gateEl=el;
+  },
+  hideGate(){ if(this._gateEl){ this._gateEl.remove(); this._gateEl=null; } },
+  refreshGate(cb){
+    if(!this.state.code){ this.showGate('Sign in through the Hub first', 'This act only opens when you are joined to your teacher\u2019s classroom. Return to the Hub, enter your name, roll and the class code, then come back.'); cb&&cb(false); return; }
+    if(!this.online()){ this.showGate('This game is not connected to a class', 'The classroom server is not configured on this page. Ask your teacher.'); cb&&cb(false); return; }
+    this.call({action:'gate',code:this.state.code}, g=>{
+      this.state.tries++;
+      if(g && g.ok!==false){
+        this.state.gate=g; this.state.lastOk=Date.now(); this.state.tries=0;
+        if(this.isOpenForMe()){ this.hideGate(); cb&&cb(true); }
+        else {
+          const name=(g.name||this.state.code);
+          this.showGate(g.paused?('Class '+name+' is on hold'):('Waiting for your teacher to open this stage'), g.paused?'Your teacher paused the class. You will unlock when they resume.':'You are ahead of the class, or your teacher has not opened this stage yet. It will open automatically the moment they do.');
+          cb&&cb(false);
+        }
+      } else {
+        const age=Date.now()-this.state.lastOk;
+        if(this.state.lastOk && age<this.cfg.graceMs){ /* recent good state, no scary UI */ cb&&cb(this.isOpenForMe()); }
+        else { this.showGate('Reconnecting to your class', 'Your device lost the classroom server. This will retry automatically. If it stays down for a minute, tell your teacher.'); cb&&cb(false); }
+      }
+    });
+  },
+  start(actIdx, actKind){
+    this.cfg.actIdx=actIdx; this.cfg.actKind=actKind||'act';
+    this.init();
+    if(this.state.active) return; this.state.active=true;
+    this.refreshGate();
+    this._poll=setInterval(()=>this.refreshGate(),this.cfg.pollMs);
+    this._ping=setInterval(()=>{ this._doPing(); },this.cfg.pingMs);
+    this._doPing();  /* immediate so roster shows position instantly */
+    if(this._initCloudSave) this._initCloudSave();
+  },
+  _doPing(){
+    if(!this.state.code || !this.state.sid) return;
+    this.call({action:'ping',sid:this.state.sid,pos:(this.cfg.actKind==='act'?'A:':'L1:')+this.cfg.actIdx}, r=>{
+      if(!r || !r.directive) return;
+      this._handleDirective(r.directive);
+    });
+  },
+  _handleDirective(d){
+    if(!d || !d.kind) return;
+    if(d.kind==='kick'){
+      try{ localStorage.removeItem('econventure_class_v1'); }catch(e){}
+      this.showGate('You have been removed from this class', 'Your teacher removed you from the classroom. Return to the Hub if you want to rejoin with a new code.');
+      return;
+    }
+    if(d.kind==='goto'){
+      const kind = d.posKind==='act'?'act':'concept';
+      const pos = Number(d.pos)||0;
+      // If the target IS this file's own act at same kind, just clear the gate wall (they're already here).
+      if(kind==='act' && this.cfg.actKind==='act' && pos===this.cfg.actIdx){ this.hideGate(); return; }
+      // Otherwise navigate to the Hub target file. Same-directory relative link.
+      const files = ['EconVenture_L1_Aggregation.html','EconVenture_Founder.html','EconVenture_L2_Act1.html','EconVenture_L2_Act2.html','EconVenture_L2_Act3.html','EconVenture_L2_Act4.html','EconVenture_L2_Act5.html','EconVenture_L2_Act6.html','EconVenture_L2_Act7.html','EconVenture_L2_Act8.html','EconVenture_Live.html'];
+      if(kind==='act' && files[pos]){
+        try{ location.href=files[pos]; }catch(e){}
+        return;
+      }
+      if(kind==='concept'){
+        // Send them into Founder at that concept. Founder reads its own directive on boot.
+        try{ localStorage.setItem('econventure_pending_goto', JSON.stringify({posKind:'concept',pos:pos,at:Date.now()})); }catch(e){}
+        try{ location.href='EconVenture_Founder.html'; }catch(e){}
+      }
+    }
+  },
+  complete(){ if(!this.state.code || !this.state.sid) return;
+    this.call({action:'quiz',code:this.state.code,sid:this.state.sid,concept:100+this.cfg.actIdx,phase:'post',score:1,total:1},()=>{}); },
+  needsClassroom(){ return !this.state.code; }
+};
+
+/* Cloud save: bundle every econventure_* localStorage key, ship on change (debounced).
+   Called by CLS.start automatically once we have code + uid. Fetch on Hub finish (Hub side). */
+CLS._saveKey='econventure_cloudsave_lasthash';
+CLS._collectBundle=function(){
+  const bundle={};
+  try{
+    for(let i=0;i<localStorage.length;i++){
+      const k=localStorage.key(i);
+      if(!k) continue;
+      if(k.indexOf('econventure_')!==0) continue;
+      if(k==='econventure_cloudsave_lasthash') continue;    /* housekeeping key: don't ship */
+      bundle[k]=localStorage.getItem(k);
+    }
+  }catch(e){}
+  return bundle;
+};
+CLS._hash=function(s){ let h=0; for(let i=0;i<s.length;i++){ h=(h*31+s.charCodeAt(i))|0; } return String(h); };
+CLS._pushSave=function(force){
+  if(!this.state.code || !this.state.uid) return;
+  const bundle=this._collectBundle();
+  const payload=JSON.stringify(bundle);
+  const hash=this._hash(payload);
+  if(!force){
+    try{ if(localStorage.getItem(this._saveKey)===hash) return; }catch(e){}
+  }
+  this.call({action:'save',code:this.state.code,uid:this.state.uid,gsub:this.state.gsub||'',email:this.state.email||'',name:this.state.name||'',roll:this.state.roll||'',payload:payload}, r=>{
+    if(r && r.ok){ try{ localStorage.setItem(this._saveKey, hash); }catch(e){} }
+  });
+};
+CLS._initCloudSave=function(){
+  /* Re-read identity to include uid/gsub/email if the Hub wrote them. */
+  try{
+    const raw=localStorage.getItem('econventure_class_v1');
+    if(raw){ const c=JSON.parse(raw)||{};
+      this.state.code=c.code||this.state.code;
+      this.state.sid=c.sid||this.state.sid;
+      this.state.name=c.name||this.state.name;
+      this.state.uid=c.uid||'';
+      if(c.google){ this.state.gsub=c.google.sub||''; this.state.email=c.google.email||''; }
+      if(c.roll) this.state.roll=c.roll;
+    }
+  }catch(e){}
+  if(!this._cloudInited && this.state.code && this.state.uid){
+    this._cloudInited=true;
+    /* First push after 1s (gives boot code a moment to settle), then every 30s if changed, then on unload. */
+    setTimeout(()=>this._pushSave(false), 1000);
+    setInterval(()=>this._pushSave(false), 30000);
+    window.addEventListener('beforeunload', ()=>{ try{ this._pushSave(true); }catch(e){} });
+  }
+};
+
+
+/* =========================================================================
+   ECONVENTURE ENGINE  (pure, no UI, no database)
+
+   This is the brain. The instructor's browser imports it to clear a round,
+   and it can be unit-tested in Node with zero dependencies. Everything is a
+   pure function: same inputs, same outputs, no side effects.
+
+   What's new vs the single-player engine (decision "A"):
+     1. MARKET STRUCTURES  — perfect competition, monopolistic competition,
+        oligopoly, duopoly. Structure changes how sharply demand punishes a
+        price gap and whether differentiation (quality/marketing) counts.
+        Under perfect competition the math itself forces price toward
+        marginal cost and economic profit toward zero — it is not faked.
+     2. OBJECTIVE BOTS     — rivals that maximize something other than profit:
+        Baumol (revenue subject to a profit floor), Marris (growth/size),
+        Williamson (managerial expense preference). Each behaves visibly
+        differently, so students learn to read a competitor's objective.
+     3. WIN CONDITION      — how the class standings are scored: net worth,
+        revenue, or growth. Affects ranking, not the clearing math.
+   ========================================================================= */
+
+(function (root) {
+  'use strict';
+
+  // ---- fixed economic constants (shared with the client) ----------------
+  const START_CAPITAL = 1000000;   // ₹10,00,000 starting capital for every firm
+  const MKT_COST       = 12000;    // ₹ per marketing-intensity point
+  const HOLDING_RATE   = 0.25;     // unsold inventory carrying cost (share of unit cost)
+
+  // ---- firm STARTING defaults (the schema/client must seed these) -------
+  // These were tuned so that every market structure is solvent and the
+  // objective bots diverge. If you change them, re-run the engine tests.
+  //   start_capacity : 11000  (binds for volume-chasers, not profit-maximizers)
+  //   start_fc       : 100000 (low enough that perfect competition ~ breaks even)
+  //   start_vc       : 95     (per-unit variable cost before automation/R&D)
+  const START_CAPACITY = 11000;
+  const START_FC       = 100000;
+  const START_VC       = 95;
+
+  // ---- the 5-quarter macro story ---------------------------------------
+  const MACRO = [
+    {tag:'OPENING',   type:'neutral',  demand:1.00, cost:1.00, rate:0.10},
+    {tag:'UPSWING',   type:'positive', demand:1.12, cost:0.98, rate:0.09},
+    {tag:'RATE HIKE', type:'negative', demand:0.93, cost:1.04, rate:0.15},
+    {tag:'RECESSION', type:'crisis',   demand:0.80, cost:1.04, rate:0.08},
+    {tag:'MATURITY',  type:'neutral',  demand:0.99, cost:1.02, rate:0.10}
+  ];
+  const macroOf = q => MACRO[Math.min(Math.max(q,1)-1, MACRO.length-1)];
+
+  // ---- MARKET STRUCTURE presets ----------------------------------------
+  // The demand model is a logit choice WITH AN OUTSIDE OPTION (buy nothing /
+  // spend elsewhere). That outside good is what makes structure real: when
+  // all firms price high, customers leave the market entirely, so collective
+  // high pricing is self-limiting. Parameters:
+  //   bP   : price sensitivity. High (perfect competition) means a small
+  //          price rise loses lots of buyers to the outside good, forcing
+  //          price toward marginal cost and profit toward ~zero. Low
+  //          (duopoly) means firms keep pricing power.
+  //   bQ,bM: differentiation power (quality, marketing). ZERO under perfect
+  //          competition — goods are commodities.
+  //   Pref : the reservation price the outside option is measured against.
+  //   M    : market potential when macro demand = 1.
+  //   firms: the seat count the preset is tuned for (humans + bots).
+  const STRUCTURES = {
+    perfect:      {label:'Perfect competition',      bP:6,   bQ:0,   bM:0,   Pref:110, M:70000, firms:8},
+    monopolistic: {label:'Monopolistic competition', bP:4.5, bQ:1.0, bM:0.7, Pref:110, M:80000, firms:8},
+    oligopoly:    {label:'Oligopoly',                bP:3,   bQ:1.2, bM:0.8, Pref:150, M:30000, firms:5},
+    duopoly:      {label:'Duopoly',                  bP:2.5, bQ:1.2, bM:0.7, Pref:240, M:20000, firms:2}
+  };
+  const structOf = key => STRUCTURES[key] || STRUCTURES.oligopoly;
+
+  // =======================================================================
+  // COST SIDE
+  // =======================================================================
+
+  // unit variable cost after automation, accumulated R&D, and macro cost shocks
+  function unitVC(firm, macro) {
+    const autoCut = (firm.auto || 0) * 0.05;                         // 5% per automation level
+    const rndCut  = Math.min(0.20, (firm.rnd_stock || 0) / 600000 * 0.20); // up to 20% from cumulative R&D
+    return firm.vc * macro.cost * Math.max(0.5, 1 - autoCut - rndCut);
+  }
+
+  // full cost picture at a firm's chosen production level
+  function costs(firm, macro, productionUnlocked) {
+    let fc = firm.fc * (1 + (macro.cost - 1) * 0.4);
+    if (firm.objective === 'expense') fc *= 1.20;                    // Williamson: managers inflate overhead/perks
+    const vcU = unitVC(firm, macro);
+    const cap = firm.capacity || 11000;
+    const q   = productionUnlocked ? firm.production : null;
+    const mc  = vcU * (q !== null && q > cap * 0.9 ? 1 + (q / cap - 0.9) * 0.8 : 1); // diseconomies past ~90% capacity
+    return { fc, vcU, cap, mc };
+  }
+
+  // =======================================================================
+  // DEMAND SIDE  (logit choice WITH an outside option)
+  //   demand_i = M * exp(u_i) / (1 + Σ exp(u_j))
+  //   the "1" is the outside good (buy nothing) — high prices shrink the pie.
+  //   share among firms is exp(u_i) / Σ exp(u_j) for display/ranking.
+  //   deterministic=true switches off the small bot noise (used when a bot
+  //   plans its own move, so its profit/revenue estimates are stable).
+  // =======================================================================
+  function shares(firms, structure, macro, deterministic) {
+    const S = structOf(structure);
+    const U = firms.map(f => {
+      const up = -S.bP * ((f.price - S.Pref) / S.Pref);
+      const uq =  S.bQ * (((f.quality   || 5) - 5) / 5);
+      const um =  S.bM * (((f.marketing || 5) - 5) / 5);
+      const shock = (!deterministic && f.is_bot) ? (Math.random()-0.5)*0.08 : 0;
+      let u = up + uq + um + shock;
+      return { id:f.id, u: Math.max(-30, Math.min(30, u)) };
+    });
+    const exps = U.map(x => ({ id:x.id, e:Math.exp(x.u) }));
+    const sumF = exps.reduce((s,x)=>s+x.e, 0);   // firms only
+    const denom = 1 + sumF;                       // + outside good
+    const M = S.M * macro.demand;
+    return exps.map(x => ({
+      id: x.id,
+      share:  sumF > 0 ? x.e / sumF : 0,
+      demand: Math.round(M * x.e / denom)
+    }));
+  }
+
+  // =======================================================================
+  // ONE FIRM'S RESULT FOR THE QUARTER
+  // =======================================================================
+  function firmResult(firm, macro, productionUnlocked, demandQty) {
+    const c = costs(firm, macro, productionUnlocked);
+    const produced = productionUnlocked ? firm.production : demandQty;
+    const sold     = Math.min(demandQty, produced);
+    const unsold   = Math.max(0, produced - sold);
+    const revenue  = firm.price * sold;
+    const varCost  = c.vcU * produced;
+    const overtime = (productionUnlocked && firm.production > c.cap) ? c.vcU * (firm.production - c.cap) * 0.6 : 0;
+    const holding  = unsold * c.vcU * HOLDING_RATE;
+    const mktCost  = (firm.marketing || 0) * MKT_COST + (firm.objective === 'expense' ? 40000 : 0); // Williamson over-markets
+    const autoCost = (firm.auto || 0) * 6000;
+    const rndCost  = firm.rnd || 0;
+    const capex    = (firm.capacity_buy || 0) * 200;
+    const total    = c.fc + varCost + overtime + holding + mktCost + autoCost + rndCost + capex;
+    const profit   = revenue - total;
+    const lerner   = firm.price > 0 ? Math.max(0, (firm.price - c.mc) / firm.price) : 0;
+    return { revenue, profit, sold, unsold, produced, total, mc:c.mc, vcU:c.vcU, fc:c.fc,
+             atc: sold > 0 ? total / sold : c.fc, lerner,
+             margin: revenue > 0 ? profit/revenue*100 : 0 };
+  }
+
+  // =======================================================================
+  // CLEAR A LEAGUE  — the function the instructor's browser calls each round
+  // firms: array of {id, price, production, marketing, quality, capacity_buy,
+  //        rnd, auto, vc, fc, capacity, cash, cum_profit, rnd_stock, is_bot, objective}
+  // returns: { results: [{id, ...result, share, rank}], firms: updated firm states }
+  // =======================================================================
+  function clearLeague(firms, structure, macro, productionUnlocked) {
+    const sh = shares(firms, structure, macro);
+    const out = firms.map(f => {
+      const s = sh.find(x => x.id === f.id);
+      const r = firmResult(f, macro, productionUnlocked, s.demand);
+      return { ...f, _r: r, share: s.share };
+    });
+    // rank within league by net worth (cash carried in + profit just earned)
+    const ranked = [...out].sort((a,b) => (b.cash + b._r.profit) - (a.cash + a._r.profit));
+    const rankOf = {}; ranked.forEach((f,i) => rankOf[f.id] = i + 1);
+
+    const results = out.map(f => ({
+      id: f.id, ...f._r, share: f.share, rank: rankOf[f.id]
+    }));
+    const updated = out.map(f => ({
+      ...f, _r: undefined,
+      cash:         f.cash + f._r.profit,
+      cum_profit:   (f.cum_profit || 0) + f._r.profit,
+      last_profit:  f._r.profit,
+      cum_revenue:  (f.cum_revenue || 0) + f._r.revenue,
+      last_revenue: f._r.revenue,
+      share:        f.share,
+      rnd_stock:    (f.rnd_stock || 0) + (f.rnd || 0),
+      capacity:     f.capacity + (f.capacity_buy || 0),
+      capacity_buy: 0
+    }));
+    return { results, firms: updated };
+  }
+
+  // =======================================================================
+  // BOT DECISIONS  — fill empty seats. Behaviour driven by OBJECTIVE first,
+  // flavoured by strategy. Each is a best-response to rivals' last moves.
+  // =======================================================================
+
+  // sweep prices deterministically (no noise), rivals held fixed.
+  // production is capped at capacity so the bot plans against reality.
+  function priceSweep(firm, rivals, structure, macro, prodOn) {
+    const cap = (firm.capacity || 11000) + (firm.capacity_buy || 0);
+    const out = [];
+    for (let p = firm.vc * 0.95; p <= firm.vc * 4.5; p += firm.vc * 0.05) {
+      const test = { ...firm, price: p };
+      const s = shares([test, ...rivals], structure, macro, true).find(x => x.id === firm.id);
+      const prod = Math.min(Math.round(s.demand), cap);
+      const r = firmResult({ ...test, production: prod }, macro, true, s.demand);
+      out.push({ price: Math.round(p/5)*5, profit: r.profit, revenue: r.revenue, sold: r.sold });
+    }
+    return out;
+  }
+
+  function botDecision(firm, rivals, round, structure, macro, prodOn) {
+    const obj = firm.objective || 'profit';
+    const grow = (obj === 'growth');
+    const S = structOf(structure);
+    const diff = S.bM > 0 || S.bQ > 0;   // does differentiation work in this structure?
+
+    // 1) non-price levers. In a commodity market (perfect competition) marketing
+    //    and R&D do nothing, so a rational firm runs lean. Williamson's waste is
+    //    pure overhead (inflated fixed cost + a flat perk spend in firmResult),
+    //    NOT extra marketing, so it shows up as lower profit.
+    const planned = {
+      ...firm,
+      marketing: S.bM > 0 ? clamp((firm.marketing || 5) + (grow ? 1 : 0), 1, 10) : 1,
+      quality:   S.bQ > 0 ? clamp((firm.quality || 5) + (firm.bot_strategy === 'differentiator' ? 0.2 : 0), 1, 10) : (firm.quality || 5),
+      rnd:       S.bQ > 0 ? (grow ? 50000 : 40000) : 0,
+      capacity_buy: (grow && round >= 2 && (firm.cash || 0) > 900000) ? 500 : 0
+    };
+    const sweep = priceSweep(planned, rivals, structure, macro, true);
+    const profitMax = sweep.reduce((a,b) => b.profit > a.profit ? b : a);
+    const solvent = sweep.filter(x => x.profit >= 0);
+
+    let pick;
+    if (obj === 'revenue') {        // BAUMOL: max revenue while profitable
+      pick = solvent.length ? solvent.reduce((a,b)=> b.revenue > a.revenue ? b : a) : profitMax;
+    } else if (obj === 'growth') {  // MARRIS: max units while solvent
+      pick = solvent.length ? solvent.reduce((a,b)=> b.sold > a.sold ? b : a) : profitMax;
+    } else {                        // PROFIT / WILLIAMSON
+      pick = profitMax;
+    }
+
+    // produce with a hedge. Building to last quarter's prices overshoots in a
+    // price war (rivals undercut, you eat unsold stock); building to the most
+    // aggressive price underbuilds when you are genuinely the cheapest. So
+    // assume rivals move halfway toward the most aggressive price on the board.
+    const floorP = Math.min(pick.price, ...rivals.map(r => r.price));
+    const symRivals = rivals.map(r => ({ ...r, price: (r.price + floorP) / 2 }));
+    const sAt = shares([{ ...planned, price: pick.price }, ...symRivals], structure, macro, true)
+                  .find(x => x.id === firm.id);
+    const cap = (planned.capacity || 11000) + (planned.capacity_buy || 0);
+    return { ...planned, price: pick.price, production: Math.round(clamp(Math.min(sAt.demand, cap), 300, cap)) };
+  }
+
+  // =======================================================================
+  // WIN CONDITION  — how standings are scored at class level
+  // =======================================================================
+  function score(firm, winCondition) {
+    if (winCondition === 'revenue') return firm.cum_revenue || firm.last_revenue || 0;
+    if (winCondition === 'growth')  return (firm.share || 0) * 1e6 + (firm.capacity || 0); // size proxy
+    return firm.cash; // 'networth' default
+  }
+
+  // ---- small helper ----
+  function clamp(v, lo, hi) { return Math.max(lo, Math.min(hi, v)); }
+
+  // ---- export for both Node (tests) and browser (instructor console) ----
+  const ENGINE = {
+    START_CAPITAL, MKT_COST, START_CAPACITY, START_FC, START_VC,
+    MACRO, macroOf, STRUCTURES, structOf,
+    unitVC, costs, shares, firmResult, clearLeague, priceSweep, botDecision, score
+  };
+  if (typeof module !== 'undefined' && module.exports) module.exports = ENGINE;
+  else root.EconEngine = ENGINE;
+
+})(typeof window !== 'undefined' ? window : this);
+
+</script>
+<script>
+/* ============================================================================
+   EconVenture Live — app layer (step 1: the competitive round loop)
+   Sits on top of the verified EconEngine (window.EconEngine). No server,
+   no CDN, no external calls. Every number is produced by the same engine
+   the faculty console uses, so the offline game and any future class
+   tournament stay consistent.
+   ============================================================================ */
+const E = window.EconEngine;
+const BUILD = 1;
+const SAVE = 'econventure_live_v1';
+
+/* ---- the two-year macro story (8 quarters). The engine reads .demand and
+   .cost; the rest is for the on-screen "breaking news" feel. --------------- */
+const MACRO_8 = [
+  {q:1, tag:'OPENING',    type:'neutral',  demand:1.00, cost:1.00, rate:0.10, news:'Markets open for the year. Analysts call the quarter calm and watchful.'},
+  {q:2, tag:'UPSWING',    type:'positive', demand:1.12, cost:0.98, rate:0.09, news:'Consumer confidence jumps. Demand runs hot and input costs ease.'},
+  {q:3, tag:'RATE HIKE',  type:'negative', demand:0.93, cost:1.04, rate:0.15, news:'The central bank hikes rates hard. Borrowing cools and buyers hesitate.'},
+  {q:4, tag:'RECESSION',  type:'crisis',   demand:0.80, cost:1.06, rate:0.08, news:'Recession confirmed. Wallets snap shut and buyers trade down to cheaper options.'},
+  {q:5, tag:'RECOVERY',   type:'positive', demand:0.96, cost:1.02, rate:0.09, news:'Green shoots appear. Spending edges back, cautiously.'},
+  {q:6, tag:'EXPANSION',  type:'positive', demand:1.10, cost:1.00, rate:0.10, news:'The boom returns. The whole market expands and new buyers arrive.'},
+  {q:7, tag:'INPUT SHOCK',type:'negative', demand:0.92, cost:1.09, rate:0.13, news:'A supply shock spikes input costs across the industry. Margins get squeezed.'},
+  {q:8, tag:'MATURITY',   type:'neutral',  demand:1.00, cost:1.03, rate:0.10, news:'The market matures. Growth flattens and disciplined pricing decides the winner.'}
+];
+
+/* ---- AI rival roster. Each maps to a behaviour the engine already models:
+   objective drives the goal (profit / revenue=Baumol / growth=Marris),
+   strategy flavours it (cost leader vs differentiator vs responder). ------- */
+const ARCHETYPES = [
+  {name:'Volt Industries', objective:'profit',  strategy:'cost_leader',   blurb:'Cost leader. Prices low, runs lean, wins on volume.'},
+  {name:'Aurora Premium',  objective:'profit',  strategy:'differentiator',blurb:'Differentiator. High quality, high price, protects margin.'},
+  {name:'Momentum Corp',   objective:'growth',  strategy:'aggressive',    blurb:'Market-share chaser. Sacrifices margin to grow (Marris).'},
+  {name:'TopLine Traders', objective:'revenue', strategy:'topline',       blurb:'Revenue maximiser. Chases sales while staying solvent (Baumol).'},
+  {name:'Echo Systems',    objective:'profit',  strategy:'responder',     blurb:'Reactive. Best-responds to whatever rivals did last quarter.'},
+  {name:'Standard Co',     objective:'profit',  strategy:'balanced',      blurb:'Textbook profit maximiser. Steady MR = MC pricing.'},
+  {name:'Nimble Labs',     objective:'growth',  strategy:'aggressive',    blurb:'Scrappy grower. Expands capacity and undercuts.'}
+];
+
+const STRUCT_INFO = {
+  oligopoly:    {seats:5, note:'A few firms, real strategic interdependence. Price, quality, and marketing all bite. The main teaching structure.'},
+  monopolistic: {seats:8, note:'Many firms, each a bit differentiated. Branding and quality matter, but entry keeps profits thin.'},
+  perfect:      {seats:8, note:'Near-commodity. Marketing and quality do nothing; price is everything and it gets driven to marginal cost.'},
+  duopoly:      {seats:2, note:'Just you and one rival. Every move is personal. Game theory runs the whole show.'}
+};
+
+/* ---- seeded RNG so tournament mode is identical for every student.
+   The engine's only randomness is a small bot-demand jitter inside
+   clearLeague. We reseed deterministically per round, so a reload cannot
+   change the outcome and every student faces the same market noise. ------- */
+function mulberry32(a){return function(){a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;};}
+function withSeed(fn, seed){
+  const real = Math.random;
+  Math.random = mulberry32(seed>>>0);
+  try { return fn(); } finally { Math.random = real; }
+}
+
+/* =========================== STATE ======================================= */
+let S = null;
+function fresh(){
+  return {
+    _build:BUILD, phase:'setup', round:1,
+    team:{name:'', code:''},
+    mode:'practice', structure:'oligopoly', nRivals:4, rounds:8, seed:12345,
+    player:null, bots:null, history:[],
+    ui:{price:null, production:null, marketing:5, quality:5}
+  };
+}
+function save(){ try{ localStorage.setItem(SAVE, JSON.stringify(S)); }catch(e){} }
+function load(){
+  try{ const raw=localStorage.getItem(SAVE); if(!raw) return false;
+    const d=JSON.parse(raw); if(d._build!==BUILD) return false; S=d; return true;
+  }catch(e){ return false; }
+}
+function reset(){ localStorage.removeItem(SAVE); S=fresh(); render(); }
+
+/* ===================== FIRM SETUP ======================================== */
+function initFirms(){
+  const St=E.structOf(S.structure);
+  const base=()=>({price:Math.round(St.Pref), marketing:5, quality:5, production:0,
+    capacity:E.START_CAPACITY, cash:E.START_CAPITAL, vc:E.START_VC, fc:E.START_FC,
+    auto:0, rnd:0, rnd_stock:0, cum_profit:0, cum_revenue:0, last_profit:0, last_revenue:0, share:0});
+  S.player = {id:'you', name:S.team.name||'Your Firm', is_bot:false, objective:'profit', ...base()};
+  S.bots = ARCHETYPES.slice(0, S.nRivals).map((a,i)=>({
+    id:'bot'+i, name:a.name, is_bot:true, objective:a.objective, bot_strategy:a.strategy, ...base()
+  }));
+}
+
+/* ===================== ONE ROUND ========================================= */
+// bots decide simultaneously, best-responding to LAST quarter's board
+function botMovesThisRound(macro){
+  const board=[S.player, ...S.bots];
+  return S.bots.map(b=>{
+    const rivals=board.filter(f=>f.id!==b.id);
+    return E.botDecision(b, rivals, S.round, S.structure, macro, true);
+  });
+}
+function submitRound(dec){
+  const macro=MACRO_8[S.round-1];
+  const botMoves=botMovesThisRound(macro);
+  const playerMove={...S.player, price:dec.price, production:dec.production,
+                    marketing:dec.marketing, quality:dec.quality};
+  const firms=[playerMove, ...botMoves];
+  const run=()=>E.clearLeague(firms, S.structure, macro, true);
+  const cleared = S.mode==='tournament'
+      ? withSeed(run, (S.seed ^ (S.round*2654435761))>>>0)
+      : run();
+  const report=buildReport(cleared, playerMove, botMoves, macro);
+  const upd=cleared.firms;
+  S.player=upd.find(f=>f.id==='you');
+  S.bots=upd.filter(f=>f.is_bot);
+  S.history.push({round:S.round, macro:{tag:macro.tag,type:macro.type,news:macro.news},
+                  results:cleared.results, decision:{...dec}, report});
+  S.phase='result';
+  save();
+}
+
+/* ===================== ECONOMIST'S REPORT ================================ */
+function buildReport(cleared, playerMove, botMoves, macro){
+  const you=cleared.results.find(r=>r.id==='you');
+  // hindsight profit-max: what price would have maximised YOUR profit against
+  // the moves rivals actually made this quarter. This is the teaching anchor.
+  const sweep=E.priceSweep({...playerMove}, botMoves, S.structure, macro, true);
+  const pmax=sweep.reduce((a,b)=>b.profit>a.profit?b:a, sweep[0]);
+  const priceGap = pmax.price>0 ? (playerMove.price - pmax.price)/pmax.price*100 : 0;
+  const lesson=pickLesson(you, playerMove, priceGap, macro);
+  return {
+    profit:you.profit, rank:you.rank, share:you.share, sold:you.sold, unsold:you.unsold,
+    produced:you.produced, mc:you.mc, lerner:you.lerner, margin:you.margin, atc:you.atc,
+    price:playerMove.price, pmaxPrice:pmax.price, pmaxProfit:pmax.profit, priceGap, lesson
+  };
+}
+const LESSONS = {
+  belowcost:{title:'You priced below marginal cost', concept:'Shut-down rule',
+    body:'Your price sat under the cost of making one more unit, so every sale drained cash. In the short run a firm only keeps producing while price covers marginal cost (and at least average variable cost). Below that line, selling more makes the loss bigger, not smaller.',
+    chips:['Marginal cost','Shut-down point','P ≥ AVC']},
+  overproduce:{title:'You built more than the market took', concept:'Production planning under uncertainty',
+    body:'A chunk of what you produced went unsold and carried a holding cost. Output is a bet on demand you place before rivals move. Overbuilding in a soft or contested quarter turns fixed effort into dead inventory. Match production closer to the demand you can realistically defend at your price.',
+    chips:['Inventory cost','Demand forecasting','Capacity use']},
+  priced_high:{title:'You priced above your profit-max point', concept:'Elasticity and the Lerner Index',
+    body:'Against the prices rivals actually set, your profit peaked at a lower price than you chose. Pricing above it pushed buyers to rivals and the outside option, so the quantity you lost outweighed the fatter margin. The more substitutes buyers have, the more elastic your demand and the smaller your optimal markup over cost.',
+    chips:['Price elasticity','Lerner Index','Substitution']},
+  priced_low:{title:'You left margin on the table', concept:'Underpricing and price wars',
+    body:'You could have charged more and still sold nearly as much, so you gave away margin. Cutting price only wins if the extra volume beats the thinner margin, which needs elastic demand. In a few-firm market, a deep cut also invites rivals to match, and everyone ends up poorer. That is the Bertrand trap.',
+    chips:['Bertrand competition','Margin','Elastic vs inelastic']},
+  recession_survive:{title:'You stayed profitable through the downturn', concept:'Demand shocks and cost discipline',
+    body:'The recession shrank the whole market, yet you cleared a profit. That is what cost control and sober pricing buy you: room to survive a demand shock that pushes weaker rivals into the red. Note how the pie itself contracted this quarter, not just your slice.',
+    chips:['Demand shift','Recession','Cost control']},
+  normal_profit:{title:'The commodity trap bit', concept:'Perfect competition and normal profit',
+    body:'In a near-commodity market, marketing and quality do nothing and price is driven toward marginal cost. Economic profit heads to zero because any firm charging more loses its buyers instantly. The lesson is structural: without differentiation there is no pricing power to defend.',
+    chips:['Perfect competition','P = MC','Normal profit']},
+  on_target:{title:'Well-judged quarter', concept:'Profit maximisation, MR = MC',
+    body:'Your price landed close to the profit-maximising response to the field. That is the MR = MC point in disguise: you pushed price up only as far as the lost volume was worth, and no further. Hold this discipline as the macro cycle turns and rivals adjust.',
+    chips:['MR = MC','Best response','Margin vs volume']}
+};
+function pickLesson(you, move, priceGap, macro){
+  const unsoldPct = you.produced>0 ? you.unsold/you.produced*100 : 0;
+  if(move.price < you.mc) return LESSONS.belowcost;
+  if(unsoldPct > 12) return LESSONS.overproduce;
+  if(S.structure==='perfect' && you.lerner < 0.06) return LESSONS.normal_profit;
+  if(priceGap > 15) return LESSONS.priced_high;
+  if(priceGap < -15) return LESSONS.priced_low;
+  if(macro.type==='crisis' && you.profit > 0) return LESSONS.recession_survive;
+  return LESSONS.on_target;
+}
+
+/* ===================== LIVE PROJECTION (decision screen) ================= */
+function projectPlayer(dec){
+  const macro=MACRO_8[S.round-1];
+  const rivalsLast=S.bots; // best guess: rivals hold last quarter's prices
+  const test={...S.player, price:dec.price, marketing:dec.marketing, quality:dec.quality, production:dec.production};
+  const s=E.shares([test, ...rivalsLast], S.structure, macro, true).find(x=>x.id==='you');
+  const r=E.firmResult(test, macro, true, s.demand);
+  return {demand:s.demand, sold:r.sold, unsold:r.unsold, profit:r.profit, mc:r.mc, atc:r.atc, vcU:r.vcU};
+}
+
+/* ===================== COMPOSITE / BADGES (final) ======================= */
+function composite(){
+  const all=[S.player, ...S.bots];
+  const ranked=[...all].sort((a,b)=>b.cash-a.cash);
+  const rank=ranked.findIndex(f=>f.id==='you')+1;
+  const recQ=S.history.find(h=>h.macro.type==='crisis');
+  return {
+    rank, of:all.length, ranked,
+    netWorth:S.player.cash, cumProfit:S.player.cum_profit,
+    avgShare: S.history.reduce((s,h)=>s+(h.report.share||0),0)/Math.max(1,S.history.length),
+    survivedRecession: recQ ? recQ.report.profit>0 : null
+  };
+}
+function badges(){
+  const h=S.history, out=[];
+  if(h.some(x=>x.report.profit>0)) out.push({b:'First Profit', d:'Cleared a profit in at least one quarter.'});
+  const rec=h.find(x=>x.macro.type==='crisis'); if(rec&&rec.report.profit>0) out.push({b:'Survived Recession', d:'Stayed in the black through the downturn.'});
+  if(h.some(x=>x.report.rank===1)) out.push({b:'Market Leader', d:'Held the number one spot in a quarter.'});
+  if(h.filter(x=>Math.abs(x.report.priceGap)<=8).length>=3) out.push({b:'Elasticity Master', d:'Priced within 8% of the profit-max point in 3+ quarters.'});
+  if(h.length && h.every(x=>x.decision.price>=x.report.mc)) out.push({b:'Cost Watcher', d:'Never once priced below marginal cost.'});
+  return out;
+}
+
+/* =========================== FORMAT HELPERS ============================= */
+function inr(n){ n=Math.round(n||0); const neg=n<0; n=Math.abs(n);
+  let s=n.toLocaleString('en-IN'); return (neg?'-₹':'₹')+s; }
+function k(n){ return (n>=0?'':'-')+'₹'+Math.round(Math.abs(n)/1000)+'k'; }
+function pct(n){ return (n>=0?'+':'')+n.toFixed(0)+'%'; }
+function esc(s){ return String(s==null?'':s).replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c])); }
+
+/* =========================== SVG CHARTS ================================= */
+// horizontal bars, one row per firm, "you" highlighted
+function barsSVG(items, opts){
+  opts=opts||{}; const W=360, rowH=30, padL=104, padR=54, top=8;
+  const H=top*2 + items.length*rowH;
+  const max=Math.max(1, ...items.map(i=>Math.abs(i.value)));
+  const bw=W-padL-padR;
+  let rows='';
+  items.forEach((it,idx)=>{
+    const y=top+idx*rowH;
+    const len=Math.max(2, Math.abs(it.value)/max*bw);
+    const col=it.color||(it.you?'var(--gold)':'#3f6ea5');
+    rows+=`<text x="${padL-8}" y="${y+rowH/2+4}" text-anchor="end" font-size="12" fill="${it.you?'var(--gold2)':'var(--muted)'}" font-weight="${it.you?700:400}">${esc(it.label)}</text>`;
+    rows+=`<rect x="${padL}" y="${y+5}" width="${len}" height="${rowH-14}" rx="4" fill="${col}" opacity="${it.you?1:.85}"/>`;
+    rows+=`<text x="${padL+len+6}" y="${y+rowH/2+4}" font-size="12" fill="var(--ink)" font-weight="${it.you?700:400}">${opts.fmt?opts.fmt(it.value):it.value}</text>`;
+  });
+  return `<svg viewBox="0 0 ${W} ${H}" role="img">${rows}</svg>`;
+}
+// net-worth line over rounds (player vs field average)
+function lineSVG(){
+  const W=360,H=170,padL=46,padR=12,padT=12,padB=26;
+  const rounds=S.history.length; if(rounds<1) return '';
+  const you=S.history.map(h=>h.report ? null : null);
+  // reconstruct net worth after each round
+  const youNW=[], fieldNW=[];
+  let pc=E.START_CAPITAL; // we can read from results: cash after = cumulative; simpler: use results profit
+  // walk history: player cash after each round = START + cumulative player profit
+  let cum=0;
+  S.history.forEach(h=>{ cum+=h.report.profit; youNW.push(E.START_CAPITAL+cum); });
+  // field average from standings each round
+  S.history.forEach(h=>{
+    const others=h.results.filter(r=>r.id!=='you');
+    const avgProfit=others.reduce((s,r)=>s+r.profit,0)/Math.max(1,others.length);
+    fieldNW.push(avgProfit);
+  });
+  let fcum=0; const fieldTrace=[]; S.history.forEach((h,i)=>{ fcum+=fieldNW[i]; fieldTrace.push(E.START_CAPITAL+fcum); });
+  const allv=[...youNW,...fieldTrace, E.START_CAPITAL];
+  const mn=Math.min(...allv), mx=Math.max(...allv);
+  const xs=i=>padL+(rounds<=1?0:(i/(rounds-1))*(W-padL-padR));
+  const ys=v=>padT+(1-(v-mn)/Math.max(1,mx-mn))*(H-padT-padB);
+  const path=arr=>arr.map((v,i)=>(i?'L':'M')+xs(i).toFixed(1)+' '+ys(v).toFixed(1)).join(' ');
+  const gl=[mn,(mn+mx)/2,mx].map(v=>`<line x1="${padL}" y1="${ys(v)}" x2="${W-padR}" y2="${ys(v)}" stroke="var(--line)" stroke-width="1"/><text x="${padL-6}" y="${ys(v)+4}" text-anchor="end" font-size="10" fill="var(--muted)">${k(v)}</text>`).join('');
+  const xlab=S.history.map((h,i)=>`<text x="${xs(i)}" y="${H-8}" text-anchor="middle" font-size="10" fill="var(--muted)">Q${h.round}</text>`).join('');
+  return `<svg viewBox="0 0 ${W} ${H}">${gl}
+    <path d="${path(fieldTrace)}" fill="none" stroke="#3f6ea5" stroke-width="2" stroke-dasharray="4 3"/>
+    <path d="${path(youNW)}" fill="none" stroke="var(--gold)" stroke-width="2.5"/>
+    ${youNW.map((v,i)=>`<circle cx="${xs(i)}" cy="${ys(v)}" r="3" fill="var(--gold)"/>`).join('')}
+    ${xlab}
+    <text x="${W-padR}" y="${padT+2}" text-anchor="end" font-size="10" fill="var(--gold2)">You</text>
+    <text x="${W-padR}" y="${padT+14}" text-anchor="end" font-size="10" fill="#6f97c4">Field avg</text>
+  </svg>`;
+}
+
+/* =========================== KPI BAR ==================================== */
+function renderKPIs(){
+  const box=document.getElementById('kpis'); const pill=document.getElementById('modePill');
+  if(S.phase==='setup' || !S.player){ box.innerHTML=''; pill.style.display='none'; return; }
+  pill.style.display='inline-block';
+  pill.textContent = S.mode==='tournament' ? 'TOURNAMENT' : 'PRACTICE';
+  pill.className = 'pill'+(S.mode==='tournament'?' tourney':'');
+  const lastRank = S.history.length ? S.history[S.history.length-1].report.rank : '—';
+  box.innerHTML = `
+    <div class="kpi"><div class="l">Quarter</div><div class="v">${Math.min(S.round,S.rounds)} / ${S.rounds}</div></div>
+    <div class="kpi"><div class="l">Net worth</div><div class="v mono">${k(S.player.cash)}</div></div>
+    <div class="kpi"><div class="l">Last profit</div><div class="v mono" style="color:${S.player.last_profit>=0?'var(--good)':'var(--bad)'}">${k(S.player.last_profit)}</div></div>
+    <div class="kpi"><div class="l">Share</div><div class="v mono">${(S.player.share*100||0).toFixed(1)}%</div></div>
+    <div class="kpi"><div class="l">Rank</div><div class="v">${lastRank}</div></div>`;
+}
+
+/* =========================== SETUP SCREEN ============================== */
+function renderSetup(){
+  const st=STRUCT_INFO;
+  const opts=Object.keys(STRUCT_INFO).map(k=>`<option value="${k}" ${S.structure===k?'selected':''}>${E.structOf(k).label}</option>`).join('');
+  return `<div class="panel">
+    <h1>Set up the game</h1>
+    <p class="muted small">You run one firm against AI rivals in a live market. The instructor picks the market structure and mode below. Practice is a fresh market you can replay. Tournament is a locked, identical market so scores compare fairly across the class.</p>
+    <div class="grid cols2" style="margin-top:6px">
+      <label class="field"><div class="cap"><b>Team / company name</b></div>
+        <input id="f_team" type="text" maxlength="28" placeholder="e.g. Lumen Labs" value="${esc(S.team.name)}"></label>
+      <label class="field"><div class="cap"><b>Class code</b> <span class="muted tiny">optional</span></div>
+        <input id="f_code" type="text" maxlength="16" placeholder="e.g. ECON301-A" value="${esc(S.team.code)}"></label>
+    </div>
+    <div class="grid cols2">
+      <label class="field"><div class="cap"><b>Market structure</b> <span class="muted tiny">instructor</span></div>
+        <select id="f_struct">${opts}</select>
+        <div class="hint" id="structNote">${st[S.structure].note}</div></label>
+      <label class="field"><div class="cap"><b>AI rivals</b> <span class="val" id="rvVal">${S.nRivals}</span></div>
+        <input id="f_rivals" type="range" min="1" max="7" step="1" value="${S.nRivals}">
+        <div class="hint">Default is tuned to the structure. More rivals means a tighter, lower-margin market.</div></label>
+    </div>
+    <div class="grid cols2">
+      <label class="field"><div class="cap"><b>Mode</b></div>
+        <select id="f_mode">
+          <option value="practice" ${S.mode==='practice'?'selected':''}>Practice (fresh market, replayable)</option>
+          <option value="tournament" ${S.mode==='tournament'?'selected':''}>Tournament (locked, identical market)</option>
+        </select></label>
+      <label class="field" id="seedWrap" style="${S.mode==='tournament'?'':'opacity:.5'}"><div class="cap"><b>Tournament seed</b> <span class="muted tiny">same for whole class</span></div>
+        <input id="f_seed" type="number" value="${S.seed}" ${S.mode==='tournament'?'':'disabled'}></label>
+    </div>
+    <div class="btnrow"><button class="btn primary wide" id="startBtn">Start the game →</button></div>
+  </div>
+  <div class="panel">
+    <h3>Who you are up against</h3>
+    <div class="grid cols2" id="rosterPrev"></div>
+  </div>`;
+}
+
+/* =========================== PLAY SCREEN =============================== */
+function renderPlay(){
+  const macro=MACRO_8[S.round-1];
+  const St=E.structOf(S.structure);
+  const diffOn = St.bM>0 || St.bQ>0;
+  // seed the decision inputs from last round (or sensible defaults)
+  if(S.ui.price==null) S.ui.price = S.player.price || Math.round(St.Pref);
+  if(S.ui.marketing==null) S.ui.marketing = S.player.marketing||5;
+  if(S.ui.quality==null) S.ui.quality = S.player.quality||5;
+  const proj0=projectPlayer({price:S.ui.price, marketing:S.ui.marketing, quality:S.ui.quality, production:S.ui.production|| 5000});
+  if(S.ui.production==null) S.ui.production = Math.round(proj0.demand);
+
+  // market intelligence: last quarter's field (prices as fuzzy ranges)
+  let intel='';
+  if(S.history.length){
+    const last=S.history[S.history.length-1];
+    const rows=last.results.map(r=>{
+      const f=(r.id==='you')?S.player:S.bots.find(b=>b.id===r.id);
+      const nm=(r.id==='you')?'You':(f?f.name:r.id);
+      const lo=Math.round(f.price*0.92/5)*5, hi=Math.round(f.price*1.08/5)*5;
+      return `<tr class="${r.id==='you'?'you':''}"><td>${esc(nm)}</td><td class="mono">${r.id==='you'?inr(f.price):'₹'+lo+'–'+hi}</td><td class="mono">${(r.share*100).toFixed(1)}%</td></tr>`;
+    }).join('');
+    intel=`<div class="card"><div class="l">Market intelligence · last quarter</div>
+      <table style="margin-top:6px"><tr><th>Firm</th><th>Price (est.)</th><th>Share</th></tr>${rows}</table>
+      <div class="hint">Rival prices are shown as a fuzzy range, the way real scouting works. Your own figure is exact.</div></div>`;
+  } else {
+    intel=`<div class="card"><div class="l">Market intelligence</div><div class="small" style="margin-top:6px">First quarter, no history yet. Everyone starts near the reference price of ${inr(St.Pref)}. Read the structure note and make your opening move.</div></div>`;
+  }
+
+  return `<div class="news ${macro.type}"><span class="tag">Q${macro.q} · ${macro.tag}</span><span class="txt">${macro.news}</span></div>
+  <div class="grid cols2">
+    <div class="panel">
+      <h2>Your decisions</h2>
+      <label class="field"><div class="cap"><b>Price per unit</b> <span class="val" id="pVal">${inr(S.ui.price)}</span></div>
+        <input id="d_price" type="range" min="${Math.round(St.Pref*0.5)}" max="${Math.round(St.Pref*2.2)}" step="1" value="${S.ui.price}">
+        <div class="hint">Reference price in this market is about ${inr(St.Pref)}. Price too high and buyers leave for rivals or buy nothing.</div></label>
+
+      <label class="field"><div class="cap"><b>Production this quarter</b> <span class="val" id="qVal">${S.ui.production.toLocaleString('en-IN')}</span></div>
+        <input id="d_prod" type="range" min="0" max="${S.player.capacity}" step="100" value="${S.ui.production}">
+        <div class="hint">Capacity is ${S.player.capacity.toLocaleString('en-IN')}. Anything you make but do not sell carries a holding cost. <a id="matchBtn">Match to forecast</a>.</div></label>
+
+      <label class="field" style="${diffOn?'':'opacity:.45'}"><div class="cap"><b>Marketing effort</b> <span class="val" id="mVal">${S.ui.marketing}</span></div>
+        <input id="d_mkt" type="range" min="1" max="10" step="1" value="${S.ui.marketing}" ${diffOn?'':'disabled'}>
+        <div class="hint">${diffOn?'Higher effort lifts your appeal, but each point costs '+inr(E.MKT_COST)+'.':'This is a commodity market. Marketing does not move demand here.'}</div></label>
+
+      <label class="field" style="${diffOn?'':'opacity:.45'}"><div class="cap"><b>Product quality</b> <span class="val" id="qlVal">${S.ui.quality}</span></div>
+        <input id="d_qual" type="range" min="1" max="10" step="1" value="${S.ui.quality}" ${diffOn?'':'disabled'}>
+        <div class="hint">${diffOn?'Quality raises willingness to pay and defends your price.':'Buyers here treat every firm as identical. Quality does nothing.'}</div></label>
+    </div>
+
+    <div class="panel">
+      <h2>Projection <span class="muted small">if rivals hold last price</span></h2>
+      <div class="grid cols2">
+        <div class="card"><div class="l">Forecast sales</div><div class="v mono" id="pjSold">—</div></div>
+        <div class="card"><div class="l">Projected profit</div><div class="v mono" id="pjProfit">—</div></div>
+        <div class="card"><div class="l">Marginal cost</div><div class="v mono" id="pjMC">—</div></div>
+        <div class="card"><div class="l">Unit cost (ATC)</div><div class="v mono" id="pjATC">—</div></div>
+      </div>
+      <div id="flags"></div>
+      ${intel}
+      <div class="btnrow"><button class="btn primary wide" id="submitBtn">Submit quarter →</button></div>
+      <div class="hint center">Rivals decide in secret at the same time. Your projection assumes they stand still; they will not.</div>
+    </div>
+  </div>`;
+}
+
+function refreshProjection(){
+  const dec={price:+S.ui.price, marketing:+S.ui.marketing, quality:+S.ui.quality, production:+S.ui.production};
+  const p=projectPlayer(dec);
+  document.getElementById('pjSold').textContent=Math.round(p.sold).toLocaleString('en-IN');
+  const pe=document.getElementById('pjProfit'); pe.textContent=k(p.profit); pe.style.color=p.profit>=0?'var(--good)':'var(--bad)';
+  document.getElementById('pjMC').textContent=inr(p.mc);
+  document.getElementById('pjATC').textContent=p.sold>0?inr(p.atc):'—';
+  let f='';
+  if(dec.price < p.mc) f+=`<div class="flag bad">⚠ Your price ${inr(dec.price)} is below marginal cost ${inr(p.mc)}. You lose money on every unit.</div>`;
+  if(dec.production > S.player.capacity) f+=`<div class="flag bad">⚠ Production ${dec.production.toLocaleString('en-IN')} exceeds capacity ${S.player.capacity.toLocaleString('en-IN')}. Overtime cost applies.</div>`;
+  if(dec.production > p.demand*1.15) f+=`<div class="flag warn">You plan to make well above forecast demand (${Math.round(p.demand).toLocaleString('en-IN')}). Expect unsold stock and holding cost.</div>`;
+  if(dec.production < p.demand*0.85) f+=`<div class="flag warn">You plan to make below forecast demand. You may sell out and leave sales on the table.</div>`;
+  if(!f) f=`<div class="flag ok">✓ Production is roughly matched to your forecast sales.</div>`;
+  document.getElementById('flags').innerHTML=f;
+}
+
+/* =========================== RESULT SCREEN ============================= */
+function renderResult(){
+  const h=S.history[S.history.length-1]; const r=h.report; const macro=MACRO_8[h.round-1];
+  const shareItems=h.results.map(x=>{
+    const f=(x.id==='you')?S.player:S.bots.find(b=>b.id===x.id);
+    return {label:(x.id==='you')?'You':(f?f.name:x.id), value:+(x.share*100).toFixed(1), you:x.id==='you'};
+  }).sort((a,b)=>b.value-a.value);
+  const priceItems=h.results.map(x=>{
+    const f=(x.id==='you')?S.player:S.bots.find(b=>b.id===x.id);
+    return {label:(x.id==='you')?'You':(f?f.name:x.id), value:Math.round(f.price), you:x.id==='you', color:x.id==='you'?'var(--gold)':'#6f97c4'};
+  }).sort((a,b)=>a.value-b.value);
+  const standings=[...h.results].sort((a,b)=>a.rank-b.rank).map(x=>{
+    const f=(x.id==='you')?S.player:S.bots.find(b=>b.id===x.id);
+    const nm=(x.id==='you')?'You':(f?f.name:x.id);
+    const rc=x.rank===1?'r1':x.rank===2?'r2':x.rank===3?'r3':'rx';
+    return `<tr class="${x.id==='you'?'you':''}"><td><span class="rankdot ${rc}">${x.rank}</span>${esc(nm)}</td>
+      <td class="mono">${inr(f.price)}</td><td class="mono">${Math.round(x.sold).toLocaleString('en-IN')}</td>
+      <td class="mono">${(x.share*100).toFixed(1)}%</td>
+      <td class="mono" style="color:${x.profit>=0?'var(--good)':'var(--bad)'}">${k(x.profit)}</td></tr>`;
+  }).join('');
+  const gapTxt = Math.abs(r.priceGap)<3 ? 'right on your profit-max point'
+    : (r.priceGap>0 ? `${Math.abs(r.priceGap).toFixed(0)}% above your profit-max point` : `${Math.abs(r.priceGap).toFixed(0)}% below your profit-max point`);
+  const last = S.round>=S.rounds;
+  return `<div class="news ${macro.type}"><span class="tag">Q${macro.q} · ${macro.tag} · results</span><span class="txt">${macro.news}</span></div>
+  <div class="panel">
+    <h1>Economist's Report <span class="muted small">· Quarter ${h.round}</span></h1>
+    <div class="grid cols3">
+      <div class="card"><div class="l">Profit this quarter</div><div class="v mono" style="color:${r.profit>=0?'var(--good)':'var(--bad)'}">${inr(r.profit)}</div></div>
+      <div class="card"><div class="l">Rank</div><div class="v">${r.rank} <span class="muted small">of ${h.results.length}</span></div></div>
+      <div class="card"><div class="l">Units sold</div><div class="v mono">${Math.round(r.sold).toLocaleString('en-IN')}${r.unsold>0?` <span class="tiny muted">(${Math.round(r.unsold).toLocaleString('en-IN')} unsold)</span>`:''}</div></div>
+      <div class="card"><div class="l">Your price</div><div class="v mono">${inr(r.price)}</div></div>
+      <div class="card"><div class="l">Profit-max price</div><div class="v mono gold">${inr(r.pmaxPrice)}</div></div>
+      <div class="card"><div class="l">Lerner index</div><div class="v mono">${r.lerner.toFixed(2)}</div></div>
+    </div>
+    <div class="speak" style="margin-top:14px">Your price was <b>${gapTxt}</b> against what rivals actually did. ${r.priceGap>8?'Buyers you priced away went to rivals and the outside option.':r.priceGap<-8?'You could have charged more and barely lost volume.':'That is the MR = MC discipline paying off.'}</div>
+
+    <div class="grid cols2" style="margin-top:12px">
+      <div class="card"><div class="l">Market share</div>${barsSVG(shareItems,{fmt:v=>v+'%'})}</div>
+      <div class="card"><div class="l">Price vs the field</div>${barsSVG(priceItems,{fmt:v=>'₹'+v})}</div>
+    </div>
+
+    <div class="lecture">
+      <div class="pill" style="margin-bottom:6px">${esc(r.lesson.concept)}</div>
+      <h3>${esc(r.lesson.title)}</h3>
+      <p class="small" style="margin:.3em 0 0">${esc(r.lesson.body)}</p>
+      <div class="chips">${r.lesson.chips.map(c=>`<span class="chip">${esc(c)}</span>`).join('')}</div>
+    </div>
+
+    <div class="grid cols2" style="margin-top:12px">
+      <div class="card"><div class="l">Net worth trajectory</div>${lineSVG()}</div>
+      <div class="card"><div class="l">Standings this quarter</div>
+        <table style="margin-top:6px"><tr><th>Firm</th><th>Price</th><th>Sold</th><th>Share</th><th>Profit</th></tr>${standings}</table></div>
+    </div>
+
+    <div class="btnrow">
+      <button class="btn primary wide" id="nextBtn">${last?'See final results →':'Next quarter →'}</button>
+    </div>
+  </div>`;
+}
+
+/* =========================== FINAL SCREEN ============================= */
+function renderFinal(){
+  try{ CLS.completeWithQuiz(); }catch(e){}
+  const c=composite(); const b=badges();
+  const rows=c.ranked.map((f,i)=>{
+    const rc=i===0?'r1':i===1?'r2':i===2?'r3':'rx';
+    return `<tr class="${f.id==='you'?'you':''}"><td><span class="rankdot ${rc}">${i+1}</span>${esc(f.id==='you'?'You':f.name)}</td>
+      <td class="mono">${inr(f.cash)}</td><td class="mono">${inr(f.cum_profit)}</td><td class="mono">${(f.share*100||0).toFixed(1)}%</td></tr>`;
+  }).join('');
+  const tourLine = S.mode==='tournament'
+    ? `<div class="flag ok" style="margin-top:10px">Tournament score (net worth) for the class leaderboard: <b class="mono" style="margin-left:6px">${inr(S.player.cash)}</b>. Submit through your faculty console.</div>`
+    : `<div class="hint" style="margin-top:10px">This was a practice game. Switch to Tournament mode from a reset for a locked, comparable score.</div>`;
+  return `<div class="panel center">
+    <h1>${c.rank===1?'🏆 Market leader':'Final results'}</h1>
+    <div class="v" style="font-size:34px;font-weight:800;margin:6px 0">Rank ${c.rank} <span class="muted" style="font-size:20px">of ${c.of}</span></div>
+    <div class="muted small">Net worth ${inr(c.netWorth)} · total profit over 2 years ${inr(c.cumProfit)} · average share ${(c.avgShare*100).toFixed(1)}%</div>
+    ${tourLine}
+  </div>
+  <div class="grid cols2">
+    <div class="panel"><h3>Final standings</h3>
+      <table><tr><th>Firm</th><th>Net worth</th><th>Total profit</th><th>Share</th></tr>${rows}</table></div>
+    <div class="panel"><h3>Net worth over the two years</h3>${lineSVG()}
+      <h3 style="margin-top:14px">Badges earned</h3>
+      ${b.length?b.map(x=>`<div class="flag ok" style="margin:6px 0"><b>${esc(x.b)}</b>&nbsp;<span class="muted">${esc(x.d)}</span></div>`).join(''):'<div class="hint">No badges this run. Watch your marginal cost and time the cycle.</div>'}
+    </div>
+  </div>
+  <div class="panel">
+    <h3>What you practiced</h3>
+    <p class="small muted">Across eight quarters you set price against live rivals, matched production to forecast demand, and rode a full macro cycle including a recession. Each report compared your price to the profit-maximising response and named the concept in play: elasticity and the Lerner index when you priced too high, the Bertrand trap when you cut too deep, inventory cost when you overbuilt, and demand shifts when the cycle turned. That is managerial economics as a set of decisions, not definitions.</p>
+    <div class="btnrow">
+      <button class="btn primary" id="replayBtn">Play again</button>
+      <button class="btn ghost" id="resetBtn2">Reset everything</button>
+    </div>
+  </div>`;
+}
+
+/* =========================== DISPATCH / WIRING ======================== */
+const prefersReduced=()=>{ try{ return window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches; }catch(e){ return false; } };
+function render(){
+  renderKPIs();
+  const app=document.getElementById('app');
+  if(S.phase==='setup') app.innerHTML=renderSetup();
+  else if(S.phase==='play') app.innerHTML=renderPlay();
+  else if(S.phase==='result') app.innerHTML=renderResult();
+  else if(S.phase==='final') app.innerHTML=renderFinal();
+  wire();
+}
+function wire(){
+  if(S.phase==='setup'){
+    const roster=document.getElementById('rosterPrev');
+    const drawRoster=()=>{ roster.innerHTML=ARCHETYPES.slice(0,S.nRivals).map(a=>`<div class="card"><b>${esc(a.name)}</b><div class="small muted" style="margin-top:3px">${esc(a.blurb)}</div></div>`).join(''); };
+    drawRoster();
+    const struct=document.getElementById('f_struct');
+    struct.onchange=e=>{ S.structure=e.target.value; S.nRivals=Math.min(7,STRUCT_INFO[S.structure].seats-1);
+      document.getElementById('structNote').textContent=STRUCT_INFO[S.structure].note;
+      document.getElementById('f_rivals').value=S.nRivals; document.getElementById('rvVal').textContent=S.nRivals; drawRoster(); };
+    const rv=document.getElementById('f_rivals');
+    rv.oninput=e=>{ S.nRivals=+e.target.value; document.getElementById('rvVal').textContent=S.nRivals; setFill(e.target); drawRoster(); };
+    setFill(rv);
+    document.getElementById('f_mode').onchange=e=>{ S.mode=e.target.value;
+      const sw=document.getElementById('seedWrap'), sd=document.getElementById('f_seed');
+      sw.style.opacity=S.mode==='tournament'?'1':'.5'; sd.disabled=S.mode!=='tournament'; };
+    document.getElementById('startBtn').onclick=()=>{
+      S.team.name=document.getElementById('f_team').value.trim();
+      S.team.code=document.getElementById('f_code').value.trim();
+      S.seed=+document.getElementById('f_seed').value||12345;
+      S.mode=document.getElementById('f_mode').value;
+      S.structure=document.getElementById('f_struct').value;
+      S.nRivals=+document.getElementById('f_rivals').value;
+      initFirms(); S.round=1; S.phase='play'; S.ui={price:null,production:null,marketing:5,quality:5};
+      save(); render();
+    };
+  }
+  if(S.phase==='play'){
+    const P=document.getElementById('d_price'), Q=document.getElementById('d_prod'),
+          M=document.getElementById('d_mkt'), QL=document.getElementById('d_qual');
+    const upd=()=>{ setFill(P);setFill(Q);setFill(M);setFill(QL); refreshProjection(); };
+    P.oninput=e=>{ S.ui.price=+e.target.value; document.getElementById('pVal').textContent=inr(S.ui.price); upd(); };
+    Q.oninput=e=>{ S.ui.production=+e.target.value; document.getElementById('qVal').textContent=(+e.target.value).toLocaleString('en-IN'); upd(); };
+    if(M) M.oninput=e=>{ S.ui.marketing=+e.target.value; document.getElementById('mVal').textContent=e.target.value; upd(); };
+    if(QL) QL.oninput=e=>{ S.ui.quality=+e.target.value; document.getElementById('qlVal').textContent=e.target.value; upd(); };
+    const mb=document.getElementById('matchBtn'); if(mb) mb.onclick=(ev)=>{ ev.preventDefault();
+      const p=projectPlayer({price:+S.ui.price,marketing:+S.ui.marketing,quality:+S.ui.quality,production:+S.ui.production});
+      S.ui.production=Math.round(p.demand); Q.value=S.ui.production; document.getElementById('qVal').textContent=S.ui.production.toLocaleString('en-IN'); upd(); };
+    document.getElementById('submitBtn').onclick=()=>{
+      submitRound({price:+S.ui.price, production:+S.ui.production, marketing:+S.ui.marketing, quality:+S.ui.quality});
+      render();
+    };
+    upd();
+  }
+  if(S.phase==='result'){
+    document.getElementById('nextBtn').onclick=()=>{
+      if(S.round>=S.rounds){ S.phase='final'; }
+      else { S.round++; S.phase='play'; S.ui={price:S.player.price,production:null,marketing:S.player.marketing,quality:S.player.quality}; }
+      save(); render();
+    };
+  }
+  if(S.phase==='final'){
+    document.getElementById('replayBtn').onclick=()=>{ initFirms(); S.round=1; S.history=[]; S.phase='play'; S.ui={price:null,production:null,marketing:5,quality:5}; save(); render(); };
+    document.getElementById('resetBtn2').onclick=reset;
+  }
+}
+function setFill(el){ if(!el||el.type!=='range')return; const mn=+el.min,mx=+el.max,v=+el.value; el.style.setProperty('--fill',((v-mn)/(mx-mn)*100)+'%'); }
+
+/* =========================== BOOT ==================================== */
+(function boot(){
+  if(!load()) S=fresh();
+const _renderCore=render;
+render=function(){ _renderCore.apply(this,arguments);
+  if(prefersReduced()) return;
+  try{ document.querySelectorAll('#app svg').forEach(s=>s.classList.add('chartIn')); }catch(e){}
+};
+render();
+})();
+
+
+/* classroom gate + roster ping — must be after render() defined */
+/* Level 2 wall quiz: one opening question before entry, one closing after commit.
+   Bundle is looked up from window.__L2QB, injected per-file. Progress persisted per-act. */
+CLS._quizKey=function(kind){ return 'econventure_l2q_'+CLS.cfg.actIdx+'_'+kind; };
+CLS._loadQuizFlag=function(kind){ try{ return localStorage.getItem(CLS._quizKey(kind))==='1'; }catch(e){ return false; } };
+CLS._setQuizFlag=function(kind){ try{ localStorage.setItem(CLS._quizKey(kind),'1'); }catch(e){} };
+CLS._showQuiz=function(bundle, kind, onDone){
+  if(!bundle){ onDone&&onDone(); return; }
+  const q = kind==='open' ? bundle.open : bundle.close;
+  if(!q){ onDone&&onDone(); return; }
+  if(this._quizEl){ this._quizEl.remove(); }
+  const el=document.createElement('div');
+  el.id='__cls_quiz';
+  el.style.cssText='position:fixed;inset:0;z-index:99998;background:rgba(8,19,33,.97);display:flex;align-items:center;justify-content:center;padding:24px;backdrop-filter:blur(6px);font:15px/1.5 system-ui,Segoe UI,Roboto,sans-serif;color:#eef4fb';
+  const opts=q.opts.map((o,i)=>'<div data-i="'+i+'" style="cursor:pointer;padding:12px 14px;border:1px solid #1d3a5f;border-radius:10px;margin-top:8px;background:#0a1830;transition:background .15s,border-color .15s" onmouseover="this.style.background=\'#0f2342\'" onmouseout="this.style.background=\'#0a1830\'">'+o+'</div>').join('');
+  el.innerHTML='<div style="max-width:560px;padding:26px 30px;background:linear-gradient(180deg,#0d1f38,#0b1d38);border:1px solid #1d3a5f;border-radius:16px;box-shadow:0 22px 44px -18px rgba(0,0,0,.7)">'+
+    '<div style="font-size:11px;letter-spacing:1px;text-transform:uppercase;color:#93abcd;margin-bottom:8px">'+(kind==='open'?'Before we start':'What did you take away')+'</div>'+
+    '<div style="font-size:19px;font-weight:600;margin-bottom:6px">'+q.q+'</div>'+
+    '<div id="__q_opts">'+opts+'</div>'+
+    '<div style="font-size:12px;color:#5c7396;margin-top:12px">'+(kind==='open'?'One quick check, then the act opens.':'One closing question, then this act is marked complete.')+'</div>'+
+    '</div>';
+  document.body.appendChild(el); this._quizEl=el;
+  Array.prototype.forEach.call(el.querySelectorAll('[data-i]'), function(node){
+    node.onclick=function(){
+      const chosen=Number(node.getAttribute('data-i'));
+      const ok = chosen===q.a ? 1 : 0;
+      CLS.call({action:'quiz',code:CLS.state.code,sid:CLS.state.sid,concept:200+CLS.cfg.actIdx,phase:kind==='open'?'pre':'post',score:ok,total:1},function(){});
+      CLS._setQuizFlag(kind);
+      if(CLS._quizEl){ CLS._quizEl.remove(); CLS._quizEl=null; }
+      onDone&&onDone(ok);
+    };
+  });
+};
+/* Wrap refreshGate: when gate opens, if opening quiz not taken, show it before hiding the wall. */
+CLS._origHideGate = CLS.hideGate.bind(CLS);
+CLS.hideGate = function(){
+  const b = (typeof window!=='undefined' && window.__L2QB) ? window.__L2QB : null;
+  if(!b || CLS._loadQuizFlag('open') || !CLS.state.code){ CLS._origHideGate(); return; }
+  CLS._origHideGate();
+  CLS._showQuiz(b,'open', function(){});
+};
+/* Called by an act's lock/commit code (via CLS.completeWithQuiz) instead of CLS.complete(). */
+CLS.completeWithQuiz = function(){
+  const b = (typeof window!=='undefined' && window.__L2QB) ? window.__L2QB : null;
+  if(!b || CLS._loadQuizFlag('close') || !CLS.state.code){ CLS.complete(); return; }
+  CLS._showQuiz(b,'close', function(){ CLS.complete(); });
+};
+
+try{ CLS.start(10,'act'); }catch(e){}
+</script>
+</body>
+</html>

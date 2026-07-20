@@ -1,0 +1,1911 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EconVenture — Founder</title>
+<style>
+  :root{
+    --bg:#0a1626;--bg2:#0d1f38;--panel:#12294a;--panel2:#16315a;
+    --line:#1f3a64;--line2:#2a4f86;--ink:#e9f0fa;--muted:#8da6c8;--faint:#5f7aa0;
+    --gold:#e0b54a;--gold-dim:#b8923a;--good:#37b27e;--bad:#e5594d;--warn:#e0a23a;--info:#5b9bd5;
+    --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;--sans:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:radial-gradient(1100px 560px at 50% -8%,#0f213b 0%,var(--bg) 62%);color:var(--ink);font-family:var(--sans);font-size:14px;line-height:1.55;min-height:100vh}
+  h1,h2,h3{margin:0;font-weight:650;letter-spacing:-.01em}
+  .mono{font-family:var(--mono)}.muted{color:var(--muted)}.faint{color:var(--faint)}.good{color:var(--good)}.bad{color:var(--bad)}.gold{color:var(--gold)}
+  header{position:sticky;top:0;z-index:20;display:flex;align-items:center;gap:16px;padding:11px 20px;background:rgba(8,18,33,.9);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+  .brand{display:flex;align-items:baseline;gap:9px}.brand b{font-size:15px}.brand .tag{font-family:var(--mono);font-size:11px;color:var(--gold);border:1px solid var(--gold-dim);border-radius:4px;padding:1px 6px}
+  .stat{display:flex;gap:18px;margin-left:auto}
+  .st{display:flex;flex-direction:column;line-height:1.12}.st .v{font-family:var(--mono);font-size:13.5px}.st .l{font-size:9.5px;text-transform:uppercase;letter-spacing:.08em;color:var(--faint)}
+
+  main{max-width:1080px;margin:0 auto;padding:24px 20px 90px}
+  .layout{display:grid;grid-template-columns:230px 1fr;gap:22px}
+  @media(max-width:840px){.layout{grid-template-columns:1fr}.rail{display:none}}
+
+  /* campaign rail */
+  .rail{position:sticky;top:78px;align-self:start}
+  .act{margin-bottom:16px}
+  .act .ah{font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin-bottom:7px}
+  .node{display:flex;align-items:center;gap:9px;padding:5px 0;font-size:12.5px;color:var(--faint)}
+  .node .dot{width:9px;height:9px;border-radius:50%;border:1.5px solid var(--line2);flex:none}
+  .node.done{color:var(--muted)}.node.done .dot{background:var(--good);border-color:var(--good)}
+  .node.active{color:var(--ink);font-weight:600}.node.active .dot{background:var(--gold);border-color:var(--gold);box-shadow:0 0 0 4px rgba(224,181,74,.15)}
+  .node.locked .dot{background:transparent}
+
+  .panel{background:linear-gradient(180deg,var(--panel) 0%,var(--bg2) 100%);border:1px solid var(--line);border-radius:13px;padding:22px 24px;margin-bottom:16px}
+  .eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.13em;text-transform:uppercase;color:var(--gold);margin-bottom:8px}
+  .situation{font-size:15px;line-height:1.6;color:var(--ink)}
+  .situation .speak{border-left:2px solid var(--gold-dim);padding:2px 0 2px 14px;margin:14px 0;color:var(--muted);font-style:italic}
+  .prompt{font-size:15px;font-weight:600;margin:18px 0 4px}
+  .hint{font-size:12px;color:var(--faint)}
+
+  .opts{display:flex;flex-direction:column;gap:11px;margin-top:14px}
+  .opt{border:1px solid var(--line);border-radius:11px;padding:14px 16px;cursor:pointer;transition:.12s;background:#0f2342}
+  .opt:hover{border-color:var(--line2)}
+  .opt.sel{border-color:var(--gold);box-shadow:0 0 0 1px var(--gold) inset}
+  .opt .lab{font-size:14px;font-weight:600;margin-bottom:3px}
+  .opt .det{font-size:12.5px;color:var(--muted)}
+  .opt .pay{font-family:var(--mono);font-size:12px;color:var(--gold);margin-top:8px;border-top:1px solid var(--line);padding-top:8px}
+
+  button{font-family:var(--sans);font-size:13.5px;font-weight:600;cursor:pointer;border-radius:8px;padding:11px 18px;border:1px solid var(--line2);background:#13294a;color:var(--ink);transition:.12s}
+  button:hover{background:#173258}button.primary{background:linear-gradient(180deg,var(--gold),var(--gold-dim));color:#1a1205;border:none}button.primary:hover{filter:brightness(1.07)}button.ghost{background:transparent}button:disabled{opacity:.4;cursor:not-allowed}
+  .row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.right{margin-left:auto}
+
+  /* result + reinforcement */
+  .payoff{border:1px solid var(--line2);border-radius:11px;padding:15px 17px;margin-top:8px;background:#0f2747}
+  .payoff .h{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--gold);margin-bottom:6px}
+  .payoff .fb{font-size:13.5px;color:var(--ink)}
+  .reinforce{border:1px solid var(--gold-dim);border-radius:11px;padding:16px 18px;margin-top:13px;background:linear-gradient(180deg,#1a2a18 0%,#13251a 100%)}
+  .reinforce .tag{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-bottom:7px}
+  .reinforce h3{font-size:15px;margin-bottom:7px}
+  .reinforce p{font-size:13px;color:#d7e2d9;margin:0 0 8px}
+  .reinforce .key{font-size:12.5px;color:var(--gold);font-weight:600}
+  .toolkit{display:flex;gap:7px;flex-wrap:wrap;margin-top:6px}
+  .chip{font-size:11px;border:1px solid var(--gold-dim);color:var(--gold);border-radius:20px;padding:3px 10px}
+
+  table{width:100%;border-collapse:collapse;font-size:12.5px;margin-top:10px}
+  th,td{text-align:right;padding:7px 9px;border-bottom:1px solid var(--line)}th:first-child,td:first-child{text-align:left}
+  th{font-size:10px;text-transform:uppercase;letter-spacing:.06em;color:var(--faint)}td.mono{font-family:var(--mono)}
+  .working{font-family:var(--mono);font-size:11.5px;color:var(--muted);background:#0b1c34;border:1px solid var(--line);border-radius:9px;padding:11px 13px;margin-top:10px;line-height:1.75}
+  .working .wh{font-family:var(--sans);font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:var(--faint);margin-bottom:6px}
+  .working .wl{display:block}
+  .working b{color:var(--gold);font-weight:600}
+  .toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#16315a;border:1px solid var(--line2);border-radius:9px;padding:11px 18px;font-size:13px;z-index:50;opacity:0;pointer-events:none;transition:.2s}.toast.on{opacity:1}
+
+  /* onboarding + quiz + report */
+  .fld{display:flex;flex-direction:column;gap:5px}
+  .fld span{font-size:12px;color:var(--muted)}
+  .fld input{background:#0f2342;border:1px solid var(--line2);border-radius:8px;padding:12px 13px;color:var(--ink);font-size:15px;font-family:var(--sans);width:100%}
+  .fld input:focus{outline:none;border-color:var(--gold)}
+  .qprog{height:5px;background:#0f2342;border-radius:3px;overflow:hidden;margin-bottom:14px}
+  .qprog>div{height:100%;background:var(--gold);transition:.25s}
+  .scorebar{display:flex;gap:12px;flex-wrap:wrap;margin:12px 0}
+  .scorebox{flex:1;min-width:120px;border:1px solid var(--line2);border-radius:10px;padding:12px 14px;background:#0f2342;text-align:center}
+  .scorebox .n{font-family:var(--mono);font-size:22px;font-weight:700}.scorebox .l{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+  .codebox{font-family:var(--mono);font-size:14px;color:var(--gold);background:#0b1c34;border:1px dashed var(--gold-dim);border-radius:9px;padding:12px 14px;margin:10px 0;word-break:break-all;text-align:center}
+
+  /* device compatibility: phones, tablets, Chromebooks */
+  @media(max-width:560px){
+    header{padding:9px 13px;gap:10px}
+    .brand b{font-size:14px}
+    .stat{gap:10px}.st .v{font-size:11.5px}.st .l{font-size:8px}
+    main{padding:16px 12px 80px}
+    .panel{padding:16px 15px}
+    h2{font-size:18px}
+    .situation,.prompt{font-size:14px}
+    .readout{grid-template-columns:1fr 1fr !important}
+    .tablewrap{overflow-x:auto}
+    .row{gap:8px}.row button{flex:1 1 auto}
+    .working{font-size:10.8px}
+  }
+  @media(max-width:380px){ .stat .st:nth-child(2){display:none} } /* drop hurdle on the narrowest phones */
+
+  /* =====================================================================
+     BUILD 9 VISUAL LAYER — appended so the working stylesheet is untouched.
+     Identity: a market terminal drawn on blueprint navy. Motion is tied to
+     the economics (curves draw in, the equilibrium point glows, numbers
+     count up), not decorative. Zero external dependencies. Reduced motion
+     and keyboard focus honoured at the bottom.
+     ===================================================================== */
+
+  :root{
+    --bg:#081321;--bg2:#0c1d34;--panel:#102647;--panel2:#153059;
+    --line:#213f6b;--line2:#2e568f;--ink:#eaf1fb;--muted:#93abcd;--faint:#647fa6;
+    --gold:#e7bd54;--gold-dim:#b8923a;--gold-soft:rgba(231,189,84,.14);
+    --good:#3ec08a;--bad:#ec6154;--warn:#e0a23a;--info:#5fa0dd;
+    --grid:rgba(120,160,215,.10);
+    --shadow:0 18px 44px -22px rgba(0,0,0,.75),0 3px 10px -4px rgba(0,0,0,.5);
+    --shadow-sm:0 8px 22px -14px rgba(0,0,0,.7);
+    --ease:cubic-bezier(.22,.7,.2,1);
+  }
+  body{
+    background:
+      radial-gradient(1200px 620px at 50% -12%, #123055 0%, rgba(18,48,85,0) 60%),
+      linear-gradient(180deg,#0a1727 0%, var(--bg) 55%);
+    -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;
+  }
+  /* faint blueprint grid, ambient and cheap */
+  body::before{
+    content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
+    background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+    background-size:52px 52px;-webkit-mask-image:radial-gradient(1000px 700px at 50% 0%,#000 0%,transparent 78%);
+            mask-image:radial-gradient(1000px 700px at 50% 0%,#000 0%,transparent 78%);opacity:.5;
+  }
+  header,main{position:relative;z-index:1}
+  .mono,.st .v,.opt .pay,.working,.codebox,td.mono,.ro .v,.lever .val,th,.eyebrow,.act .ah{font-variant-numeric:tabular-nums}
+
+  header{background:linear-gradient(180deg,rgba(8,16,28,.94),rgba(8,16,28,.72));border-bottom:1px solid var(--line);box-shadow:0 1px 0 rgba(120,160,215,.05)}
+  .brand b{letter-spacing:-.015em}
+  .brand .tag{position:relative;padding-left:16px;background:var(--gold-soft);border-color:var(--gold-dim)}
+  .brand .tag::before{content:"";position:absolute;left:6px;top:50%;width:5px;height:5px;border-radius:50%;background:var(--gold);transform:translateY(-50%);box-shadow:0 0 0 0 rgba(231,189,84,.6);animation:tick 2.4s var(--ease) infinite}
+  .st .v{font-size:14px;letter-spacing:.2px}
+  .st .l{color:var(--faint)}
+
+  /* rail: a live campaign spine */
+  .act .ah{color:var(--gold)}
+  .node{transition:color .2s var(--ease)}
+  .node .dot{transition:background .25s var(--ease),border-color .25s var(--ease),box-shadow .25s var(--ease),transform .25s var(--ease)}
+  .node.done .dot{box-shadow:0 0 10px -1px rgba(62,192,138,.55)}
+  .node.active{color:var(--ink)}
+  .node.active .dot{transform:scale(1.15);animation:breathe 2.6s var(--ease) infinite}
+
+  /* panels: layered glass with a top hairline of light */
+  .panel{
+    background:
+      linear-gradient(180deg,rgba(255,255,255,.02),rgba(255,255,255,0) 30%),
+      linear-gradient(180deg,var(--panel) 0%,var(--bg2) 100%);
+    border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);
+    animation:panelIn .5s var(--ease) both;
+  }
+  .panel::before{content:"";position:absolute;left:16px;right:16px;top:0;height:1px;background:linear-gradient(90deg,transparent,rgba(160,195,245,.25),transparent);border-radius:16px}
+  .panel{position:relative;overflow:hidden}
+  h2{letter-spacing:-.02em}
+  .eyebrow{color:var(--gold)}
+
+  /* decision cards: lift, gold rail on hover, spring select, staggered entrance */
+  .opts .opt{position:relative;background:linear-gradient(180deg,#112a4d,#0e2342);border-color:var(--line);box-shadow:var(--shadow-sm);
+    transition:transform .16s var(--ease),border-color .16s var(--ease),box-shadow .16s var(--ease),background .16s var(--ease);
+    animation:cardIn .42s var(--ease) both}
+  .opts .opt::before{content:"";position:absolute;left:0;top:12px;bottom:12px;width:3px;border-radius:3px;background:var(--gold);opacity:0;transform:scaleY(.4);transition:opacity .16s var(--ease),transform .16s var(--ease)}
+  .opts .opt:hover{transform:translateY(-2px);border-color:var(--line2);box-shadow:0 16px 30px -18px rgba(0,0,0,.8)}
+  .opts .opt:hover::before{opacity:.6;transform:scaleY(1)}
+  .opts .opt.sel{border-color:var(--gold);box-shadow:0 0 0 1px var(--gold) inset,0 14px 30px -16px rgba(231,189,84,.35);transform:translateY(-2px);animation:pick .3s var(--ease)}
+  .opts .opt.sel::before{opacity:1;transform:scaleY(1);box-shadow:0 0 12px rgba(231,189,84,.6)}
+  .opts .opt:nth-child(1){animation-delay:.03s}.opts .opt:nth-child(2){animation-delay:.09s}.opts .opt:nth-child(3){animation-delay:.15s}.opts .opt:nth-child(4){animation-delay:.21s}.opts .opt:nth-child(5){animation-delay:.27s}
+  .opt .pay{border-top-color:var(--line2)}
+
+  /* buttons: quieter default, confident primary, real press + focus ring */
+  button{border-radius:10px;transition:transform .12s var(--ease),background .16s var(--ease),filter .16s var(--ease),box-shadow .16s var(--ease)}
+  button:hover{transform:translateY(-1px)}
+  button:active{transform:translateY(0) scale(.985)}
+  button.primary{background:linear-gradient(180deg,#f0c860,#c99a37);box-shadow:0 10px 24px -12px rgba(231,189,84,.6),inset 0 1px 0 rgba(255,255,255,.35);color:#1c1305}
+  button.primary:hover{filter:brightness(1.05)}
+  button.primary:disabled{filter:saturate(.5) brightness(.8)}
+  :focus-visible{outline:2px solid var(--gold);outline-offset:2px;border-radius:8px}
+
+  /* the interactive widget: the signature. A terminal readout with a live chart. */
+  .lever{margin-top:8px}
+  .lever .top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px}
+  .lever .name{font-size:11px;text-transform:uppercase;letter-spacing:.09em;color:var(--muted)}
+  .lever .val{font-family:var(--mono);font-size:19px;font-weight:650;color:var(--gold);letter-spacing:.3px;text-shadow:0 0 18px rgba(231,189,84,.28)}
+  .readout{display:grid;gap:9px;margin-top:12px}
+  .ro{background:linear-gradient(180deg,#0d2140,#0a1c37);border:1px solid var(--line);border-radius:10px;padding:9px 11px;text-align:center;transition:border-color .2s var(--ease)}
+  .ro .l{font-size:9.5px;text-transform:uppercase;letter-spacing:.07em;color:var(--faint);margin-bottom:3px}
+  .ro .v{font-family:var(--mono);font-weight:600;color:var(--ink);letter-spacing:.2px}
+
+  /* the chart frame reads like a market panel */
+  #ivis,#rprev{position:relative}
+  #ivis svg,#rvis svg{display:block;width:100%;height:auto;overflow:visible}
+  #ivis svg .grid,#ivis svg line[stroke]{shape-rendering:crispEdges}
+  #ivis svg circle{filter:drop-shadow(0 0 5px currentColor)}
+  #ivis svg text{font-variant-numeric:tabular-nums}
+  #ivis svg polygon,#ivis svg path[fill]:not([fill="none"]){transition:opacity .2s var(--ease)}
+  #ivis svg.chartIn{animation:chartIn .55s var(--ease) both}
+  #ivis svg.chartIn polyline,#ivis svg.chartIn path[fill="none"]{stroke-dasharray:1400;stroke-dashoffset:1400;animation:draw 1s var(--ease) .06s forwards}
+
+  /* the live market panel container (interactive + run) */
+  .panel [style*="background:#0f2342"]{border-color:var(--line)!important;background:
+     radial-gradient(140% 120% at 0% 0%,rgba(95,160,221,.06),transparent 55%),linear-gradient(180deg,#0e2340,#0b1d38)!important;
+     box-shadow:inset 0 1px 0 rgba(160,195,245,.06),var(--shadow-sm)}
+
+  /* reward blocks: retune the reinforce off green onto gold-navy */
+  .payoff{background:linear-gradient(180deg,#102a4c,#0c2140);border-color:var(--line2);box-shadow:var(--shadow-sm);animation:reveal .45s var(--ease) both}
+  .payoff .h{color:var(--gold)}
+  .reinforce{background:linear-gradient(180deg,rgba(231,189,84,.10),rgba(231,189,84,.03))!important;border-color:var(--gold-dim)!important;box-shadow:var(--shadow-sm);animation:reveal .5s var(--ease) .05s both}
+  .reinforce p{color:#e7eefb!important}
+  .chip{background:var(--gold-soft);transition:transform .15s var(--ease)}
+  .chip:hover{transform:translateY(-1px)}
+
+  /* range slider: gold control, glowing, cross-browser */
+  input[type=range]{-webkit-appearance:none;appearance:none;height:26px;background:transparent;cursor:pointer}
+  input[type=range]::-webkit-slider-runnable-track{height:6px;border-radius:6px;background:linear-gradient(90deg,var(--gold-dim),var(--line2));border:1px solid var(--line)}
+  input[type=range]::-moz-range-track{height:6px;border-radius:6px;background:linear-gradient(90deg,var(--gold-dim),var(--line2));border:1px solid var(--line)}
+  input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:20px;height:20px;margin-top:-8px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#ffe6a0,var(--gold));border:2px solid #7a5f1f;box-shadow:0 0 0 4px rgba(231,189,84,.18),0 4px 10px -3px rgba(0,0,0,.6);transition:box-shadow .15s var(--ease)}
+  input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#ffe6a0,var(--gold));border:2px solid #7a5f1f;box-shadow:0 0 0 4px rgba(231,189,84,.18)}
+  input[type=range]:hover::-webkit-slider-thumb{box-shadow:0 0 0 6px rgba(231,189,84,.22),0 4px 12px -3px rgba(0,0,0,.65)}
+  input[type=range]:active::-webkit-slider-thumb{box-shadow:0 0 0 8px rgba(231,189,84,.26)}
+
+  /* tables + working read like a ledger */
+  table{border:1px solid var(--line);border-radius:10px;overflow:hidden}
+  tbody tr{transition:background .15s var(--ease)}
+  tbody tr:hover{background:rgba(95,160,221,.05)}
+  .working{background:linear-gradient(180deg,#0a1b33,#081627);box-shadow:inset 0 1px 0 rgba(160,195,245,.04)}
+  .scorebox{background:linear-gradient(180deg,#0e2340,#0b1d38);box-shadow:var(--shadow-sm)}
+  .scorebox .n{text-shadow:0 0 22px rgba(231,189,84,.25)}
+  .fld input{transition:border-color .15s var(--ease),box-shadow .15s var(--ease)}
+  .fld input:focus{box-shadow:0 0 0 3px rgba(231,189,84,.16)}
+  .qprog{height:6px;background:#0e2340}
+  .qprog>div{background:linear-gradient(90deg,var(--gold-dim),var(--gold));box-shadow:0 0 12px rgba(231,189,84,.4);transition:width .35s var(--ease)}
+  .codebox{background:linear-gradient(180deg,#0a1b33,#081627)}
+  .toast{background:linear-gradient(180deg,#173259,#122844);box-shadow:var(--shadow)}
+
+  /* ---- motion keyframes ---- */
+  @keyframes panelIn{from{opacity:0;transform:translateY(10px) scale(.994)}to{opacity:1;transform:none}}
+  @keyframes cardIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+  @keyframes pick{0%{transform:translateY(-2px) scale(1)}45%{transform:translateY(-2px) scale(1.012)}100%{transform:translateY(-2px) scale(1)}}
+  @keyframes reveal{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+  @keyframes chartIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+  @keyframes draw{to{stroke-dashoffset:0}}
+  @keyframes breathe{0%,100%{box-shadow:0 0 0 4px rgba(231,189,84,.16)}50%{box-shadow:0 0 0 7px rgba(231,189,84,.05)}}
+  @keyframes tick{0%{box-shadow:0 0 0 0 rgba(231,189,84,.55)}70%{box-shadow:0 0 0 7px rgba(231,189,84,0)}100%{box-shadow:0 0 0 0 rgba(231,189,84,0)}}
+  @keyframes flash{0%{color:var(--gold)}100%{color:inherit}}
+  .flash{animation:flash .6s var(--ease)}
+
+  /* ---- quality floor: respect reduced motion ---- */
+  @media (prefers-reduced-motion: reduce){
+    *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important}
+    body::before{opacity:.32}
+    .node.active .dot,.brand .tag::before{animation:none}
+  }
+</style>
+</head>
+<body>
+<header>
+  <div class="brand"><b>EconVenture</b><span class="tag">FOUNDER</span></div>
+  <div class="stat" id="stat"></div>
+</header>
+<main>
+  <div class="layout">
+    <aside class="rail" id="rail"></aside>
+    <section id="stage"></section>
+  </div>
+</main>
+<div class="toast" id="toast"></div>
+
+<!-- ECON ENGINE (embedded, used from Act 4 onward) -->
+<!-- ENGINE (embedded) -->
+<script>
+(function (root) {
+  'use strict';
+  const START_CAPITAL=1000000,MKT_COST=12000,HOLDING_RATE=0.25;
+  const START_CAPACITY=11000,START_FC=100000,START_VC=95;
+  const MACRO=[{tag:'OPENING',type:'neutral',demand:1.00,cost:1.00,rate:0.10},
+    {tag:'UPSWING',type:'positive',demand:1.12,cost:0.98,rate:0.09},
+    {tag:'RATE HIKE',type:'negative',demand:0.93,cost:1.04,rate:0.15},
+    {tag:'RECESSION',type:'crisis',demand:0.80,cost:1.04,rate:0.08},
+    {tag:'MATURITY',type:'neutral',demand:0.99,cost:1.02,rate:0.10}];
+  const macroOf=q=>MACRO[Math.min(Math.max(q,1)-1,MACRO.length-1)];
+  const STRUCTURES={
+    perfect:{label:'Perfect competition',bP:6,bQ:0,bM:0,Pref:110,M:70000,firms:8},
+    monopolistic:{label:'Monopolistic competition',bP:4.5,bQ:1.0,bM:0.7,Pref:110,M:80000,firms:8},
+    oligopoly:{label:'Oligopoly',bP:3,bQ:1.2,bM:0.8,Pref:150,M:30000,firms:5},
+    duopoly:{label:'Duopoly',bP:2.5,bQ:1.2,bM:0.7,Pref:240,M:20000,firms:2}};
+  const structOf=key=>STRUCTURES[key]||STRUCTURES.oligopoly;
+  function unitVC(f,m){const a=(f.auto||0)*0.05;const r=Math.min(0.20,(f.rnd_stock||0)/600000*0.20);return f.vc*m.cost*Math.max(0.5,1-a-r);}
+  function costs(f,m,on){let fc=f.fc*(1+(m.cost-1)*0.4);if(f.objective==='expense')fc*=1.20;const vcU=unitVC(f,m);const cap=f.capacity||11000;const q=on?f.production:null;const mc=vcU*(q!==null&&q>cap*0.9?1+(q/cap-0.9)*0.8:1);return{fc,vcU,cap,mc};}
+  function shares(firms,structure,m,det){const S=structOf(structure);
+    const U=firms.map(f=>{const up=-S.bP*((f.price-S.Pref)/S.Pref);const uq=S.bQ*(((f.quality||5)-5)/5);const um=S.bM*(((f.marketing||5)-5)/5);const sh=(!det&&f.is_bot)?(Math.random()-0.5)*0.08:0;return{id:f.id,u:Math.max(-30,Math.min(30,up+uq+um+sh))};});
+    const ex=U.map(x=>({id:x.id,e:Math.exp(x.u)}));const sF=ex.reduce((s,x)=>s+x.e,0);const den=1+sF;const M=S.M*m.demand;
+    return ex.map(x=>({id:x.id,share:sF>0?x.e/sF:0,demand:Math.round(M*x.e/den)}));}
+  function firmResult(f,m,on,dq){const c=costs(f,m,on);const produced=on?f.production:dq;const sold=Math.min(dq,produced);const unsold=Math.max(0,produced-sold);
+    const revenue=f.price*sold;const varCost=c.vcU*produced;const overtime=(on&&f.production>c.cap)?c.vcU*(f.production-c.cap)*0.6:0;const holding=unsold*c.vcU*HOLDING_RATE;
+    const mktCost=(f.marketing||0)*MKT_COST+(f.objective==='expense'?40000:0);const autoCost=(f.auto||0)*6000;const rndCost=f.rnd||0;const capex=(f.capacity_buy||0)*200;
+    const total=c.fc+varCost+overtime+holding+mktCost+autoCost+rndCost+capex;const profit=revenue-total;const lerner=f.price>0?Math.max(0,(f.price-c.mc)/f.price):0;
+    return{revenue,profit,sold,unsold,produced,total,mc:c.mc,vcU:c.vcU,fc:c.fc,atc:sold>0?total/sold:c.fc,lerner,margin:revenue>0?profit/revenue*100:0};}
+  function clearLeague(firms,structure,m,on,det){const sh=shares(firms,structure,m,det);const out=firms.map(f=>{const s=sh.find(x=>x.id===f.id);return{...f,_r:firmResult(f,m,on,s.demand),share:s.share};});
+    const ranked=[...out].sort((a,b)=>(b.cash+b._r.profit)-(a.cash+a._r.profit));const rk={};ranked.forEach((f,i)=>rk[f.id]=i+1);
+    const results=out.map(f=>({id:f.id,...f._r,share:f.share,rank:rk[f.id]}));
+    const updated=out.map(f=>({...f,_r:undefined,cash:f.cash+f._r.profit,cum_profit:(f.cum_profit||0)+f._r.profit,last_profit:f._r.profit,cum_revenue:(f.cum_revenue||0)+f._r.revenue,last_revenue:f._r.revenue,share:f.share,rnd_stock:(f.rnd_stock||0)+(f.rnd||0),capacity:f.capacity+(f.capacity_buy||0),capacity_buy:0}));
+    return{results,firms:updated};}
+  function priceSweep(f,rivals,structure,m,on){const cap=(f.capacity||11000)+(f.capacity_buy||0);const out=[];for(let p=f.vc*0.95;p<=f.vc*4.5;p+=f.vc*0.05){const t={...f,price:p};const s=shares([t,...rivals],structure,m,true).find(x=>x.id===f.id);const prod=Math.min(Math.round(s.demand),cap);const r=firmResult({...t,production:prod},m,true,s.demand);out.push({price:Math.round(p/5)*5,profit:r.profit,revenue:r.revenue,sold:r.sold});}return out;}
+  function botDecision(f,rivals,round,structure,m,on){const obj=f.objective||'profit';const grow=obj==='growth';const S=structOf(structure);
+    const planned={...f,marketing:S.bM>0?clamp((f.marketing||5)+(grow?1:0),1,10):1,quality:S.bQ>0?clamp((f.quality||5)+(f.bot_strategy==='differentiator'?0.2:0),1,10):(f.quality||5),rnd:S.bQ>0?(grow?50000:40000):0,capacity_buy:(grow&&round>=2&&(f.cash||0)>900000)?500:0};
+    const sweep=priceSweep(planned,rivals,structure,m,true);const pmax=sweep.reduce((a,b)=>b.profit>a.profit?b:a);const sol=sweep.filter(x=>x.profit>=0);
+    let pick;if(obj==='revenue')pick=sol.length?sol.reduce((a,b)=>b.revenue>a.revenue?b:a):pmax;else if(obj==='growth')pick=sol.length?sol.reduce((a,b)=>b.sold>a.sold?b:a):pmax;else pick=pmax;
+    const floorP=Math.min(pick.price,...rivals.map(r=>r.price));const sym=rivals.map(r=>({...r,price:(r.price+floorP)/2}));const sAt=shares([{...planned,price:pick.price},...sym],structure,m,true).find(x=>x.id===f.id);const cap=(planned.capacity||11000)+(planned.capacity_buy||0);
+    return{...planned,price:pick.price,production:Math.round(clamp(Math.min(sAt.demand,cap),300,cap))};}
+  function score(f,w){if(w==='revenue')return f.cum_revenue||f.last_revenue||0;if(w==='growth')return (f.share||0)*1e6+(f.capacity||0);return f.cash;}
+  function clamp(v,lo,hi){return Math.max(lo,Math.min(hi,v));}
+  root.EconEngine={START_CAPITAL,MKT_COST,START_CAPACITY,START_FC,START_VC,MACRO,macroOf,STRUCTURES,structOf,unitVC,costs,shares,firmResult,clearLeague,priceSweep,botDecision,score};
+})(window);
+</script>
+
+
+<!-- FOUNDER CAMPAIGN -->
+<script>
+const E=window.EconEngine;
+const inr=n=>'₹'+Math.round(n).toLocaleString('en-IN');
+const pctf=r=>{const v=r*100; return (Math.round(v*10)/10)+'%';};
+// motion helpers (offline, dependency-free). Respect the user's reduced-motion setting.
+const prefersReduced=()=>{ try{ return window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches; }catch(e){ return false; } };
+// ---- smooth SVG morphing: patch geometry in place so charts glide instead of snapping ----
+function _mvTok(str){ const re=/-?\d*\.?\d+(?:[eE][-+]?\d+)?/g; let m,last=0,tmpl=[],nums=[]; while((m=re.exec(str))){ tmpl.push(str.slice(last,m.index)); nums.push(parseFloat(m[0])); last=m.index+m[0].length; } tmpl.push(str.slice(last)); return {tmpl,nums}; }
+function _mvBuild(tmpl,nums){ let s=tmpl[0]; for(let i=0;i<nums.length;i++){ s+=(Math.round(nums[i]*100)/100)+tmpl[i+1]; } return s; }
+const _MVNUM=['cx','cy','r','rx','ry','x','y','width','height','x1','y1','x2','y2','opacity','fill-opacity','stroke-opacity','stroke-width','offset','font-size'];
+function morphSVG(host,newHTML,dur){
+  try{
+    dur=(dur==null?120:dur);
+    const cur=host.querySelector('svg'); const tmp=document.createElement('div'); tmp.innerHTML=newHTML; const nx=tmp.querySelector('svg');
+    if(!cur||!nx){ host.innerHTML=newHTML; return; }
+    const O=cur.querySelectorAll('*'), N=nx.querySelectorAll('*');
+    if(O.length!==N.length){ cur.replaceWith(nx); return; }
+    for(let i=0;i<O.length;i++){ if(O[i].tagName!==N[i].tagName){ cur.replaceWith(nx); return; } }
+    const plans=[];
+    for(let i=0;i<O.length;i++){ const o=O[i],n=N[i],p={o,nums:[],pts:null,d:null};
+      for(const a of _MVNUM){ if(n.hasAttribute(a)){ const to=parseFloat(n.getAttribute(a)); let fr=o.hasAttribute(a)?parseFloat(o.getAttribute(a)):to; if(!isNaN(to)&&!isNaN(fr)) p.nums.push({a,fr,to}); } }
+      for(const at of n.attributes){ const nm=at.name; if(_MVNUM.indexOf(nm)<0&&nm!=='points'&&nm!=='d'){ if(o.getAttribute(nm)!==at.value) o.setAttribute(nm,at.value); } }
+      if(n.hasAttribute('points')){ const T=_mvTok(n.getAttribute('points')),F=_mvTok(o.getAttribute('points')||n.getAttribute('points')); if(F.nums.length===T.nums.length) p.pts={fr:F.nums,to:T.nums,tmpl:T.tmpl}; else o.setAttribute('points',n.getAttribute('points')); }
+      if(n.hasAttribute('d')){ const ds=n.getAttribute('d'); const T=_mvTok(ds),F=_mvTok(o.getAttribute('d')||ds); if(F.nums.length===T.nums.length&&F.tmpl.join('\u0001')===T.tmpl.join('\u0001')) p.d={fr:F.nums,to:T.nums,tmpl:T.tmpl}; else o.setAttribute('d',ds); }
+      if(n.children.length===0&&o.textContent!==n.textContent) o.textContent=n.textContent;
+      plans.push(p);
+    }
+    if(host._mvRAF){ cancelAnimationFrame(host._mvRAF); host._mvRAF=null; }
+    if(prefersReduced()||dur<=0){ for(const p of plans){ for(const x of p.nums)p.o.setAttribute(x.a,x.to); if(p.pts)p.o.setAttribute('points',_mvBuild(p.pts.tmpl,p.pts.to)); if(p.d)p.o.setAttribute('d',_mvBuild(p.d.tmpl,p.d.to)); } return; }
+    const t0=performance.now();
+    const step=now=>{ const k=Math.min(1,(now-t0)/dur),e=1-Math.pow(1-k,3);
+      for(const p of plans){ for(const x of p.nums)p.o.setAttribute(x.a,x.fr+(x.to-x.fr)*e);
+        if(p.pts){ const a=p.pts.fr,b=p.pts.to; p.o.setAttribute('points',_mvBuild(p.pts.tmpl,a.map((v,j)=>v+(b[j]-v)*e))); }
+        if(p.d){ const a=p.d.fr,b=p.d.to; p.o.setAttribute('d',_mvBuild(p.d.tmpl,a.map((v,j)=>v+(b[j]-v)*e))); } }
+      if(k<1) host._mvRAF=requestAnimationFrame(step);
+      else { for(const p of plans){ for(const x of p.nums)p.o.setAttribute(x.a,x.to); if(p.pts)p.o.setAttribute('points',_mvBuild(p.pts.tmpl,p.pts.to)); if(p.d)p.o.setAttribute('d',_mvBuild(p.d.tmpl,p.d.to)); } host._mvRAF=null; }
+    };
+    host._mvRAF=requestAnimationFrame(step);
+  }catch(e){ try{ host.innerHTML=newHTML; }catch(_){} }
+}
+
+function countUp(el, to, fmt, from){ // tween a number, formatting each frame
+  if(!el) return; fmt=fmt||(v=>Math.round(v).toLocaleString('en-IN'));
+  from=(from==null)?0:from;
+  if(prefersReduced() || from===to || typeof to!=='number'){ el.textContent=fmt(to); return; }
+  const t0=performance.now(), dur=620;
+  const step=now=>{ const p=Math.min(1,(now-t0)/dur); const e=1-Math.pow(1-p,3); el.textContent=fmt(from+(to-from)*e); if(p<1) requestAnimationFrame(step); };
+  requestAnimationFrame(step);
+}
+function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('on');clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove('on'),2200);}
+function npv(rate, upfront, flows){let v=-upfront;flows.forEach((cf,t)=>v+=cf/Math.pow(1+rate,t+1));return v;}
+// show the NPV calculation written out: −upfront + cf1/(1+r) + cf2/(1+r)² + …
+function npvWorking(upfront, flows, rate){
+  const sup=['','','²','³','⁴','⁵'];
+  const terms=flows.map((f,t)=>`${Math.round(f).toLocaleString('en-IN')}/${(1+rate).toFixed(2)}${t===0?'':sup[t+1]}`);
+  return `−${upfront.toLocaleString('en-IN')} + ${terms.join(' + ')}`;
+}
+
+/* ---- Lumen's market demand (linear, for teaching clarity in Acts 2 & 4) ----
+   Q = a - b*P. A determinant change shifts 'a' (the whole curve moves);
+   a price change is a movement ALONG the curve. Choke price = a/b. */
+const DEMAND={a:20000,b:80};
+const qOf=(p,shift=0)=>Math.max(0, DEMAND.a+shift - DEMAND.b*p);
+const chokeP=(shift=0)=>(DEMAND.a+shift)/DEMAND.b;
+
+// build an SVG demand curve. opts: {price, shift, ghost} ghost draws the
+// pre-shift curve faintly so a determinant shift is visible.
+function demandSVG(opts){
+  const {price=125, shift=0, ghost=null}=opts;
+  const W=380,H=250,pad=40;
+  const Qmax=DEMAND.a+Math.max(0,shift)+1000;
+  const Pmax=Math.ceil(chokeP(Math.max(0,shift))/50)*50;
+  const px=q=>pad+ q/Qmax*(W-pad-12);
+  const py=p=>(H-pad)- p/Pmax*(H-pad-14);
+  const line=(s)=>{const q0=DEMAND.a+s; return `M ${px(q0)} ${py(0)} L ${px(0)} ${py(chokeP(s))}`;};
+  const q=qOf(price,shift);
+  let ghostPath='';
+  if(ghost!==null){ ghostPath=`<path d="${line(ghost)}" stroke="#365178" stroke-width="1.5" fill="none" stroke-dasharray="4 4" opacity=".6"/>`; }
+  // axis ticks
+  let ticks='';
+  for(let p=0;p<=Pmax;p+=50){ ticks+=`<line x1="${pad}" y1="${py(p)}" x2="${W-8}" y2="${py(p)}" stroke="#15294a" stroke-width="1"/><text x="${pad-6}" y="${py(p)+3}" text-anchor="end" font-size="9" fill="#5f7aa0" font-family="monospace">${p}</text>`; }
+  for(let qq=0;qq<=Qmax;qq+=5000){ ticks+=`<text x="${px(qq)}" y="${H-pad+14}" text-anchor="middle" font-size="9" fill="#5f7aa0" font-family="monospace">${qq/1000}k</text>`; }
+  return `<svg viewBox="0 0 ${W} ${H}" style="width:100%;height:auto">
+    ${ticks}
+    <line x1="${pad}" y1="${py(0)}" x2="${W-8}" y2="${py(0)}" stroke="#2a4f86" stroke-width="1.5"/>
+    <line x1="${pad}" y1="${py(0)}" x2="${pad}" y2="${py(Pmax)}" stroke="#2a4f86" stroke-width="1.5"/>
+    ${ghostPath}
+    <path d="${line(shift)}" stroke="#e0b54a" stroke-width="2.5" fill="none"/>
+    <line x1="${px(q)}" y1="${py(price)}" x2="${px(q)}" y2="${py(0)}" stroke="#5b9bd5" stroke-width="1" stroke-dasharray="3 3"/>
+    <line x1="${pad}" y1="${py(price)}" x2="${px(q)}" y2="${py(price)}" stroke="#5b9bd5" stroke-width="1" stroke-dasharray="3 3"/>
+    <circle cx="${px(q)}" cy="${py(price)}" r="5" fill="#5b9bd5" stroke="#0a1626" stroke-width="2"/>
+    <text x="${W-10}" y="${py(Pmax)+10}" text-anchor="end" font-size="10" fill="#8da6c8">Price ₹ (up) · Quantity (right)</text>
+  </svg>`;
+}
+
+/* ---- Lumen's cost side (Acts 3 & 4) ----
+   Total cost TC = FC + a·Q + b·Q². This gives the textbook U-shape:
+     Marginal cost  MC  = a + 2bQ        (rises as output strains the plant)
+     Avg variable   AVC = a + bQ
+     Average cost   ATC = FC/Q + a + bQ  (falls as fixed cost spreads, then
+                                          rises as diminishing returns bite)
+   ATC is lowest where MC crosses it — the efficient scale, √(FC/b). */
+const COST={FC:100000, a:80, b:0.00278};
+const tcost =q=>COST.FC + COST.a*q + COST.b*q*q;
+const vcost =q=>COST.a*q + COST.b*q*q;
+const mcost =q=>COST.a + 2*COST.b*q;
+const avcost=q=>COST.a + COST.b*q;
+const atcost=q=>q>0? tcost(q)/q : 0;
+const effScale=()=>Math.round(Math.sqrt(COST.FC/COST.b));
+
+/* ---- Act 4: demand and cost on the same axes ----
+   Inverse demand  P = (a − Q)/b           (price the market pays for output Q)
+   Total revenue   TR = P·Q
+   Marginal revenue MR = d(TR)/dQ = (a − 2Q)/b   (twice the slope of demand)
+   Elasticity      |E| = (dQ/dP)(P/Q) = b·P/Q
+   Profit maximised where MR = MC. */
+const priceOf =q=>(DEMAND.a - q)/DEMAND.b;          // inverse demand
+const mrOf    =q=>(DEMAND.a - 2*q)/DEMAND.b;        // marginal revenue
+const elastOf =p=>{const q=qOf(p);return q>0? DEMAND.b*p/q : Infinity;};
+const profitOf=q=>priceOf(q)*q - tcost(q);
+const profitMaxQ=()=>Math.round((DEMAND.a/DEMAND.b - COST.a)/(2*(1/DEMAND.b + COST.b)));
+
+// demand + marginal revenue + marginal cost on price/quantity axes
+function marketSVG(opts){
+  const {showMR=false, showMC=false, showSupply=false, markQ=null, markP=null}=opts;
+  const W=380,H=250,pad=40, Qmax=20000, Pmax=260;
+  const px=q=>pad+q/Qmax*(W-pad-12);
+  const py=p=>(H-pad)-Math.min(p,Pmax)/Pmax*(H-pad-14);
+  let ticks='';
+  for(let p=0;p<=250;p+=50){ticks+=`<line x1="${pad}" y1="${py(p)}" x2="${W-8}" y2="${py(p)}" stroke="#15294a"/><text x="${pad-6}" y="${py(p)+3}" text-anchor="end" font-size="9" fill="#5f7aa0" font-family="monospace">${p}</text>`;}
+  for(let q=0;q<=Qmax;q+=5000){ticks+=`<text x="${px(q)}" y="${H-pad+14}" text-anchor="middle" font-size="9" fill="#5f7aa0" font-family="monospace">${q/1000}k</text>`;}
+  const demand=`M ${px(0)} ${py(priceOf(0))} L ${px(DEMAND.a)} ${py(0)}`;
+  const mr=`M ${px(0)} ${py(mrOf(0))} L ${px(DEMAND.a/2)} ${py(0)}`;
+  const mc=`M ${px(0)} ${py(mcost(0))} L ${px(Qmax)} ${py(mcost(Qmax))}`;
+  let marks='';
+  if(markQ!==null){ const p=priceOf(markQ); marks+=`<line x1="${px(markQ)}" y1="${py(0)}" x2="${px(markQ)}" y2="${py(Pmax)}" stroke="#fff" stroke-width="1" stroke-dasharray="3 3" opacity=".3"/><line x1="${pad}" y1="${py(p)}" x2="${px(markQ)}" y2="${py(p)}" stroke="#5b9bd5" stroke-width="1" stroke-dasharray="3 3"/><circle cx="${px(markQ)}" cy="${py(p)}" r="5" fill="#e0b54a" stroke="#0a1626" stroke-width="2"/>`; }
+  if(markP!==null){ const q=qOf(markP); marks+=`<line x1="${px(q)}" y1="${py(0)}" x2="${px(q)}" y2="${py(markP)}" stroke="#5b9bd5" stroke-width="1" stroke-dasharray="3 3"/><circle cx="${px(q)}" cy="${py(markP)}" r="5" fill="#e0b54a" stroke="#0a1626" stroke-width="2"/>`; }
+  return `<svg viewBox="0 0 ${W} ${H}" style="width:100%;height:auto">
+    ${ticks}
+    <line x1="${pad}" y1="${py(0)}" x2="${W-8}" y2="${py(0)}" stroke="#2a4f86"/>
+    <line x1="${pad}" y1="${py(0)}" x2="${pad}" y2="${py(Pmax)}" stroke="#2a4f86"/>
+    <path d="${demand}" stroke="#e0b54a" stroke-width="2.5" fill="none"/>
+    <text x="${px(DEMAND.a)-2}" y="${py(0)-4}" text-anchor="end" font-size="9" fill="#e0b54a">demand</text>
+    ${showMR?`<path d="${mr}" stroke="#e0b54a" stroke-width="1.5" fill="none" stroke-dasharray="5 4" opacity=".8"/><text x="${px(DEMAND.a/2)+2}" y="${py(0)-4}" font-size="9" fill="#c79a3a">MR</text>`:''}
+    ${(showMC||showSupply)?`<path d="${mc}" stroke="#5b9bd5" stroke-width="2" fill="none"/><text x="${px(Qmax)-2}" y="${py(mcost(Qmax))-4}" text-anchor="end" font-size="9" fill="#5b9bd5">${showSupply?'supply = MC':'MC'}</text>`:''}
+    ${marks}
+    <text x="${W-10}" y="14" text-anchor="end" font-size="10" fill="#8da6c8">Price ₹ (up) · Quantity (right)</text>
+  </svg>`;
+}
+
+/* ---- elasticity of OUR product (Act 2) ----
+   A commodity bulb has many substitutes and is highly elastic (~2.6).
+   Differentiation (brand + quality) removes perceived substitutes and
+   pulls elasticity down toward 1 and below, earning pricing power. */
+// elasticity is read off the real demand curve (|E| = b·P/Q); no separate product-elasticity model
+const elasticType=E=>E>=1.8?'Highly elastic':E>1.15?'Elastic':E>0.85?'Unit elastic':E>0.2?'Inelastic':'Perfectly inelastic';
+const elasticAdvice=E=>E>1.15?'Cutting price would grow revenue, and a price hike would push buyers to rivals.':E>0.85?'Price changes barely move revenue here, so compete on quality and brand instead.':'You could raise price and keep most buyers, which lifts revenue.';
+function elasticSpectrumSVG(E){
+  const W=380,H=112,pad=26,Emax=3,barY=42,barH=18;
+  const x=e=>pad+Math.min(Math.max(e,0),Emax)/Emax*(W-2*pad), unitX=x(1);
+  return `<svg viewBox="0 0 ${W} ${H}" style="width:100%;height:auto">
+    <defs><linearGradient id="elg" x1="0" x2="1"><stop offset="0" stop-color="#37b27e"/><stop offset="33%" stop-color="#e0b54a"/><stop offset="100%" stop-color="#e5594d"/></linearGradient></defs>
+    <text x="${pad}" y="${barY-9}" font-size="9" fill="#5f7aa0">0</text>
+    <text x="${W-pad}" y="${barY-9}" text-anchor="end" font-size="9" fill="#5f7aa0">3+</text>
+    <rect x="${pad}" y="${barY}" width="${W-2*pad}" height="${barH}" rx="9" fill="url(#elg)" opacity=".88"/>
+    <line x1="${unitX}" y1="${barY-6}" x2="${unitX}" y2="${barY+barH+6}" stroke="#fff" stroke-width="1.5"/>
+    <text x="${unitX}" y="${barY-9}" text-anchor="middle" font-size="9" fill="#cdd9ea">|E| = 1</text>
+    <text x="${pad}" y="${barY+barH+16}" font-size="9.5" fill="#37b27e">inelastic · raise price</text>
+    <text x="${W-pad}" y="${barY+barH+16}" text-anchor="end" font-size="9.5" fill="#e5594d">elastic · cut price</text>
+    <g transform="translate(${x(E)},${barY+barH/2})"><circle r="10" fill="#0a1626" stroke="#e0b54a" stroke-width="2.5"/><text y="3.5" text-anchor="middle" font-size="9.5" fill="#e0b54a" font-weight="700">${E.toFixed(1)}</text></g>
+    <text x="${Math.min(W-pad,Math.max(pad,x(E)))}" y="${barY+barH+34}" text-anchor="middle" font-size="11" fill="#e9f0fa">a Lumen bulb is here</text>
+  </svg>`;
+}
+
+/* ---- Act 5 helpers ---- */
+const MONO_P=180, COMP_MC=111;            // monopoly price and the MC floor from Act 4
+const priceN=n=>COMP_MC + (MONO_P-COMP_MC)/n;   // price falls toward MC as rivals multiply
+function structOfN(n){ return n<=1?'Monopoly':n===2?'Duopoly':n<=5?'Oligopoly':n<=12?'Monopolistic competition':'Perfect competition'; }
+
+// price-vs-number-of-rivals curve, falling toward the marginal-cost floor
+function structureSVG(n){
+  const W=380,H=200,pad=42, Nmax=20, Pmax=200, Pmin=90;
+  const px=k=>pad+(k-1)/(Nmax-1)*(W-pad-12);
+  const py=p=>(H-pad)-(p-Pmin)/(Pmax-Pmin)*(H-pad-14);
+  let ticks='';
+  for(let p=100;p<=200;p+=25){ticks+=`<line x1="${pad}" y1="${py(p)}" x2="${W-8}" y2="${py(p)}" stroke="#15294a"/><text x="${pad-6}" y="${py(p)+3}" text-anchor="end" font-size="9" fill="#5f7aa0" font-family="monospace">${p}</text>`;}
+  [1,2,5,10,20].forEach(k=>ticks+=`<text x="${px(k)}" y="${H-pad+14}" text-anchor="middle" font-size="9" fill="#5f7aa0" font-family="monospace">${k}</text>`);
+  let d='';for(let k=1;k<=Nmax;k+=0.25){d+=(d?'L':'M')+px(k).toFixed(1)+' '+py(priceN(k)).toFixed(1)+' ';}
+  return `<svg viewBox="0 0 ${W} ${H}" style="width:100%;height:auto">
+    ${ticks}
+    <line x1="${pad}" y1="${py(Pmin)}" x2="${W-8}" y2="${py(Pmin)}" stroke="#2a4f86"/>
+    <line x1="${pad}" y1="${py(Pmin)}" x2="${pad}" y2="${py(Pmax)}" stroke="#2a4f86"/>
+    <line x1="${pad}" y1="${py(COMP_MC)}" x2="${W-8}" y2="${py(COMP_MC)}" stroke="#5b9bd5" stroke-width="1.5" stroke-dasharray="5 4"/><text x="${W-10}" y="${py(COMP_MC)-4}" text-anchor="end" font-size="9" fill="#5b9bd5">marginal cost ₹111</text>
+    <path d="${d}" stroke="#e0b54a" stroke-width="2.5" fill="none"/>
+    <line x1="${px(n)}" y1="${py(Pmin)}" x2="${px(n)}" y2="${py(priceN(n))}" stroke="#fff" stroke-width="1" stroke-dasharray="3 3" opacity=".35"/>
+    <circle cx="${px(n)}" cy="${py(priceN(n))}" r="5" fill="#e0b54a" stroke="#0a1626" stroke-width="2"/>
+    <text x="${W-10}" y="13" text-anchor="end" font-size="10" fill="#8da6c8">Price ₹ (up) · Number of firms (right)</text>
+  </svg>`;
+}
+
+// 2x2 prisoner's-dilemma payoff matrix (profits in ₹'000)
+function matrixSVG(hl){
+  const cell=(you,them,on)=>`<div style="border:1px solid var(--line);border-radius:8px;padding:9px;text-align:center;background:${on?'#16315a':'#0f2342'}">
+    <div style="color:var(--gold);font-size:15px;font-weight:600">₹${you}k</div>
+    <div style="color:var(--faint);font-size:11px">you</div>
+    <div style="color:#8da6c8;font-size:13px;margin-top:3px">₹${them}k <span style="font-size:10px">rival</span></div></div>`;
+  return `<div style="display:grid;grid-template-columns:auto 1fr 1fr;gap:7px;font-size:12px;align-items:center">
+    <div></div><div style="text-align:center;color:var(--muted)">Rival holds</div><div style="text-align:center;color:var(--muted)">Rival undercuts</div>
+    <div style="color:var(--muted);writing-mode:vertical-rl;text-align:center">You hold</div>${cell(400,400,hl==='hh')}${cell(120,520,hl==='hu')}
+    <div style="color:var(--muted);writing-mode:vertical-rl;text-align:center">You undercut</div>${cell(520,120,hl==='uh')}${cell(250,250,hl==='uu')}
+  </div>`;
+}
+
+// cost-curve SVG. showMC adds the marginal-cost line and efficient-scale mark.
+function costSVG(q, opt={}){
+  const showMC=opt.showMC, capacity=opt.capacity||11000;
+  const W=380,H=250,pad=42, Qmin=1000, Qmax=Math.max(capacity,effScale())*1.15, Ymax=200;
+  const px=Q=>pad+(Q-Qmin)/(Qmax-Qmin)*(W-pad-12);
+  const py=y=>(H-pad)-Math.min(y,Ymax)/Ymax*(H-pad-14);
+  const path=fn=>{let d='';for(let Q=Qmin;Q<=Qmax;Q+=(Qmax-Qmin)/60){d+=(d?'L':'M')+px(Q).toFixed(1)+' '+py(fn(Q)).toFixed(1)+' ';}return d;};
+  let ticks='';
+  for(let y=0;y<=Ymax;y+=50){ticks+=`<line x1="${pad}" y1="${py(y)}" x2="${W-8}" y2="${py(y)}" stroke="#15294a"/><text x="${pad-6}" y="${py(y)+3}" text-anchor="end" font-size="9" fill="#5f7aa0" font-family="monospace">${y}</text>`;}
+  for(let Q=Qmin;Q<Qmax;Q+=Math.max(1000,Math.round((Qmax-Qmin)/4/1000)*1000)){ticks+=`<text x="${px(Q)}" y="${H-pad+14}" text-anchor="middle" font-size="9" fill="#5f7aa0" font-family="monospace">${(Q/1000).toFixed(0)}k</text>`;}
+  const es=effScale(), capX=px(Math.min(capacity,Qmax));
+  const atcY=py(atcost(q)), mcY=py(mcost(q)), qx=px(q);
+  return `<svg viewBox="0 0 ${W} ${H}" style="width:100%;height:auto">
+    ${ticks}
+    <line x1="${pad}" y1="${py(0)}" x2="${W-8}" y2="${py(0)}" stroke="#2a4f86"/>
+    <line x1="${pad}" y1="${py(0)}" x2="${pad}" y2="${py(Ymax)}" stroke="#2a4f86"/>
+    <line x1="${capX}" y1="${py(0)}" x2="${capX}" y2="${py(Ymax)}" stroke="#e5594d" stroke-width="1" stroke-dasharray="4 3" opacity=".7"/>
+    <text x="${capX-4}" y="${py(Ymax)+1}" text-anchor="end" font-size="9" fill="#e5594d">capacity</text>
+    <path d="${path(atcost)}" stroke="#e0b54a" stroke-width="2.5" fill="none"/>
+    ${showMC?`<path d="${path(mcost)}" stroke="#5b9bd5" stroke-width="2" fill="none"/>`:''}
+    ${showMC?`<circle cx="${px(es)}" cy="${py(atcost(es))}" r="3.5" fill="#37b27e"/><text x="${px(es)}" y="${py(atcost(es))-8}" text-anchor="middle" font-size="9" fill="#37b27e">efficient scale</text>`:''}
+    <line x1="${qx}" y1="${py(0)}" x2="${qx}" y2="${atcY}" stroke="#fff" stroke-width="1" stroke-dasharray="3 3" opacity=".35"/>
+    <circle cx="${qx}" cy="${atcY}" r="5" fill="#e0b54a" stroke="#0a1626" stroke-width="2"/>
+    ${showMC?`<circle cx="${qx}" cy="${mcY}" r="4" fill="#5b9bd5" stroke="#0a1626" stroke-width="2"/>`:''}
+    <text x="${W-10}" y="${py(Ymax)+10}" text-anchor="end" font-size="10" fill="#8da6c8">₹/unit (up) · output (right) · ${showMC?'gold ATC · blue MC':'gold = average cost'}</text>
+  </svg>`;
+}
+
+/* ---- the full journey map (Act 1 is interactive; later acts preview the arc) ---- */
+const MAP=[
+  {act:'Prologue · The founder\u2019s problem', nodes:['Scarcity','Opportunity cost']},
+  {act:'Act 1 · Found the company',   nodes:['Cost of capital','NPV & capital budgeting']},
+  {act:'Act 2 · Read demand',         nodes:['The demand curve','Determinants of demand','How elastic is our product?']},
+  {act:'Act 3 · Build the cost side', nodes:['Types of cost','Capacity & make-or-buy','Cost & supply curves']},
+  {act:'Act 4 · Your market, live',   nodes:['Supply meets demand','Elasticity','Profit-maximizing price (MR = MC)']},
+  {act:'Act 5 · Rivals arrive',       nodes:['Market structures','Strategic play','The competitive run']}
+];
+const TOTAL_IMPLEMENTED = 16; // Prologue 2 + Act1 2 + Act2 3 + Act3 3 + Act4 3 + Act5 3
+
+/* =========================================================================
+   STAGES (data-driven). Each stage is one concept:
+     situation -> a decision shown WITH payoffs -> reinforcement of the theory.
+   Choices persist: the salary you forego sets a benchmark, your funding sets
+   the hurdle rate, and that hurdle then changes which machine wins on NPV.
+   ========================================================================= */
+const CQUIZ=[
+ { open:  {q:'What is the deepest reason firms have to make hard choices at all?',
+           opts:['They have limited resources but many possible uses for them','Governments regulate business','Customers are fickle','Interest rates keep changing'], a:0},
+   close:[{q:'Scarcity forces a firm to pick between options. What must every choice have?',
+           opts:['A subsidy','A guaranteed profit','An opportunity cost','A written contract'], a:2},
+          {q:'A studio can film a serial OR a film in the same quarter. Scarcity here means:',
+           opts:['They can do both by working harder','Money is the only constraint','Choosing one is choosing NOT to do the other','Investors decide for them'], a:2}]},
+ { open:  {q:'What is the true cost of any choice a business makes?',
+           opts:['The cash spent','The best alternative it gave up','The tax it paid','The salary of the CEO'], a:1},
+   close:[{q:'You skip a project earning \u20b98L to take one earning \u20b910L. The opportunity cost of the \u20b910L project is:',
+           opts:['\u20b918L','\u20b92L','\u20b98L','Zero, you picked the better one'], a:2},
+          {q:'Which is NOT part of opportunity cost?',
+           opts:['Money you could have earned elsewhere','Time you gave up','A cost paid before the decision that cannot be recovered','A market you did not enter'], a:2}]},
+ { open:  {q:'Investors put money into your firm expecting:',
+           opts:['A return at least as good as their next-best option','Only what the tax code allows','Whatever profit is left over','A share of the CEO\u2019s salary'], a:0},
+   close:[{q:'Cost of capital is best described as:',
+           opts:['The interest rate on a bank loan only','The minimum return your firm must earn to justify the money it uses','A fixed 10% everyone charges','The dividend the firm pays this year'], a:1},
+          {q:'A project returns 8%. Your cost of capital is 12%. The project:',
+           opts:['Creates value','Destroys value','Is break-even','Is impossible to judge'], a:1}]},
+ { open:  {q:'Why is a rupee tomorrow worth less than a rupee today?',
+           opts:['Inflation always eats it','You could invest today\u2019s rupee and earn more by tomorrow','Taxes will take it','Currency changes'], a:1},
+   close:[{q:'Net Present Value discounts future cash flows to today at:',
+           opts:['The inflation rate','The prime lending rate','The firm\u2019s cost of capital','Zero'], a:2},
+          {q:'A machine has NPV = +\u20b94.2L. This means:',
+           opts:['The firm loses money if it buys','The project earns MORE than the cost of capital, so buy','The project just breaks even','It cannot be compared to other projects'], a:1}]},
+ { open:  {q:'Holding everything else fixed, when the price of a normal good rises, quantity demanded usually:',
+           opts:['Rises','Falls','Stays the same','Depends only on the season'], a:1},
+   close:[{q:'A downward-sloping demand curve shows:',
+           opts:['Cost falling with volume','How much buyers will buy at each price, other things held constant','How firms compete','The supply of the good'], a:1},
+          {q:'The demand curve for a good shifts LEFT when:',
+           opts:['Buyers get richer for a normal good','The price of the good rises','A close substitute becomes cheaper','A complement gets cheaper'], a:2}]},
+ { open:  {q:'A movement ALONG the demand curve is caused by:',
+           opts:['A change in income','A change in the price of the good itself','A change in tastes','A change in a substitute\u2019s price'], a:1},
+   close:[{q:'Coffee gets a big health scare. The demand curve for coffee:',
+           opts:['Slides down along itself','Shifts LEFT','Shifts RIGHT','Becomes vertical'], a:1},
+          {q:'Petrol prices double. Demand for cars (a complement) will:',
+           opts:['Shift right','Shift left','Not move','Become inelastic instantly'], a:1}]},
+ { open:  {q:'A product with MANY close substitutes tends to have demand that is:',
+           opts:['More elastic (touchy on price)','More inelastic (buyers stuck)','Perfectly vertical','Independent of price'], a:0},
+   close:[{q:'Which good is likely MOST price-inelastic?',
+           opts:['A specific brand of biscuit','Insulin for a diabetic','Movie tickets on Saturday','Restaurant meals overall'], a:1},
+          {q:'A 10% price cut raises quantity sold by 5%. Elasticity here is about:',
+           opts:['2.0, elastic','0.5, inelastic','1.0, unit elastic','Cannot be computed'], a:1}]},
+ { open:  {q:'Rent on a factory the firm has already signed for is:',
+           opts:['Variable','Fixed','Marginal','Opportunity'], a:1},
+   close:[{q:'Total cost = fixed cost + variable cost. Marginal cost is:',
+           opts:['The average cost per unit','The extra cost of one more unit','The fixed cost divided by units','The tax on the last unit'], a:1},
+          {q:'A firm decides today whether to make a run of 500 more units. Which cost should NOT influence that decision?',
+           opts:['Materials for those 500 units','Wages for the extra shift','The already-paid factory rent','Electricity for the run'], a:2}]},
+ { open:  {q:'Your own workshop is FULL. A new order needs 200 more units. The relevant cost of doing it in-house is:',
+           opts:['Only the extra materials','The extra materials PLUS what you\u2019d displace by using capacity','Zero, capacity is sunk','The rent of the workshop'], a:1},
+   close:[{q:'A vendor quotes \u20b990 per unit. Making in-house costs \u20b975 in materials but displaces \u20b930 of contribution from another order. Should you make or buy?',
+           opts:['Make, \u20b975 < \u20b990','Buy, effective make-cost is \u20b9105','Indifferent','Cannot decide without more data'], a:1},
+          {q:'"Make or buy" is really a question about:',
+           opts:['Loyalty to suppliers','Opportunity cost of using your own capacity','Which is cheaper on paper','Which is more prestigious'], a:1}]},
+ { open:  {q:'A competitive firm\u2019s short-run supply curve is essentially its:',
+           opts:['Average total cost curve','Demand curve','Marginal cost curve above minimum AVC','Fixed cost line'], a:2},
+   close:[{q:'Why does short-run marginal cost eventually RISE?',
+           opts:['Wages always rise','Diminishing returns: extra output from an extra worker falls when other inputs are fixed','Inflation','Taxes on production'], a:1},
+          {q:'A firm producing at the bottom of its U-shaped ATC is:',
+           opts:['Making a loss','At its most efficient scale in the short run','About to shut down','Overproducing'], a:1}]},
+ { open:  {q:'A price ABOVE the market equilibrium tends to create:',
+           opts:['A shortage','A surplus','No change','Higher demand'], a:1},
+   close:[{q:'In a competitive market, price is pushed toward equilibrium because:',
+           opts:['A regulator sets it','Surpluses push price down, shortages push price up','Firms cooperate','Demand equals supply always'], a:1},
+          {q:'A single seller with pricing power treats the competitive equilibrium price as:',
+           opts:['The price they must charge','A benchmark, not their fate','Illegal','Their marginal cost'], a:1}]},
+ { open:  {q:'Where on a linear demand curve is total revenue at its PEAK?',
+           opts:['At the highest price','At the lowest price','Where elasticity equals 1','At the price where quantity is 0'], a:2},
+   close:[{q:'Demand is INELASTIC. To grow revenue you should:',
+           opts:['Cut price','Raise price','Hold price and pray','Give it away'], a:1},
+          {q:'A firm cuts price and revenue FALLS. This tells you demand at that price was:',
+           opts:['Elastic','Inelastic','Unit elastic','Perfectly elastic'], a:1}]},
+ { open:  {q:'You should keep producing one more unit as long as:',
+           opts:['The average price beats average cost','Marginal revenue is at least as high as marginal cost','Total revenue is positive','Fixed costs are covered'], a:1},
+   close:[{q:'A monopolist finds the profit-max output where MR = MC. She then reads the price off:',
+           opts:['The MC curve','The MR curve','The demand curve','The ATC curve'], a:2},
+          {q:'"Price > MC" tells you:',
+           opts:['The firm is making a loss','The firm has some market power','Demand is perfectly elastic','A regulator will step in'], a:1}]},
+ { open:  {q:'Which market structure has the FEWEST sellers?',
+           opts:['Perfect competition','Monopolistic competition','Oligopoly','Monopoly'], a:3},
+   close:[{q:'The Lerner index (P \u2212 MC)/P is HIGHEST under:',
+           opts:['Perfect competition','Monopolistic competition','Oligopoly','Monopoly'], a:3},
+          {q:'As the number of firms rises, each firm\u2019s own demand becomes:',
+           opts:['More inelastic','More elastic','Unchanged','Vertical'], a:1}]},
+ { open:  {q:'In a duopoly, your best price depends mostly on:',
+           opts:['What your accountant advises','What your rival is likely to charge','The colour of the packaging','The size of your factory'], a:1},
+   close:[{q:'A DOMINANT strategy is one that:',
+           opts:['You promise to play','Wins whatever the other player does','Only works when others cooperate','Is illegal'], a:1},
+          {q:'The prisoner\u2019s dilemma explains why cartels are:',
+           opts:['Long-lasting','Fragile and keep collapsing','Efficient','Government-approved'], a:1}]},
+ { open:  {q:'Compared with your monopoly quarter, playing against rivals will make your margins:',
+           opts:['Thicker','Thinner','Exactly the same','Only depend on cost'], a:1},
+   close:[{q:'Under fire, the highest-revenue price and the highest-PROFIT price are:',
+           opts:['Always the same','Different: profit rule is MR = MC, not TR peak','Only equal in a boom','Set by the regulator'], a:1},
+          {q:'What is the single most important number to respect when pricing against reacting rivals?',
+           opts:['Your marginal cost','The sticker price of the competitor','The revenue peak','Your fixed cost'], a:0}]}
+];
+
+const STAGES = [
+  /* ---------- 0. SCARCITY ---------- */
+  {
+    concept:'Scarcity',
+    title:'Why found anything at all?',
+    situation:`Step back before any money moves. Economics begins with one stubborn fact: <b>wants are unlimited, but resources are not</b>. Time, money, materials, attention — all limited. That gap is <b>scarcity</b>, and it is the reason every choice has a cost.
+      <div class="speak">Reya: "We\u2019re not starting Lumen because light is rare. We\u2019re starting it because <i>good, cheap, reliable</i> light is rare. People in Kethri want it and can\u2019t get it well. That gap is our whole reason to exist."</div>`,
+    prompt:'What actually makes Lumen a business worth founding?',
+    hint:'Only one of these is the economic reason a market exists at all.',
+    options:[
+      {id:'unlimited', lab:'Demand for light is basically unlimited', det:'Everyone needs light, so we can\u2019t lose.',
+       pay:()=>'Sounds safe. It isn\u2019t the reason.',
+       best:false, apply:S=>{},
+       fb:'If light were unlimited <i>and</i> free, nobody would pay and there\u2019d be no business. An unlimited want by itself isn\u2019t opportunity — it\u2019s the <b>scarcity</b> of a wanted thing that creates value.'},
+      {id:'gap', lab:'Good, cheap light is scarce — the market serves it poorly', det:'People want it; today\u2019s options are dear or weak. We can close that gap.',
+       pay:()=>'This is the founder\u2019s real reason: an unmet want under scarcity.',
+       best:true, apply:S=>{},
+       fb:'Exactly. <b>Scarcity</b> — a wanted thing in limited supply — is the root of all economic value, and spotting an unmet want is why a founder exists. Lumen\u2019s job is to serve a want that resources don\u2019t yet satisfy cheaply.'},
+      {id:'money', lab:'I have ₹10,00,000 to invest', det:'Capital in hand means a business.',
+       pay:()=>'Money is itself scarce — but it isn\u2019t the opportunity.',
+       best:false, apply:S=>{},
+       fb:'Your ₹10,00,000 is a <b>scarce resource</b> you\u2019ll have to allocate with care. But having money isn\u2019t why the opportunity exists — the unmet, underserved want is.'}
+    ],
+    reinforce:{concept:'Scarcity',
+      body:'<b>Scarcity</b> is the founding problem of economics: limited resources against unlimited wants. It forces everyone — households, firms, founders — to <b>choose</b>. And because choosing always means giving something up, every choice carries a cost. That is the bridge to the very next idea.',
+      key:'You\u2019re a founder because you sensed a scarcity the market hasn\u2019t solved. Now: every choice you make from here has a cost.'}
+  },
+  /* ---------- 1. OPPORTUNITY COST ---------- */
+  {
+    concept:'Opportunity cost',
+    title:'The cost before the first rupee',
+    situation:`You earn <b>₹6,00,000 a year</b> at a steady job and have <b>₹10,00,000</b> in savings.
+      Your friend Reya has a design for a cheaper, brighter LED bulb, and a name: <b>Lumen</b>.
+      You're going to quit and build it together.
+      <div class="speak">Reya: "Before we spend anything, be honest about what this is already costing you. Most founders get this wrong."</div>`,
+    prompt:'What does founding Lumen truly cost you in year one — the cost an economist names first?',
+    hint:'Only one answer is the cost economists mean. The others are real numbers, just not this concept.',
+    options:[
+      {id:'savings', lab:'My ₹10,00,000 savings', det:'The cash I put into the company.',
+       pay:()=>'You keep this as capital — but it isn\u2019t the answer here.',
+       best:false, apply:S=>{S.benchmark=600000;},
+       fb:'That\u2019s your <b>invested capital</b>, not opportunity cost. You might lose it, but committing it isn\u2019t the alternative you gave up.'},
+      {id:'salary', lab:'My ₹6,00,000 salary', det:'The pay I walk away from by quitting.',
+       pay:()=>'Sets your year-one benchmark: beat ₹6,00,000 of value.',
+       best:true, apply:S=>{S.benchmark=600000;},
+       fb:'Exactly. The salary you forego is the <b>opportunity cost</b> of founding. Lumen must create more than ₹6,00,000 of value this year to have been worth your time.'},
+      {id:'zero', lab:'Nothing — I want to do this', det:'Passion is free.',
+       pay:()=>'Feels free. Isn\u2019t.',
+       best:false, apply:S=>{S.benchmark=600000;},
+       fb:'Passion is real, but it isn\u2019t free. You still give up ₹6,00,000 you\u2019d have earned. Ignoring that is how founders fool themselves into bad ventures.'}
+    ],
+    reinforce:{concept:'Opportunity cost',
+      body:'The opportunity cost of any choice is the value of the <b>next-best alternative you give up</b>. No invoice arrives for it, which is exactly why people miss it. Your foregone ₹6,00,000 salary is as real a cost as rent.',
+      key:'Your benchmark for the year: create more than ₹6,00,000 of value.'}
+  },
+  /* ---------- 2. COST OF CAPITAL ---------- */
+  {
+    concept:'Cost of capital',
+    title:'Where the money comes from',
+    situation:`Lumen needs about <b>₹15,00,000</b> to start: a small unit, the first machines, parts and wages.
+      You have ₹10,00,000. The rest has to come from somewhere, and money is never free.
+      <div class="speak">Reya: "Every rupee we raise carries a price. Pick how we fund this — it sets the bar every future decision has to clear."</div>`,
+    prompt:'How do you fund Lumen? Each source has a different cost of capital.',
+    hint:'There is no single right answer here — only a tradeoff. Read what each one costs.',
+    options:[
+      {id:'boot', lab:'Bootstrap — use only your ₹10,00,000', det:'No interest, no investors, full ownership. But you start lean, with less to spend on capacity.',
+       pay:()=>'Cash ₹10,00,000 · Hurdle rate ~8% · You keep 100%',
+       calc:'opportunity cost ≈ 8% × ₹10,00,000 = ₹80,000/yr forgone (deposit interest you give up)',
+       apply:S=>{S.cash=1000000;S.hurdle=0.08;S.equity=0;S.fund='bootstrap';},
+       fb:'Cheapest on paper, but not free: your ₹10,00,000 could have earned ~8% in a safe deposit. That foregone 8% is your <b>cost of capital</b> here — again, opportunity cost.'},
+      {id:'loan', lab:'Bank loan — borrow ₹5,00,000 at 14%', det:'Keep 100% ownership; pay ₹70,000 a year in interest whatever happens.',
+       pay:()=>'Cash ₹15,00,000 · Hurdle rate 10% · You keep 100%',
+       calc:'blended hurdle = (₹10L × 8% + ₹5L × 14%) ÷ ₹15L = (₹80,000 + ₹70,000) ÷ ₹15,00,000 = 10%',
+       apply:S=>{S.cash=1500000;S.hurdle=0.10;S.equity=0;S.debt=500000;S.fund='loan';},
+       fb:'Debt keeps your ownership but adds a fixed ₹70,000 interest bill. Blended with your own 8% money, your <b>hurdle rate</b> works out to 10% — the weighted average of the two costs.'},
+      {id:'angel', lab:'Angel investor — ₹10,00,000 for 30% equity', det:'Most cash, no interest. But you give up 30% of all future profit, and they expect ~25% returns.',
+       pay:()=>'Cash ₹20,00,000 · Hurdle rate 16.5% · You keep 70%',
+       calc:'blended hurdle = (₹10L × 8% + ₹10L × 25%) ÷ ₹20L = (₹80,000 + ₹2,50,000) ÷ ₹20,00,000 = 16.5%',
+       apply:S=>{S.cash=2000000;S.hurdle=0.165;S.equity=0.30;S.fund='angel';},
+       fb:'Equity charges no interest, but it\u2019s the <b>most expensive</b> capital: the investor wants ~25% on their ₹10L plus a permanent 30% of profit. Blended with your own 8% money, your hurdle rises to 16.5%.'}
+    ],
+    reinforce:{concept:'Cost of capital',
+      body:'Debt costs <b>interest</b>; equity costs a <b>share of profit plus the return investors expect</b>. Blend them and you get your <b>hurdle rate</b> — the minimum return every project must beat to be worth doing. Cheaper capital means a lower bar; that\u2019s why founders fight over it.',
+      key:'Your hurdle rate is now {hurdle}. Remember it — the next decision turns on it.'}
+  },
+  /* ---------- 3. NPV ---------- */
+  {
+    concept:'NPV & capital budgeting',
+    title:'Is the machine worth it?',
+    situation:`Your first real investment: a bulb-assembly machine. Two models, with very different shapes of return.
+      Each costs cash now and pays cash over the next three years.
+      <div class="speak">Reya: "Don\u2019t compare the sticker prices. Compare what each one is worth <i>today</i>, discounted at our hurdle rate."</div>`,
+    prompt:'Which adds the most value, discounted at your hurdle rate of {hurdle}?',
+    hint:'The payoff line computes each option\u2019s NPV at your hurdle rate. A higher hurdle punishes big, slow, back-loaded bets hardest.',
+    options:[
+      {id:'A', lab:'Machine A — high output, slow ramp', det:'Costs ₹4,50,000 now. Returns build up: ₹80,000, then ₹1,80,000, then ₹3,80,000. Big capacity.',
+       cf:{up:450000,flows:[80000,180000,380000],cap:11000},
+       apply:S=>{S.capacity=11000;S.cash-=450000;S.equip='A';}},
+      {id:'B', lab:'Machine B — modest, steady', det:'Costs ₹1,50,000 now. Returns a flat ₹80,000 a year for 3 years. Smaller capacity.',
+       cf:{up:150000,flows:[80000,80000,80000],cap:7000},
+       apply:S=>{S.capacity=7000;S.cash-=150000;S.equip='B';}}
+    ],
+    npvStage:true,
+    reinforce:{concept:'NPV & capital budgeting',
+      body:'<b>Net present value</b> discounts each future cash flow back to today at your cost of capital, then subtracts the up-front cost. Positive NPV means the project <b>creates value</b>; the highest NPV wins. The discount rate matters — notice a higher hurdle rate shrank the value of the big up-front machine. The rate where NPV hits zero is the <b>IRR</b>.',
+      key:'You chose at your own hurdle rate. A cheaper-funded founder would rationally pick differently — that\u2019s capital budgeting.'}
+  },
+  /* ---------- 4. THE DEMAND CURVE (live) ---------- */
+  {
+    concept:'The demand curve',
+    kind:'interactive',
+    title:'How much will Kethri actually buy?',
+    situation:`Lumen is built. Now the question every firm lives or dies on: <b>at each price, how many bulbs will people buy?</b>
+      Below is your market\u2019s demand curve. Drag the price and watch quantity respond.
+      <div class="speak">Reya: "Notice you can\u2019t pick price <i>and</i> quantity. Pick a price, and the market hands you the quantity. That\u2019s the curve talking back."</div>`,
+    prompt:'Drag to explore, then set Lumen\u2019s launch price.',
+    hint:'Watch total revenue (price × quantity) as you move. It doesn\u2019t just keep rising — hold that thought for Act 4.',
+    slider:{key:'_price', min:40, max:Math.round(chokeP()), step:5, init:125, label:'Price', fmt:v=>inr(v)},
+    draw:v=>demandSVG({price:v}),
+    readouts:v=>{const q=qOf(v),tr=v*q,rmp=DEMAND.a/(2*DEMAND.b);return[
+      {l:'Quantity sold', v:Math.round(q).toLocaleString('en-IN')},
+      {l:'Total revenue', v:inr(tr)},
+      {l:'Region', v: v>rmp?'<span class="good">elastic</span>':(v<rmp?'<span class="warn">inelastic</span>':'<span class="gold">unit elastic</span>')}
+    ];},
+    work:v=>{const q=qOf(v);return[
+      `Quantity:  Q = a − b·P = 20,000 − 80 × ${v} = <b>${Math.round(q).toLocaleString('en-IN')}</b>`,
+      `Revenue:  TR = P × Q = ₹${v} × ${Math.round(q).toLocaleString('en-IN')} = <b>${inr(v*q)}</b>`
+    ];},
+    commitLabel:v=>'Set this as Lumen\u2019s launch price',
+    onCommit:(v,S)=>{const q=qOf(v),tr=v*q; S.launchPrice=v; return {
+      choice:`Launch price ${inr(v)} → ${Math.round(q).toLocaleString('en-IN')} units`,
+      fb:`At <b>${inr(v)}</b> the curve says you sell <b>${Math.round(q).toLocaleString('en-IN')} units</b> for <b>${inr(tr)}</b> in revenue. You picked a price; the market set the quantity.`};},
+    reinforce:{concept:'The demand curve & the law of demand',
+      body:'The <b>demand curve</b> shows the quantity buyers will purchase at each price, holding everything else constant (<i>ceteris paribus</i>). It slopes down because of the <b>law of demand</b>: raise the price, quantity demanded falls. You don\u2019t choose a point — you choose a <b>price</b>, and the curve gives you the quantity.',
+      key:'Total revenue peaked near the middle of the curve, not at the top. Why? That\u2019s elasticity — the headline concept of Act 4.'}
+  },
+  /* ---------- 5. DETERMINANTS OF DEMAND ---------- */
+  {
+    concept:'Determinants of demand',
+    title:'The whole curve just moved',
+    visual:()=>`<div style="border:1px solid var(--line);border-radius:11px;padding:10px 12px;margin:14px 0;background:#0f2342">
+        ${demandSVG({price:125, shift:5000, ghost:0})}
+        <div class="faint" style="font-size:11px;text-align:center">Dashed = old demand · Gold = new demand after incomes rise</div></div>`,
+    situation:`Kethri\u2019s economy is booming. Household incomes climb, and bulbs are a <b>normal good</b> — people buy more as they get richer.
+      This is different from a price change. Nothing about your price moved, yet at <i>every</i> price more people now want bulbs. The <b>entire curve shifts right</b> (see above).
+      <div style="border:1px solid var(--line);border-radius:10px;padding:13px 15px;margin:15px 0;background:#0f2342;font-size:12.5px">
+        <div style="color:var(--gold);font-size:11px;text-transform:uppercase;letter-spacing:.08em;margin-bottom:9px">The six things that shift demand — in Kethri terms</div>
+        <div style="display:grid;gap:7px">
+          <div><b>Income</b> — the city booms; bulbs are a normal good → demand shifts <span class="good">right →</span> &nbsp;(a bust would push it <span class="bad">← left</span>; for an <i>inferior</i> good the signs flip)</div>
+          <div><b>Substitutes</b> — candles and old incandescents get cheaper; some buyers switch away → <span class="bad">← left</span></div>
+          <div><b>Complements</b> — a housing boom and cheaper electricity mean more sockets to fill → <span class="good">right →</span></div>
+          <div><b>Tastes</b> — a smart-home and energy-saving trend takes hold → <span class="good">right →</span></div>
+          <div><b>Expectations</b> — smog season is coming and a price rise is rumored; people buy now → <span class="good">right →</span> today</div>
+          <div><b>Number of buyers</b> — Kethri\u2019s population and electrified homes grow → <span class="good">right →</span></div>
+        </div>
+      </div>
+      <div class="speak">Reya: "This is the distinction people always blur. A price change moves you <i>along</i> the curve. A change in any of those six moves the <i>whole curve</i>."</div>`,
+    prompt:'Incomes rose and demand shifted out. How do you respond?',
+    hint:'There\u2019s no single right answer — each exploits the shift differently. Read the payoffs.',
+    options:[
+      {id:'hold', lab:'Hold price, sell the extra volume', det:'Keep your price; the rightward shift means more units at that same price.',
+       pay:()=>'More units, same margin per unit.',
+       best:false, apply:S=>{},
+       fb:'Reasonable. The shift hands you more quantity at your old price for free — you\u2019re riding the curve outward without touching price.'},
+      {id:'raise', lab:'Raise price — they want bulbs more now', det:'Charge more; even after a small drop in quantity, you may keep volume near the old level.',
+       pay:()=>'Higher margin; quantity still healthy because the curve shifted out.',
+       best:true, apply:S=>{},
+       fb:'Often the strongest move. Because the whole curve shifted right, you can raise price and <i>still</i> sell roughly what you did before. A pure determinant shift gives you pricing room a movement along the curve never could.'},
+      {id:'cut', lab:'Cut price to grab the entire surge', det:'Drop price to capture maximum volume from the boom.',
+       pay:()=>'Maximum units, thin margin — only smart if demand is very price-sensitive.',
+       best:false, apply:S=>{},
+       fb:'Risky. Cutting into a demand surge often leaves money on the table — you\u2019re giving away margin the boom didn\u2019t require. Whether it pays depends on elasticity (Act 4).'}
+    ],
+    reinforce:{concept:'Determinants of demand',
+      body:'A <b>determinant</b> shifts the entire demand curve: <b>income</b> (normal vs inferior goods), the price of <b>substitutes</b> and <b>complements</b>, <b>tastes</b>, <b>expectations</b>, and the <b>number of buyers</b>. Crucial distinction: a change in <i>price</i> moves you <b>along</b> the curve; a change in a <i>determinant</i> shifts <b>the whole curve</b>. Mixing these up is the most common demand error there is.',
+      key:'Along the curve = price did it. Whole curve moved = a determinant did it. Never confuse the two.'}
+  },
+  /* ---------- 6b. HOW ELASTIC IS OUR PRODUCT ---------- */
+  {
+    concept:'How elastic is our product?',
+    kind:'interactive',
+    title:'How elastic is a Lumen bulb, really?',
+    situation:`Demand slopes down, but <i>how much</i> quantity reacts when you move price is what decides your pricing. <b>Price elasticity</b> |E| measures that reaction. Here is the part most people get wrong: elasticity is <b>not one number stamped on a product</b>. It changes as you move along your own demand curve. Price low and buyers barely react (inelastic). Price near the choke and they leave in droves (elastic). Drag your price along the real Lumen demand curve and watch where you land on the spectrum.
+      <div class="speak">Reya: "Ask 'how elastic are we' and the honest answer is 'at what price?' Down low we can raise without losing much. Up high every rupee bites."</div>`,
+    prompt:'Drag price along your demand curve and read the elasticity at that point.',
+    hint:'|E| = b·P/Q, the same b and the same curve you have used all along. Low price means small |E|; near the choke price |E| explodes.',
+    slider:{key:'_pE', min:50, max:225, step:5, init:175, label:'Price per bulb', fmt:v=>'₹'+v},
+    draw:v=>elasticSpectrumSVG(elastOf(v)),
+    readouts:v=>{const E=elastOf(v), qd=Math.max(1,DEMAND.a-55*v), Ed=55*v/qd;return[
+      {l:'Elasticity here |E|', v:'<span class="gold">'+E.toFixed(2)+'</span>'},
+      {l:'Type', v:'<span style="font-size:13px">'+elasticType(E)+'</span>'},
+      {l:'If differentiated', v:'|E| ≈ '+Ed.toFixed(2)}
+    ];},
+    work:v=>{const q=qOf(v), E=elastOf(v), qd=Math.max(1,DEMAND.a-55*v), Ed=55*v/qd;return[
+      `Elasticity at this price:  |E| = b·P/Q = 80 × ${v} ÷ ${Math.round(q).toLocaleString('en-IN')} = <b>${E.toFixed(2)}</b>`,
+      `${elasticType(E)} → ${elasticAdvice(E)}`,
+      `Same formula on a flatter, differentiated curve (b ≈ 55):  |E| = 55 × ${v} ÷ ${Math.round(qd).toLocaleString('en-IN')} = <b>${Ed.toFixed(2)}</b>. Differentiation lowers |E| at every price.`
+    ];},
+    commitLabel:v=>'Note this price point',
+    onCommit:(v,S)=>{const E=elastOf(v); S.elasPrice=v; S.elasE=Math.round(E*100)/100; return {
+      choice:`At ₹${v}: |E| ${E.toFixed(2)} (${elasticType(E)})`,
+      fb:`At <b>₹${v}</b> a Lumen bulb is <b>${elasticType(E).toLowerCase()}</b>, with |E| ≈ <b>${E.toFixed(2)}</b>, read straight off your demand curve as b·P/Q. ${elasticAdvice(E)} This is the <i>same</i> elasticity you will use in Act 4 to find the profit-maximizing price. There is no separate "product elasticity"; there is only your curve, read at the price you pick. Differentiation matters because it makes the whole curve flatter (lower b), pulling |E| down at every price and handing you room to charge more.`};},
+    reinforce:{concept:'Elasticity is a point on your curve, not a fixed label',
+      body:'Elasticity lives at a <b>point</b> on the demand curve, so the same bulb is inelastic when cheap and elastic when dear. <b>Perfectly inelastic</b> (|E| = 0): quantity ignores price, like life-saving medicine, so the seller has enormous power. <b>Inelastic</b> (|E| &lt; 1): quantity moves less than price, like salt, so <b>raising</b> price grows revenue. <b>Unit elastic</b> (|E| = 1): revenue is flat to price, the revenue peak you meet in Act 4. <b>Elastic</b> (|E| &gt; 1): quantity moves more than price, like one fizzy-drink brand among many, so <b>cutting</b> price grows revenue. <b>Perfectly elastic</b> (|E| = ∞): any price above the market loses every buyer, the life of a pure commodity. Where you sit at a given price is set by how many <b>substitutes</b> exist, whether the good is a <b>necessity</b>, its <b>share of the budget</b>, and the <b>time</b> buyers have to react. Differentiation does not hand you one magic elasticity; it rotates the entire curve flatter, lowering |E| everywhere.',
+      key:'One curve, read at a price. Inelastic low, elastic high, unit-elastic at the revenue peak. Differentiation flattens the whole curve, it does not set a single number.'}
+  },
+  /* ---------- 6. TYPES OF COST ---------- */
+  {
+    concept:'Types of cost',
+    kind:'interactive',
+    title:'Fixed, variable, and why scale cuts your unit cost',
+    situation:`Every bulb carries two kinds of cost. <b>Fixed costs</b> — rent, salaries, the machine — you pay whether you make one bulb or ten thousand. <b>Variable costs</b> — parts, assembly, power — you pay per unit. Drag your planned output and watch your <b>cost per unit</b> move.
+      <div class="speak">Reya: "Our ₹1,00,000 of fixed cost never changes. But split across more bulbs, it shrinks per bulb. That\u2019s why scale matters."</div>`,
+    prompt:'Find an output where your unit cost looks healthy, then lock it in.',
+    hint:'Fixed cost stays flat in rupees but falls per unit as output rises — the spreading effect.',
+    slider:{key:'_q6', min:1000, max:12000, step:250, init:5000, label:'Planned output', fmt:v=>v.toLocaleString('en-IN')+' units'},
+    draw:v=>costSVG(v,{showMC:false, capacity:S.capacity}),
+    readouts:v=>[
+      {l:'Fixed cost', v:inr(COST.FC)},
+      {l:'Variable cost', v:inr(vcost(v))},
+      {l:'Total cost', v:inr(tcost(v))},
+      {l:'Cost per unit', v:'<span class="gold">'+inr(atcost(v))+'</span>'}
+    ],
+    work:v=>[
+      `Variable cost:  VC = a·Q + b·Q² = 80 × ${v.toLocaleString('en-IN')} + 0.00278 × ${v.toLocaleString('en-IN')}² = <b>${inr(vcost(v))}</b>`,
+      `Total cost:  TC = FC + VC = 1,00,000 + ${Math.round(vcost(v)).toLocaleString('en-IN')} = <b>${inr(tcost(v))}</b>`,
+      `Unit cost:  AC = TC ÷ Q = ${Math.round(tcost(v)).toLocaleString('en-IN')} ÷ ${v.toLocaleString('en-IN')} = <b>${inr(atcost(v))}</b>`
+    ],
+    commitLabel:v=>'Lock in this output plan',
+    onCommit:(v,S)=>{S.planQ=v; const over=v>S.capacity;
+      return {choice:`Plan ${v.toLocaleString('en-IN')} units → unit cost ${inr(atcost(v))}`,
+      fb:`At <b>${v.toLocaleString('en-IN')} units</b>, fixed cost is still ₹1,00,000 — but spread out it adds only <b>${inr(COST.FC/v)}</b> per bulb. Your all-in unit cost is <b>${inr(atcost(v))}</b>.${over?' <span class="bad">That\u2019s beyond your capacity of '+S.capacity.toLocaleString('en-IN')+' — the very next decision is how to get there.</span>':''}`};},
+    reinforce:{concept:'Types of cost',
+      body:'<b>Fixed cost</b> (FC) doesn\u2019t move with output; <b>variable cost</b> (VC) does. Add them for <b>total cost</b>; divide by output for <b>average (unit) cost</b>. Because fixed cost is shared across every unit, making more bulbs <b>spreads it thinner</b>, so unit cost falls. In the short run, with your plant fixed, this is <b>fixed-cost spreading</b>, not economies of scale. (True economies of scale are a <b>long-run</b> idea, where you can resize the whole plant. Here you have one fixed plant, so everything is short-run.)',
+      key:'More output spreads the same fixed cost over more units, so cost per unit drops — until a second force kicks in, which you\u2019ll meet shortly.'}
+  },
+  /* ---------- 7. CAPACITY & MAKE-OR-BUY ---------- */
+  {
+    concept:'Capacity & make-or-buy',
+    title:'Demand wants more than your plant can make',
+    situation:`At your launch price the market wants roughly <b>10,000 bulbs</b>, but your plant tops out at <b>{capacity}</b>. Making more bulbs gets gradually costlier per unit, and <b>{capacity}</b> is a hard ceiling you cannot cross at all without adding plant. Three ways to serve the extra demand, and each is really a choice about <b>fixed versus variable cost</b>.
+      <div class="speak">Reya: "Build the capacity ourselves, or pay someone else to make the overflow? That\u2019s the make-or-buy question."</div>`,
+    prompt:'How do you cover the demand beyond your capacity?',
+    hint:'There\u2019s no single right answer — it turns on how sure you are the demand will last.',
+    options:[
+      {id:'make', lab:'Expand — buy a second machine (make)', det:'Spend ₹2,00,000 now, add 4,000 units of capacity. Higher fixed cost, but low cost per extra bulb.',
+       pay:()=>'Capacity +4,000 · cash −₹2,00,000 · cheap per-unit going forward',
+       best:false, apply:S=>{S.capacity+=4000;S.cash-=200000;S.expand=true;},
+       fb:'You converted cash into <b>fixed cost</b> (your own capacity). Cheapest per extra bulb if the demand is real and lasting — but the ₹2,00,000 is sunk whether demand holds or not.'},
+      {id:'buy', lab:'Outsource the overflow (buy)', det:'A contract maker supplies extra bulbs at ₹130 each. No capex, fully flexible — but a high price per unit.',
+       pay:()=>'No capex · flexible · but ₹130 per outsourced bulb',
+       best:false, apply:S=>{S.outsource=true;},
+       fb:'You kept costs <b>variable</b>: pay only for what you sell, walk away if demand fades. Safer under uncertainty, but each outsourced bulb costs far more than making your own.'},
+      {id:'stay', lab:'Stay within capacity', det:'Make only up to {capacity}; leave the extra demand unserved for now.',
+       pay:()=>'No spend · no risk · but sales left on the table',
+       best:false, apply:S=>{S.stayCap=true;},
+       fb:'Disciplined, and sometimes right. But unmet demand is revenue you walked past — and a rival may take it. Idle ambition has a cost too.'}
+    ],
+    reinforce:{concept:'Capacity & make-or-buy',
+      body:'<b>Capacity</b> is your output ceiling, and it\u2019s a tradeoff: too little and you turn away sales; too much and idle plant wastes fixed cost. The <b>make-or-buy</b> choice is about cost structure — <b>making</b> (own capacity) means more fixed cost but a low cost per unit; <b>buying</b> (outsourcing) means no fixed cost but a high cost per unit. Make when volume is large and certain; buy when it\u2019s uncertain or temporary.',
+      key:'Make = fixed-heavy, cheap per unit, bets on volume. Buy = variable-heavy, costly per unit, stays flexible.'}
+  },
+  /* ---------- 8. COST & SUPPLY CURVES ---------- */
+  {
+    concept:'Cost & supply curves',
+    kind:'interactive',
+    title:'The U-shaped cost curve, and where it bends',
+    situation:`Now both cost curves together: <b>average cost</b> (gold) and <b>marginal cost</b> (blue, the cost of one <i>more</i> bulb). Drag output and watch them.
+      At low output, average cost <b>falls</b> as fixed cost spreads. As output rises, the cost of each extra bulb climbs — with your plant <b>fixed in the short run</b>, more output crowds the same machines and shifts, so each added unit of effort yields a little less. That is <b>diminishing marginal returns</b>, and together with fixed-cost spreading it is why average cost is <b>U-shaped</b>.
+      <div class="speak">Reya: "Watch where the blue line crosses the bottom of the gold U. That output is our efficient scale — the cheapest bulb we can make."</div>`,
+    prompt:'Drag to the bottom of the U — your efficient scale — and lock it in.',
+    hint:'Marginal cost cuts average cost exactly at its lowest point. Below it, making more lowers your average; above it, making more raises it.',
+    slider:{key:'_q8', min:1000, max:12000, step:250, init:4000, label:'Output', fmt:v=>v.toLocaleString('en-IN')+' units'},
+    draw:v=>costSVG(v,{showMC:true, capacity:S.capacity}),
+    readouts:v=>[
+      {l:'Marginal cost', v:'<span style="color:#5b9bd5">'+inr(mcost(v))+'</span>'},
+      {l:'Average cost', v:'<span class="gold">'+inr(atcost(v))+'</span>'},
+      {l:'Efficient scale', v:effScale().toLocaleString('en-IN')}
+    ],
+    work:v=>[
+      `Marginal cost:  MC = a + 2b·Q = 80 + 2 × 0.00278 × ${v.toLocaleString('en-IN')} = <b>${inr(mcost(v))}</b>`,
+      `Average cost:  AC = TC ÷ Q = ${Math.round(tcost(v)).toLocaleString('en-IN')} ÷ ${v.toLocaleString('en-IN')} = <b>${inr(atcost(v))}</b>`,
+      `Efficient scale:  Q* = √(FC ÷ b) = √(1,00,000 ÷ 0.00278) = <b>${effScale().toLocaleString('en-IN')}</b>`
+    ],
+    commitLabel:v=>'Lock in this output',
+    onCommit:(v,S)=>{S.effOut=v; const es=effScale(), near=Math.abs(v-es)<=500;
+      return {choice:`Output ${v.toLocaleString('en-IN')} → AC ${inr(atcost(v))}`,
+      fb:`At <b>${v.toLocaleString('en-IN')}</b>, marginal cost is <b>${inr(mcost(v))}</b> and average cost is <b>${inr(atcost(v))}</b>. ${near?'You\u2019re right at the efficient scale — the cheapest bulb Lumen can make.':(v<es?'You\u2019re below efficient scale; making more would still pull your average cost down.':'You\u2019re past efficient scale; each extra bulb now costs more than your average, dragging it up.')}`};},
+    reinforce:{concept:'U-shaped cost & supply',
+      body:'<b>Marginal cost</b> is the cost of one more unit. Average cost <b>falls</b> while MC sits below it and <b>rises</b> once MC climbs above it — so MC cuts ATC at its <b>minimum</b>, the <b>efficient scale</b>. The U comes from two forces in tension: fixed cost <b>spreading</b> (pulls cost down early) versus <b>diminishing returns</b> near capacity (pushes it up later). For a <b>price-taking</b> firm in a competitive market, its <b>supply curve</b> is this marginal-cost curve (above average variable cost): it makes one more bulb whenever the price covers that bulb\u2019s marginal cost. A firm with <b>market power</b> — you, while you are the only seller — does not take a price, so it has no supply curve; it picks a point on the demand curve instead. That is the thread into Act 4.',
+      key:'MC below AC pulls the average down; MC above AC pushes it up; they meet at efficient scale. For a price-taker, that MC curve <i>is</i> its supply curve; a price-setter has none.'}
+  },
+  /* ---------- 9. SUPPLY MEETS DEMAND ---------- */
+  {
+    concept:'Supply meets demand',
+    kind:'interactive',
+    title:'Both curves, one picture',
+    situation:`Here is the whole market on one chart: the <b>demand</b> curve (what buyers want at each price) and the <b>marginal-cost</b> curve from Act 3. If this market were <b>competitive</b> — many small price-taking firms — the industry supply curve would be built from marginal costs like these, and price would settle where supply meets demand. You are the only seller, so treat this crossing as a <b>benchmark</b>, the price competition would force, not your fate. Drag the price and compare what buyers <i>want</i> against what a competitive industry would <i>willingly make</i>.
+      <div class="speak">Reya: "Where the two curves cross is the <i>competitive</i> resting point. With rivals all taking that price, bulbs above it pile up unsold; below it buyers fight over too few."</div>`,
+    prompt:'Drag to where the two quantities match — the equilibrium — and lock it in.',
+    hint:'Above equilibrium: a surplus (unsold stock). Below it: a shortage (empty shelves). They meet at one price.',
+    slider:{key:'_p9', min:40, max:250, step:5, init:200, label:'Price', fmt:v=>inr(v)},
+    draw:v=>marketSVG({showSupply:true, markP:v}),
+    readouts:v=>{const qd=qOf(v), qs=Math.max(0,(v-COST.a)/(2*COST.b)), gap=qd-qs;return[
+      {l:'Buyers want', v:Math.round(qd).toLocaleString('en-IN')},
+      {l:'Competitive supply', v:Math.round(qs).toLocaleString('en-IN')},
+      {l:'Balance', v: Math.abs(gap)<300?'<span class="good">equilibrium</span>':(gap>0?'<span class="warn">shortage</span>':'<span class="bad">surplus</span>')}
+    ];},
+    work:v=>{const qd=qOf(v), qs=Math.max(0,(v-COST.a)/(2*COST.b));return[
+      `Buyers want:  Qd = a − b·P = 20,000 − 80 × ${v} = <b>${Math.round(qd).toLocaleString('en-IN')}</b>`,
+      `Competitive supply (P = MC):  Qs = (P − a) ÷ 2b = (${v} − 80) ÷ 0.00556 = <b>${Math.round(qs).toLocaleString('en-IN')}</b>`,
+      `Equilibrium is where Qd = Qs, around <b>₹132</b> and ~9,400 bulbs`
+    ];},
+    commitLabel:v=>'Lock in the equilibrium price',
+    onCommit:(v,S)=>{S.eqPrice=v; return {
+      choice:`Read equilibrium at ${inr(v)}`,
+      fb:`In a <b>competitive</b> market, price gets pushed to where supply meets demand, about <b>₹132</b>, where buyers want roughly what sellers will make. You are the only seller, so this is a <b>benchmark</b>, not a price you must accept. The next stage is how a firm with that freedom actually chooses.`};},
+    reinforce:{concept:'Market equilibrium',
+      body:'<b>Equilibrium</b> is the price where quantity demanded equals quantity supplied: the market clears, no surplus, no shortage. Above it, a <b>surplus</b> pushes price down; below it, a <b>shortage</b> pushes price up. A <b>price-taker</b> in a crowded market simply accepts this price. A firm with <b>market power</b> faces the whole demand curve and gets to choose, which is exactly the next decision.',
+      key:'Supply = demand sets the competitive price. The fewer the rivals, the more you escape it, the thread that runs into Act 5.'}
+  },
+  /* ---------- 10. ELASTICITY ---------- */
+  {
+    concept:'Elasticity',
+    kind:'interactive',
+    title:'Why cutting price sometimes loses you money',
+    situation:`Back in Act 2 you saw total revenue peak in the <i>middle</i> of the demand curve, not at the top. This is why. <b>Price elasticity of demand</b> measures how sharply quantity responds to a price change. Drag the price and watch the elasticity number, and what it does to revenue.
+      <div class="speak">Reya: "High up the curve buyers are touchy; a small price cut wins a lot of volume. Down low they\u2019re already mostly in, so cutting price just throws away margin."</div>`,
+    prompt:'Find the point where elasticity equals 1, the revenue peak, and lock it in.',
+    hint:'|E| above 1 = elastic (cut price, revenue rises). Below 1 = inelastic (cut price, revenue falls). Exactly 1 = the top of the revenue hill.',
+    slider:{key:'_p10', min:40, max:250, step:5, init:200, label:'Price', fmt:v=>inr(v)},
+    draw:v=>demandSVG({price:v}),
+    readouts:v=>{const e=elastOf(v), q=qOf(v);return[
+      {l:'Elasticity |E|', v:'<span class="gold">'+e.toFixed(2)+'</span>'},
+      {l:'Total revenue', v:inr(v*q)},
+      {l:'Demand is', v: e>1.05?'<span class="good">elastic</span>':(e<0.95?'<span class="warn">inelastic</span>':'<span class="gold">unit elastic</span>')}
+    ];},
+    work:v=>{const q=qOf(v), e=elastOf(v);return[
+      `Elasticity:  |E| = (dQ/dP) × (P ÷ Q) = b × P ÷ Q = 80 × ${v} ÷ ${Math.round(q).toLocaleString('en-IN')} = <b>${e.toFixed(2)}</b>`,
+      `Revenue:  TR = P × Q = ₹${v} × ${Math.round(q).toLocaleString('en-IN')} = <b>${inr(v*q)}</b>`,
+      `${e>1.05?'Elastic: a price cut raises revenue.':(e<0.95?'Inelastic: a price cut lowers revenue.':'Unit elastic: revenue is at its peak.')}`
+    ];},
+    commitLabel:v=>'Lock in this reading',
+    onCommit:(v,S)=>{const e=elastOf(v); return {
+      choice:`Elasticity ${e.toFixed(2)} at ${inr(v)}`,
+      fb:`At <b>${inr(v)}</b>, |E| = <b>${e.toFixed(2)}</b>, so demand is <b>${e>1.05?'elastic':(e<0.95?'inelastic':'unit elastic')}</b>. ${e>1.05?'Buyers are price-sensitive here, so a cut would lift revenue.':(e<0.95?'Buyers are locked in here, so a cut just bleeds margin.':'This is the revenue peak, where |E| = 1.')} But revenue isn\u2019t profit, which is the last piece, next.`};},
+    reinforce:{concept:'Price elasticity of demand',
+      body:'<b>Elasticity</b> = percentage change in quantity ÷ percentage change in price. <b>Elastic</b> (|E| &gt; 1): quantity reacts strongly, so cutting price <i>raises</i> total revenue. <b>Inelastic</b> (|E| &lt; 1): quantity barely moves, so cutting price <i>lowers</i> revenue. At <b>|E| = 1</b>, revenue peaks. What makes demand elastic? Close <b>substitutes</b>, a large share of the buyer\u2019s budget, plenty of <b>time</b> to adjust, and the good being a luxury rather than a necessity.',
+      key:'Elastic, cut price to grow revenue. Inelastic, raise price to grow revenue. The revenue peak sits exactly at |E| = 1.'}
+  },
+  /* ---------- 11. PROFIT-MAXIMIZING PRICE (MR = MC) ---------- */
+  {
+    concept:'Profit-maximizing price (MR = MC)',
+    kind:'interactive',
+    title:'The price that actually maximizes profit',
+    situation:`Revenue peaked at ₹125. But every bulb costs money to make, so the price that maximizes <b>profit</b> is not the one that maximizes revenue. The rule: keep making bulbs while the revenue from one more (<b>marginal revenue</b>) beats the cost of one more (<b>marginal cost</b>), and stop where they meet. Drag output and watch profit.
+      <div class="speak">Reya: "MR is the gold dashed line. It falls twice as fast as demand, because to sell one more bulb you cut the price on <i>all</i> of them. Find where it crosses the blue MC line."</div>`,
+    prompt:'Drag to where MR meets MC, your profit-maximizing output, and lock it in.',
+    hint:'Left of the crossing, one more bulb adds more revenue than cost: make it. Right of it, you\u2019re losing money on the last bulb. Profit peaks exactly at MR = MC.',
+    slider:{key:'_q11', min:1000, max:12000, step:200, init:3000, label:'Output', fmt:v=>v.toLocaleString('en-IN')+' units'},
+    draw:v=>marketSVG({showMR:true, showMC:true, markQ:v}),
+    readouts:v=>[
+      {l:'Price', v:'<span class="gold">'+inr(priceOf(v))+'</span>'},
+      {l:'MR', v:'<span style="color:#c79a3a">'+inr(mrOf(v))+'</span>'},
+      {l:'MC', v:'<span style="color:#5b9bd5">'+inr(mcost(v))+'</span>'},
+      {l:'Profit', v:'<b class="'+(profitOf(v)>=0?'good':'bad')+'">'+inr(profitOf(v))+'</b>'}
+    ],
+    work:v=>[
+      `Price (from demand):  P = (a − Q) ÷ b = (20,000 − ${v.toLocaleString('en-IN')}) ÷ 80 = <b>${inr(priceOf(v))}</b>`,
+      `Marginal revenue:  MR = (a − 2Q) ÷ b = (20,000 − 2×${v.toLocaleString('en-IN')}) ÷ 80 = <b>${inr(mrOf(v))}</b>`,
+      `Marginal cost:  MC = a + 2b·Q = 80 + 0.00556 × ${v.toLocaleString('en-IN')} = <b>${inr(mcost(v))}</b>`,
+      `Profit:  TR − TC = ${inr(priceOf(v)*v)} − ${inr(tcost(v))} = <b>${inr(profitOf(v))}</b>`
+    ],
+    commitLabel:v=>'Lock in this output',
+    onCommit:(v,S)=>{const qs=profitMaxQ(), near=Math.abs(v-qs)<=400, ps=priceOf(qs); S.profitMaxP=Math.round(ps);
+      return {choice:`Output ${v.toLocaleString('en-IN')} → price ${inr(priceOf(v))}, profit ${inr(profitOf(v))}`,
+      fb:`Profit is maximized at about <b>${qs.toLocaleString('en-IN')} bulbs</b>, priced at <b>${inr(ps)}</b>, for a profit near <b>${inr(profitOf(qs))}</b>. ${near?'You found it, right where MR meets MC.':'Look where the gold MR line crosses the blue MC line; that output beats where you are now.'} Notice this price (<b>${inr(ps)}</b>) sits <b>above</b> the revenue-max price of ₹125. Because production costs money, the profit-maximizing firm makes <i>less</i> and charges <i>more</i> than the revenue-maximizing one.`};},
+    reinforce:{concept:'Profit maximization (MR = MC)',
+      body:'A firm maximizes profit by producing where <b>marginal revenue equals marginal cost</b>. Beyond that point each extra unit costs more than it earns; short of it, you\u2019re leaving profit unmade. For a price-setter the demand curve slopes down, so <b>MR is below price</b> (selling one more means cutting price on all units), which is why the profit-max price sits <b>above</b> marginal cost. The size of that gap between price and MC is your <b>market power</b>, and it shrinks fast once rivals arrive.',
+      key:'Produce where MR = MC, then read the price off the demand curve. Price above MC is market power, and Act 5 is what happens to it when rivals show up.'}
+  },
+  /* ---------- 12. MARKET STRUCTURES ---------- */
+  {
+    concept:'Market structures',
+    kind:'interactive',
+    title:'What rivals do to your markup',
+    situation:`In Act 4 you priced at ₹180 while marginal cost was ₹111. That ₹69 gap was pure <b>market power</b>, and it existed only because you were alone. Drag in rivals and watch it collapse.
+      <div class="speak">Reya: "With one seller, we name our price. With a handful, we watch each other. With a crowd, the price gets shoved down to marginal cost and the markup vanishes."</div>`,
+    prompt:'Drag the number of firms to see your pricing power erode, then lock in the market Lumen will enter.',
+    hint:'Fewer firms, fatter markup. The structure you land on is the one you\u2019ll actually compete in next.',
+    slider:{key:'_n12', min:1, max:20, step:1, init:1, label:'Number of firms', fmt:v=>v+(v===1?' firm (you alone)':' firms')},
+    draw:v=>structureSVG(v),
+    readouts:v=>{const p=priceN(v), L=(p-COMP_MC)/p;return[
+      {l:'Your price', v:'<span class="gold">'+inr(p)+'</span>'},
+      {l:'Markup over MC', v:inr(p-COMP_MC)},
+      {l:'Lerner index', v:L.toFixed(2)},
+      {l:'Structure', v:'<span style="font-size:12px">'+structOfN(v)+'</span>'}
+    ];},
+    work:v=>{const p=priceN(v), L=(p-COMP_MC)/p;return[
+      `Price:  P = MC + (monopoly − MC) ÷ N = 111 + 69 ÷ ${v} = <b>${inr(p)}</b>`,
+      `Lerner index (market power):  L = (P − MC) ÷ P = (${Math.round(p)} − 103) ÷ ${Math.round(p)} = <b>${L.toFixed(2)}</b>`,
+      `${v===1?'Monopoly: maximum markup.':v<=5?'Few firms: you still hold real power, but you must watch them.':'Many firms: markup nearly gone, price ≈ marginal cost.'}`
+    ];},
+    commitLabel:v=>'Enter this market',
+    onCommit:(v,S)=>{const key=v<=2?'duopoly':v<=5?'oligopoly':v<=12?'monopolistic':'perfect'; S.structure=key; S.nFirms=v;
+      return {choice:`${structOfN(v)} (${v} firms)`,
+      fb:`You\u2019re entering a <b>${structOfN(v).toLowerCase()}</b> market. ${v<=5?'With few rivals, your price stays well above marginal cost, but every move you make provokes a response. That is the world of the next decision.':'With many rivals your price is pinned near marginal cost; economic profit is thin and you survive on efficiency, not pricing power.'}`};},
+    reinforce:{concept:'Market structures & market power',
+      body:'Four structures sit on a spectrum by number of sellers: <b>monopoly</b> (one), <b>oligopoly</b> (few), <b>monopolistic competition</b> (many, differentiated), <b>perfect competition</b> (many, identical). The <b>Lerner index</b>, (P − MC) ÷ P, measures market power: high under monopoly, near zero under perfect competition. More rivals make your own demand more <b>elastic</b>, which squeezes the markup you found in Act 4 toward zero.',
+      key:'Market power = the gap between price and marginal cost. The more sellers, the smaller the gap. That is the whole spectrum of structures.'}
+  },
+  /* ---------- 13. STRATEGIC PLAY ---------- */
+  {
+    concept:'Strategic play',
+    title:'When your best move depends on theirs',
+    visual:()=>`<div style="border:1px solid var(--line);border-radius:11px;padding:14px;margin:14px 0;background:#0f2342">
+        ${matrixSVG(null)}
+        <div class="faint" style="font-size:11px;text-align:center;margin-top:9px">Quarterly profit for each firm, by what both of you choose</div></div>`,
+    situation:`You and your rival Darius Vane both price high right now, near the old monopoly level, each clearing about <b>₹400k</b> a quarter. You\u2019re tempted to undercut him and steal his customers. So is he. The matrix above shows every outcome.
+      <div class="speak">Vane: "We both know we\u2019d each make more by holding the line. We also both know the other is itching to cut. So\u2026 what do you actually do?"</div>`,
+    prompt:'Hold the high price, or undercut Vane?',
+    hint:'Look down each column. Whatever Vane does, compare your two payoffs before you choose.',
+    options:[
+      {id:'hold', lab:'Hold the high price (cooperate)', det:'Keep pricing high and hope Vane does too. If he holds, you both clear ₹400k.',
+       pay:()=>'If he holds: ₹400k · if he undercuts: ₹120k',
+       best:false, apply:S=>{S.strat='hold';},
+       fb:'The collectively smart move, and the fragile one. If Vane holds too, you both win ₹400k. But if he undercuts while you hold, you crash to ₹120k. Holding only works if you trust him, and the matrix shows he has every reason to cheat.'},
+      {id:'cut', lab:'Undercut Vane (defect)', det:'Drop your price to grab his share. If he holds you take ₹520k; if he also cuts, you both land at ₹250k.',
+       pay:()=>'If he holds: ₹520k · if he undercuts: ₹250k',
+       best:false, apply:S=>{S.strat='cut';},
+       fb:'This is the <b>dominant strategy</b>: whatever Vane does, undercutting pays you more (₹520k beats ₹400k; ₹250k beats ₹120k). The catch is that Vane reasons identically, so you both undercut and both land at ₹250k, worse than the ₹400k you\u2019d have shared by holding. That trap is the prisoner\u2019s dilemma.'}
+    ],
+    reinforce:{concept:'Game theory & the prisoner\u2019s dilemma',
+      body:'In an oligopoly, firms are <b>strategically interdependent</b>: your best move depends on your rival\u2019s. A <b>dominant strategy</b> is one that wins whatever the other does, and here that\u2019s to undercut. When both follow their dominant strategy you reach a <b>Nash equilibrium</b> where neither can do better alone, yet both are worse off than if they\u2019d cooperated. That is the <b>prisoner\u2019s dilemma</b>, and it is exactly why price-fixing cartels keep collapsing.',
+      key:'Everyone playing their dominant strategy can leave everyone worse off. That gap between the Nash outcome and the cooperative one is the dilemma.'}
+  },
+  /* ---------- 14. THE COMPETITIVE RUN ---------- */
+  {
+    concept:'The competitive run',
+    kind:'compete',
+    maxQ:4,
+    title:'Four quarters, real rivals',
+    situation:`This is everything at once. You\u2019ll run Lumen for four quarters against live AI rivals in the market you chose, through whatever the economy throws at you. Each quarter you set your price; they set theirs in secret; the market clears. Read the demand, respect your costs, and price where the margin is real, not just where revenue looks big.
+      <div class="speak">Reya: "One honest note: the live market is bigger and more crowded than our solo sketch, so its costs and demand run on their own numbers, not the exact ₹180 and ₹111 from Act 4. The <i>logic</i> carries over; the figures reset. Watch the on-screen readouts each quarter."</div>`,
+    reinforce:{concept:'The competitive run',
+      body:'You just applied the whole sequence under fire: demand reading, cost discipline, elasticity, the MR = MC instinct, and strategic pricing against rivals who react to you. Notice how much thinner margins are than they were when you were alone in Act 4. That difference is competition doing its work, exactly what the market-structure spectrum predicted.',
+      key:'Everything connects: scarcity created the market, costs set the floor, demand set the ceiling, and rivals decided how much of the gap you keep.'}
+  }
+];
+
+/* ---- state ---- */
+const SAVE='econventure_founder_v2';
+const BUILD=9; // bumped for classroom mode: concept walls + shared identity + array gate
+let S=null;
+// instructor pacing gate (fail open: no gating until the server says otherwise)
+let GATE={paced:false, open:0, paused:false};
+let GATE_POLL=null;
+function fresh(){return{_build:BUILD,phase:'id',student:{},class:{code:'',sid:'',name:''},cQ:{stage:-1,phase:'',qIdx:0,openScore:null,closeAns:[],doneOpen:{},doneClose:{}},preScore:null,postScore:null,preAns:[],postAns:[],qIdx:0,
+  stage:0,cash:1000000,benchmark:0,hurdle:0.10,equity:0,debt:0,capacity:0,vc:95,fc:100000,toolkit:[],log:[],pending:null};}
+
+// five-question knowledge check, asked before and after the journey
+const QUIZ=[
+  {q:'If you raise your price, what happens to your total revenue?',
+   opts:['It always rises','It always falls','It depends on how price-sensitive buyers are','It never changes'], a:2},
+  {q:'Which source of funding is usually the most expensive for a business?',
+   opts:['A bank loan','Your own savings','Equity sold to investors','They all cost the same'], a:2},
+  {q:'A firm maximizes profit by producing at the output where:',
+   opts:['Price is highest','Total revenue is highest','Marginal revenue equals marginal cost','Average cost is lowest'], a:2},
+  {q:'Household incomes rise. For a normal good, the demand curve:',
+   opts:['Shifts left','Shifts right','Only moves along itself','Does not move'], a:1},
+  {q:'As more firms enter a market, a typical firm\u2019s price tends to move:',
+   opts:['Up, toward the monopoly price','Down, toward marginal cost','It stays exactly the same','Up, then permanently higher'], a:1}
+];
+
+/* Backend bridge. When the file is served by Google Apps Script, the global
+   `google.script.run` exists and we use it to log results and read the class
+   leaderboard. As a plain double-clicked file it is absent, so everything
+   degrades to offline (download + code) with zero errors. */
+const CLASS_URL='';  /* faculty pastes their Apps Script /exec URL here to enable classroom mode from any host */
+const NET={
+  url(){ return (CLASS_URL||'').trim(); },
+  gsrun(){ try{ return !!(typeof google!=='undefined' && google.script && google.script.run); }catch(e){ return false; } },
+  online(){ return !!this.url() || this.gsrun(); },
+  call(params, cb){
+    if(this.url()){
+      try{ const qs=Object.keys(params).map(k=>k+'='+encodeURIComponent(params[k])).join('&');
+           fetch(this.url()+'?api=1&'+qs).then(r=>r.json()).then(j=>cb&&cb(j)).catch(()=>cb&&cb(null)); }
+      catch(e){ cb&&cb(null); } return;
+    }
+    if(this.gsrun()){
+      try{ google.script.run.withSuccessHandler(r=>cb&&cb(r)).withFailureHandler(()=>cb&&cb(null)).api(JSON.stringify(params)); }
+      catch(e){ cb&&cb(null); } return;
+    }
+    cb&&cb(null);
+  },
+  submit(payload, cb){ if(this.gsrun()){ try{ google.script.run.withSuccessHandler(r=>cb&&cb(r||{ok:true})).withFailureHandler(e=>cb&&cb({error:String(e)})).submitResult(JSON.stringify(payload)); }catch(e){ cb&&cb({error:String(e)}); } return; } cb&&cb({offline:true}); },
+  leaderboard(cb){ if(this.gsrun()){ try{ google.script.run.withSuccessHandler(r=>cb&&cb(r)).withFailureHandler(()=>cb&&cb(null)).getLeaderboard(); }catch(e){ cb&&cb(null); } return; } cb&&cb(null); },
+  getGate(_section, cb){ const code=(S&&S.class&&S.class.code)||''; if(!code){ cb&&cb(null); return; } this.call({action:'gate',code:code}, cb); },
+  logQuiz(concept, phase, score, total){ const c=(S&&S.class)||{}; if(!c.code) return; this.call({action:'quiz',code:c.code,sid:c.sid||'',concept:concept,phase:phase,score:score,total:total}, ()=>{}); },
+  ping(pos){ const c=(S&&S.class)||{}; if(!c.code||!c.sid) return; this.call({action:'ping',sid:c.sid,pos:pos}, r=>{ if(r && r.directive && typeof F!=='undefined' && F.applyDirective) F.applyDirective(r.directive); }); },
+  cloudSave(){ const c=(S&&S.class)||{}; if(!c.code||!c.uid) return;
+    const bundle={};
+    try{ for(let i=0;i<localStorage.length;i++){ const k=localStorage.key(i); if(k && k.indexOf('econventure_')===0 && k!=='econventure_cloudsave_lasthash') bundle[k]=localStorage.getItem(k); } }catch(e){}
+    const payload=JSON.stringify(bundle);
+    const hash = (function(s){ let h=0; for(let i=0;i<s.length;i++){ h=(h*31+s.charCodeAt(i))|0; } return String(h); })(payload);
+    let lastHash=''; try{ lastHash=localStorage.getItem('econventure_cloudsave_lasthash')||''; }catch(e){}
+    if(hash===lastHash) return;
+    this.call({action:'save',code:c.code,uid:c.uid,gsub:c.google?c.google.sub||'':'',email:c.google?c.google.email||'':'',name:c.name||'',roll:(S.student&&S.student.id)||'',payload:payload}, r=>{
+      if(r && r.ok){ try{ localStorage.setItem('econventure_cloudsave_lasthash', hash); }catch(e){} }
+    });
+  }
+};
+
+const F={
+  start(){ S=fresh(); this.save(); this.render(); },
+  save(){try{S._build=BUILD;localStorage.setItem(SAVE,JSON.stringify(S));}catch(e){}},
+  load(){try{const s=JSON.parse(localStorage.getItem(SAVE)); return (s&&s._build===BUILD)?s:null;}catch(e){return null;}},
+  reset(){if(confirm('Restart from the beginning?')){localStorage.removeItem(SAVE);this.start();}},
+
+  fmt(str){ return (str||'').replace('{hurdle}', pctf(S.hurdle)).replace('{capacity}', (S.capacity||0).toLocaleString('en-IN')).replace('{launch}', S.launchPrice?inr(S.launchPrice):'—'); },
+
+  actOf(idx){ let f=0; for(const a of MAP){ for(const n of a.nodes){ if(f===idx) return a.act; f++; } } return ''; },
+
+  _statCache:{},
+  renderStat(){
+    const el=document.getElementById('stat');
+    el.innerHTML=`
+      <div class="st"><span class="v" id="stCash"></span><span class="l">cash</span></div>
+      <div class="st"><span class="v" id="stHurdle"></span><span class="l">hurdle rate</span></div>
+      <div class="st"><span class="v" id="stCap"></span><span class="l">capacity</span></div>
+      <div class="st"><span class="v">${S.stage}/${TOTAL_IMPLEMENTED}</span><span class="l">progress</span></div>`;
+    const c=this._statCache;
+    countUp(document.getElementById('stCash'), S.cash, inr, c.cash); c.cash=S.cash;
+    countUp(document.getElementById('stHurdle'), S.hurdle, pctf, c.hurdle); c.hurdle=S.hurdle;
+    const capEl=document.getElementById('stCap'), cap=S.capacity||0;
+    countUp(capEl, cap, v=> v? Math.round(v).toLocaleString('en-IN') : '—', c.cap); c.cap=cap;
+  },
+
+  renderRail(){
+    let flat=0;
+    const html=MAP.map(act=>{
+      const nodes=act.nodes.map(n=>{
+        const idx=flat++; let cls='locked';
+        if(idx<S.stage) cls='done'; else if(idx===S.stage) cls='active';
+        return `<div class="node ${cls}"><span class="dot"></span>${n}</div>`;
+      }).join('');
+      return `<div class="act"><div class="ah">${act.act}</div>${nodes}</div>`;
+    }).join('');
+    document.getElementById('rail').innerHTML=html;
+  },
+
+  clearShell(){ const s=document.getElementById('stat'); if(s)s.innerHTML=''; const r=document.getElementById('rail'); if(r)r.innerHTML=''; },
+
+  render(){
+    if(S.phase==='id'){ this.clearShell(); return this.renderIdentity(); }
+    if(S.phase==='pre'||S.phase==='post'){ this.clearShell(); return this.renderQuiz(S.phase); }
+    if(S.phase==='report'){ this.clearShell(); return this.renderFinalReport(); }
+    if(S.phase==='tournament'){ this.renderStat(); this.renderRail(); return this.renderCompete(STAGES.find(s=>s.kind==='compete')); }
+    this.renderStat(); this.renderRail();
+    const host=document.getElementById('stage');
+    if(S.stage>=TOTAL_IMPLEMENTED){ S.phase='post'; S.qIdx=0; S.postAns=[]; this.save(); this.clearShell(); return this.renderQuiz('post'); }
+    // Fail-closed pacing: if the student joined a class, they MUST have a live gate to proceed.
+    // The only permitted "no gate" case is solo practice (no class code entered at all).
+    const joinedClass = !!(S.class && S.class.code);
+    if(joinedClass){
+      if(GATE.offline){ return this.renderWaiting('reconnecting'); }
+      if(GATE.paced && (GATE.paused || (Array.isArray(GATE.l1open) && GATE.l1open.indexOf(S.stage)<0))){ return this.renderWaiting(); }
+    }
+    /* concept wall: opening quiz gates entry into a concept the student has not opened yet */
+    if(S.cQ && CQUIZ[S.stage]){
+      if(!S.cQ.doneOpen[S.stage] && S.cQ.phase!=='cOpen'){ S.cQ.stage=S.stage; S.cQ.phase='cOpen'; S.cQ.qIdx=0; S.cQ.openScore=null; this.save(); this.clearShell(); return this.renderConceptQuiz('open'); }
+      if(S.cQ.phase==='cOpen'){ this.clearShell(); return this.renderConceptQuiz('open'); }
+      if(S.cQ.phase==='cClose'){ this.clearShell(); return this.renderConceptQuiz('close'); }
+    }
+    this._stopGatePoll();
+    const st=STAGES[S.stage];
+    if(st.kind==='interactive'){ return this.renderInteractive(st); }
+    if(st.kind==='compete'){ return this.renderCompete(st); }
+    S._sel=null;
+    const opts=st.options.map((o,i)=>{
+      let pay = o.pay ? o.pay() : '';
+      let calc = o.calc ? o.calc : '';
+      if(st.npvStage){
+        const v=npv(S.hurdle,o.cf.up,o.cf.flows);
+        pay=`NPV at ${pctf(S.hurdle)}: <b class="${v>=0?'good':'bad'}">${(v>=0?'+':'')+inr(v)}</b> · capacity ${o.cf.cap.toLocaleString('en-IN')}`;
+        calc=`NPV = ${npvWorking(o.cf.up,o.cf.flows,S.hurdle)}`;
+      }
+      return `<div class="opt" data-i="${i}" onclick="F.pick(${i})">
+        <div class="lab">${o.lab}</div><div class="det">${o.det}</div>
+        <div class="pay">${pay}${calc?`<br><span style="color:var(--faint);font-size:10.5px;font-family:var(--mono)">${calc}</span>`:''}</div></div>`;
+    }).join('');
+    host.innerHTML=`
+      <div class="panel">
+        <div class="eyebrow">${this.actOf(S.stage)} · ${st.concept}</div>
+        <h2 style="margin-bottom:12px">${st.title}</h2>
+        <div class="situation">${this.fmt(st.situation)}</div>
+        ${st.visual?st.visual():''}
+        <div class="prompt">${this.fmt(st.prompt)}</div>
+        <div class="hint">${this.fmt(st.hint||'')}</div>
+        <div class="opts" id="opts">${opts}</div>
+        <div class="row" style="margin-top:16px">
+          <button class="ghost" onclick="F.reset()">Restart</button>
+          <button class="primary right" id="commitBtn" disabled onclick="F.commit()">Commit decision</button>
+        </div>
+      </div>`;
+  },
+
+  /* live demand-curve stage: a slider drives the curve and the readouts */
+  /* generic live-widget stage: a slider drives a visual and readouts.
+     Each interactive stage supplies slider/draw/readouts/onCommit. */
+  renderInteractive(st){
+    const k=st.slider.key;
+    if(S[k]===undefined||S[k]===null) S[k]=st.slider.init;
+    const host=document.getElementById('stage');
+    host.innerHTML=`
+      <div class="panel">
+        <div class="eyebrow">${this.actOf(S.stage)} · ${st.concept}</div>
+        <h2 style="margin-bottom:12px">${st.title}</h2>
+        <div class="situation">${this.fmt(st.situation)}</div>
+        <div style="border:1px solid var(--line);border-radius:11px;padding:12px 14px;margin:14px 0;background:#0f2342">
+          <div id="ivis">${st.draw(S[k])}</div>
+          <div class="lever" style="margin-top:6px">
+            <div class="top"><span class="name">${st.slider.label}</span><span class="val" id="ivv">${st.slider.fmt(S[k])}</span></div>
+            <input type="range" id="islider" min="${st.slider.min}" max="${st.slider.max}" step="${st.slider.step}" value="${S[k]}" style="width:100%" oninput="F.onSlide(+this.value)">
+          </div>
+          <div class="readout" id="iread" style="grid-template-columns:repeat(${st.readouts(S[k]).length},1fr)"></div>
+          ${st.work?'<div class="working" id="iwork"></div>':''}
+        </div>
+        <div class="prompt">${this.fmt(st.prompt)}</div>
+        <div class="hint">${this.fmt(st.hint||'')}</div>
+        <div class="row" style="margin-top:16px">
+          <button class="ghost" onclick="F.reset()">Restart</button>
+          <button class="primary right" onclick="F.commit()">${st.commitLabel(S[k])}</button>
+        </div>
+      </div>`;
+    this.onSlide(S[k]);
+    // one-shot draw-in: only the freshly mounted chart animates; drag updates stay instant
+    const svg=host.querySelector('#ivis svg'); if(svg && !prefersReduced()) svg.classList.add('chartIn');
+  },
+
+  onSlide(v){
+    const st=STAGES[S.stage], k=st.slider.key; S[k]=v;
+    const el=id=>document.getElementById(id);
+    if(el('ivis')) morphSVG(el('ivis'),st.draw(v));
+    if(el('ivv')) el('ivv').textContent=st.slider.fmt(v);
+    if(el('iread')) el('iread').innerHTML=st.readouts(v).map(r=>`<div class="ro"><div class="l">${r.l}</div><div class="v" style="font-size:15px">${r.v}</div></div>`).join('');
+    if(el('iwork')&&st.work) el('iwork').innerHTML='<div class="wh">How these numbers are computed</div>'+st.work(v).map(w=>`<span class="wl">${w}</span>`).join('');
+  },
+
+  /* ===== Act 5 finale: a real multi-quarter run on the embedded engine ===== */
+  startRun(st){
+    const PROFILES=[
+      {name:'Vane Lighting', obj:'profit',  strat:'profit'},
+      {name:'BrightCo',      obj:'revenue', strat:'cost-leader'},
+      {name:'Lumos Labs',    obj:'growth',  strat:'differentiator'},
+      {name:'Kethri Glow',   obj:'profit',  strat:'responder'},
+      {name:'Watt Works',    obj:'revenue', strat:'cost-leader'},
+      {name:'Nova Bright',   obj:'growth',  strat:'differentiator'},
+      {name:'Halo Co',       obj:'profit',  strat:'profit'}];
+    const tour=(S.phase==='tournament');
+    const structure=tour?'oligopoly':(S.structure||'oligopoly'), Sx=E.structOf(structure), nRiv=Sx.firms-1;
+    const cap=tour?11000:(S.capacity||7000); // tournament fixes capacity so every student is equal
+    const bots=PROFILES.slice(0,nRiv).map((p,i)=>({id:'b'+i,name:p.name,is_bot:true,vc:E.START_VC,fc:E.START_FC,capacity:11000,cash:E.START_CAPITAL,marketing:5,quality:5,price:Math.round(Sx.Pref),objective:p.obj,bot_strategy:p.strat}));
+    const you={id:'you',name:'Lumen (you)',is_bot:false,vc:E.START_VC,fc:E.START_FC,capacity:cap,cash:E.START_CAPITAL,marketing:5,quality:5,price:Math.round(Sx.Pref),objective:'profit'};
+    S.run={structure, maxQ:st.maxQ||4, q:1, firms:[you,...bots], history:[], done:false, price:Math.round(Sx.Pref), tour};
+    this.save();
+  },
+
+  // live estimate of this quarter's outcome at the current slider price
+  runPreview(price){
+    const r=S.run, m=E.macroOf(r.q), firms=r.firms.map(f=>({...f}));
+    const me=firms.find(f=>!f.is_bot); me.price=price;
+    const myS=E.shares(firms,r.structure,m,true).find(x=>x.id===me.id);
+    const prod=Math.min(Math.round(myS.demand), me.capacity);
+    const res=E.firmResult({...me,production:prod},m,true,myS.demand);
+    return {demand:Math.round(myS.demand), profit:res.profit, mc:Math.round(res.mc)};
+  },
+
+  setRunPrice(v){
+    S.run.price=v;
+    const p=this.runPreview(v), el=id=>document.getElementById(id);
+    if(el('rpv')) el('rpv').textContent=inr(v);
+    if(el('rprev')) el('rprev').innerHTML=
+      `<div class="ro"><div class="l">Est. bulbs sold</div><div class="v" style="font-size:15px">${p.demand.toLocaleString('en-IN')}</div></div>`+
+      `<div class="ro"><div class="l">Marginal cost</div><div class="v" style="font-size:15px">${inr(p.mc)}</div></div>`+
+      `<div class="ro"><div class="l">Est. profit</div><div class="v" style="font-size:15px"><b class="${p.profit>=0?'good':'bad'}">${inr(p.profit)}</b></div></div>`;
+  },
+
+  runQuarter(){
+    const r=S.run, m=E.macroOf(r.q);
+    let firms=r.firms.map(f=>({...f}));
+    const me=firms.find(f=>!f.is_bot); me.price=r.price;
+    firms=firms.map(f=>{ if(!f.is_bot) return f; const rivals=firms.filter(x=>x.id!==f.id); return E.botDecision(f, rivals, r.q, r.structure, m, true); });
+    const myShare=E.shares(firms,r.structure,m,true).find(x=>x.id===me.id);
+    firms.find(f=>f.id==='you').production=Math.min(Math.round(myShare.demand), me.capacity);
+    const {results, firms:updated}=E.clearLeague(firms, r.structure, m, true, r.tour); // det=true in tournament so identical play => identical score
+    const myRes=results.find(x=>x.id==='you');
+    r.history.push({q:r.q, macro:m, price:r.price, profit:myRes.profit, share:myRes.share, sold:myRes.sold, rank:myRes.rank,
+      rivals:updated.filter(f=>f.is_bot).map(f=>({name:f.name, price:f.price}))});
+    r.firms=updated; r.q++;
+    if(r.q>r.maxQ) r.done=true;
+    this.save(); this.renderCompete(S.run&&S.run.tour ? STAGES.find(s=>s.kind==='compete') : STAGES[S.stage]);
+  },
+
+  renderCompete(st){
+    if(!S.run) this.startRun(st);
+    const r=S.run;
+    if(r.done) return r.tour ? this.renderTournamentDone(st) : this.renderFinal(st);
+    const m=E.macroOf(r.q);
+    const tone={positive:'#37b27e',negative:'#e0b54a',crisis:'#e5594d',neutral:'#5b9bd5'}[m.type]||'#5b9bd5';
+    const ranked=[...r.firms].sort((a,b)=>b.cash-a.cash);
+    const standings=ranked.map((f,i)=>`<tr style="${f.is_bot?'':'background:#16315a'}"><td>${i+1}</td><td>${f.name}</td><td style="text-align:right">${inr(f.cash)}</td></tr>`).join('');
+    const last=r.history[r.history.length-1];
+    const recap = last? `<div class="payoff" style="margin:12px 0"><div class="h">Last quarter (Q${last.q})</div>
+        <div class="fb">You priced <b>${inr(last.price)}</b>, sold <b>${last.sold.toLocaleString('en-IN')}</b>, profit <b class="${last.profit>=0?'good':'bad'}">${inr(last.profit)}</b>, finishing <b>#${last.rank}</b>.
+        Rivals: ${last.rivals.map(x=>x.name.split(' ')[0]+' '+inr(x.price)).join(' · ')}.</div></div>`:'';
+    const Sx=E.structOf(r.structure);
+    document.getElementById('stage').innerHTML=`
+      <div class="panel">
+        <div class="eyebrow">${r.tour?'Class Tournament · standardized market':this.actOf(S.stage)+' · '+st.concept}</div>
+        <h2 style="margin-bottom:8px">${r.tour?'Tournament run':st.title}</h2>
+        ${r.q===1?`<div class="situation">${r.tour?'Same market, same rivals, same shocks for every student. Your total profit across four quarters is your tournament score. Pure pricing skill, no luck.':this.fmt(st.situation)}</div>`:''}
+        <div style="display:flex;justify-content:space-between;align-items:center;margin:10px 0 4px"><div style="font-weight:600">Quarter ${r.q} of ${r.maxQ}</div><div style="font-size:12px;color:var(--muted)">${Sx.label} · ${r.firms.length} firms</div></div>
+        <div style="border:1px solid ${tone};border-radius:9px;padding:9px 12px;margin:8px 0;background:#0f2342">
+          <span style="color:${tone};font-weight:700;font-size:11px;letter-spacing:.06em">BREAKING · ${m.tag}</span>
+          <span style="font-size:12.5px;color:var(--muted)"> demand ${m.demand>=1?'×':'×'}${m.demand.toFixed(2)} · costs ×${m.cost.toFixed(2)} · interest ${pctf(m.rate)}</span>
+        </div>
+        ${recap}
+        <table><thead><tr><th>#</th><th>Firm</th><th style="text-align:right">Cash</th></tr></thead><tbody>${standings}</tbody></table>
+        <div style="border:1px solid var(--line);border-radius:11px;padding:13px 15px;margin:14px 0;background:#0f2342">
+          <div class="lever"><div class="top"><span class="name">Your price this quarter</span><span class="val" id="rpv">${inr(r.price)}</span></div>
+            <input type="range" id="rprice" min="100" max="320" step="5" value="${r.price}" style="width:100%" oninput="F.setRunPrice(+this.value)"></div>
+          <div class="readout" id="rprev" style="grid-template-columns:1fr 1fr 1fr;margin-top:8px"></div>
+          <div class="faint" style="font-size:11px;margin-top:8px">Estimate assumes rivals hold last quarter\u2019s prices. They won\u2019t exactly, so treat it as a guide, not a guarantee.</div>
+        </div>
+        <div class="row" style="margin-top:14px">
+          <button class="ghost" onclick="F.reset()">Restart</button>
+          <button class="primary right" onclick="F.runQuarter()">Submit price · run Q${r.q}</button>
+        </div>
+      </div>`;
+    this.renderStat(); this.renderRail(); this.setRunPrice(r.price);
+  },
+
+  renderFinal(st){
+    const r=S.run, ranked=[...r.firms].sort((a,b)=>b.cash-a.cash);
+    const myRank=ranked.findIndex(f=>f.id==='you')+1;
+    const me=r.firms.find(f=>f.id==='you');
+    const totProfit=r.history.reduce((s,h)=>s+h.profit,0);
+    const avgPrice=Math.round(r.history.reduce((s,h)=>s+h.price,0)/r.history.length);
+    const recQ=r.history.find(h=>h.macro.type==='crisis');
+    const badges=[];
+    if(r.history.some(h=>h.profit>0)) badges.push('First Profit');
+    if(myRank===1) badges.push('Market Leader');
+    if(recQ && recQ.profit>0) badges.push('Survived the Recession');
+    if(avgPrice>=130 && avgPrice<=200) badges.push('Price Discipline');
+    if(me.cash>E.START_CAPITAL) badges.push('Grew the Business');
+    const standings=ranked.map((f,i)=>`<tr style="${f.is_bot?'':'background:#16315a'}"><td>${i+1}</td><td>${f.name}</td><td style="text-align:right">${inr(f.cash)}</td><td style="text-align:right">${(f.share*100||0).toFixed(0)}%</td></tr>`).join('');
+    document.getElementById('stage').innerHTML=`
+      <div class="panel">
+        <div class="eyebrow">${this.actOf(S.stage)} · final report</div>
+        <h2 style="margin-bottom:8px">Lumen finished #${myRank} of ${r.firms.length}</h2>
+        <p class="muted" style="font-size:14px">Four quarters, real rivals, one recession. Total profit <b class="${totProfit>=0?'good':'bad'}">${inr(totProfit)}</b>, average price <b>${inr(avgPrice)}</b>, ending cash <b>${inr(me.cash)}</b>.</p>
+        <table><thead><tr><th>#</th><th>Firm</th><th style="text-align:right">Cash</th><th style="text-align:right">Share</th></tr></thead><tbody>${standings}</tbody></table>
+        ${badges.length?`<div class="toolkit" style="margin-top:12px">${badges.map(b=>`<span class="chip">★ ${b}</span>`).join('')}</div>`:''}
+        <div class="reinforce" style="margin-top:14px"><div class="tag">What the run taught</div>
+          <p>${this.fmt(st.reinforce.body)}</p><div class="key">${this.fmt(st.reinforce.key)}</div></div>
+        <div class="row" style="margin-top:16px">
+          <button class="ghost" onclick="F.replayRun()">Run it again</button>
+          <button class="primary right" onclick="F.next()">Finish the journey</button>
+        </div>
+      </div>`;
+    this.renderStat(); this.renderRail();
+    if(!S.toolkit.includes(st.concept)){ S.toolkit.push(st.concept); S.log.push({concept:st.concept, choice:`Finished #${myRank}, profit ${inr(totProfit)}`}); this.save(); }
+  },
+
+  replayRun(){ S.run=null; this.renderCompete(STAGES[S.stage]); },
+
+  pick(i){
+    S._sel=i;
+    document.querySelectorAll('.opt').forEach((el,j)=>el.classList.toggle('sel',j===i));
+    document.getElementById('commitBtn').disabled=false;
+  },
+
+  commit(){
+    const st=STAGES[S.stage];
+    // interactive (slider) stages commit the chosen value via onCommit
+    if(st.kind==='interactive'){
+      const v=S[st.slider.key];
+      const r=st.onCommit(v,S);
+      if(!S.toolkit.includes(st.concept)) S.toolkit.push(st.concept);
+      S.log.push({concept:st.concept, choice:r.choice});
+      return this.showResult(st, r.fb, r.best||'');
+    }
+    const o=st.options[S._sel];
+    o.apply(S);
+    if(!S.toolkit.includes(st.concept)) S.toolkit.push(st.concept);
+    S.log.push({concept:st.concept, choice:o.lab});
+    let best='';
+    if(st.npvStage){
+      const ranked=[...st.options].map(x=>({x,v:npv(S.hurdle,x.cf.up,x.cf.flows)})).sort((a,b)=>b.v-a.v);
+      const top=ranked[0].x;
+      best = (top.id===o.id)
+        ? `You picked the highest-NPV option at your hurdle rate. Good capital budgeting.`
+        : `The highest-NPV option at your ${pctf(S.hurdle)} hurdle was <b>${top.lab.split('—')[0].trim()}</b> (${(ranked[0].v>=0?'+':'')+inr(ranked[0].v)}). You left value on the table — the cost of not discounting.`;
+      const myv=npv(S.hurdle,o.cf.up,o.cf.flows);
+      best += `<br><span style="color:var(--faint);font-size:11px;font-family:var(--mono)">Your NPV = ${npvWorking(o.cf.up,o.cf.flows,S.hurdle)} = <b style="color:var(--gold)">${(myv>=0?'+':'')+inr(myv)}</b></span>`;
+    } else if(o.best===true){ best='Solid — that\u2019s the concept exactly.'; }
+    else if(o.best===false){ best='Workable, but read the reinforcement: the concept is sharper than that choice.'; }
+    this.showResult(st, this.fmt(o.fb||''), best);
+  },
+
+  showResult(st, fb, best){
+    const reEl=`<div class="reinforce"><div class="tag">Concept locked in · ${st.reinforce.concept}</div>
+      <h3>${st.reinforce.concept}</h3><p>${this.fmt(st.reinforce.body)}</p>
+      <div class="key">${this.fmt(st.reinforce.key)}</div>
+      <div class="toolkit">${S.toolkit.map(c=>`<span class="chip">✓ ${c}</span>`).join('')}</div></div>`;
+    document.getElementById('stage').innerHTML=`
+      <div class="panel">
+        <div class="eyebrow">Your decision · ${st.concept}</div>
+        <h2 style="margin-bottom:6px">${st.concept}</h2>
+        <div class="payoff"><div class="h">What it means</div>
+          <div class="fb">${fb}${best?'<br><br>'+best:''}</div></div>
+        ${reEl}
+        <div class="row" style="margin-top:18px">
+          <button class="ghost" onclick="F.reset()">Restart</button>
+          <button class="primary right" onclick="F.next()">Continue</button>
+        </div>
+      </div>`;
+    this.renderStat(); this.renderRail(); this.save();
+  },
+
+  next(){
+    // If we just finished a concept in play phase and haven't done its closing quiz, run it before advancing.
+    if(S.phase==='play' && S.stage<CQUIZ.length && CQUIZ[S.stage] && !S.cQ.doneClose[S.stage]){
+      S.cQ.stage=S.stage; S.cQ.phase='cClose'; S.cQ.qIdx=0; S.cQ.closeAns=[];
+      this.save(); this.render(); window.scrollTo(0,0);
+      return;
+    }
+    S.stage++; this.save(); this.refreshGate(()=>{ this.render(); }); window.scrollTo(0,0);
+    try{ NET.ping('L1:'+S.stage); }catch(e){}
+  },
+
+  /* which MAP act (0=Prologue .. 5=Act 5) a flat stage index belongs to */
+  actIndexOfStage(idx){ let flat=0; for(let a=0;a<MAP.length;a++){ for(let n=0;n<MAP[a].nodes.length;n++){ if(flat===idx) return a; flat++; } } return MAP.length-1; },
+
+  refreshGate(cb){
+    if(!NET.online() || !S.class || !S.class.code){ GATE={paced:false, open:null, l1open:null, paused:false, offline:true, name:''}; cb&&cb(); return; }
+    NET.getGate('', g=>{
+      if(g && g.ok!==false){
+        GATE={ paced:!!g.paced, paused:!!g.paused,
+               open: Array.isArray(g.open)?g.open:null,
+               l1open: Array.isArray(g.l1open)?g.l1open:null,
+               name: g.name||'', offline:false };
+        if(g.name) S.class.name=g.name;
+      } else if(!GATE.offline===false || GATE.paced===undefined){
+        GATE={paced:false, open:null, l1open:null, paused:false, offline:true, name:''};
+      }
+      cb&&cb();
+    });
+  },
+
+  renderWaiting(reason){
+    this._stopGatePoll();
+    const ai=this.actIndexOfStage(S.stage);
+    const host=document.getElementById('stage');
+    const isReconn = reason==='reconnecting';
+    const title = isReconn ? 'Reconnecting to your class' : (GATE.paused?'The class is on hold':'Waiting for the next act');
+    const body = isReconn
+      ? 'This device lost the classroom server. This will retry automatically. Your progress is saved. If this stays down for more than a minute, tell your teacher, and check that you are on the college network.'
+      : (GATE.paused
+          ? 'Your instructor has paused the game for everyone. It will pick up right here when they resume. Your progress is saved.'
+          : 'You\u2019ve reached <b>'+MAP[ai].act.replace(/ ·.*/,'')+'</b>. Your instructor opens each act for the whole class together, so you\u2019re waiting for the rest of the room to catch up. Your progress is saved.');
+    host.innerHTML=`
+      <div class="panel" style="text-align:center">
+        <div class="eyebrow">${isReconn?'Network':'Paced by your instructor'}</div>
+        <h2 style="margin:8px 0 10px">${title}</h2>
+        <p class="muted" style="font-size:14.5px;max-width:440px;margin:0 auto">${body}</p>
+        <div class="row" style="justify-content:center;margin-top:18px"><button class="primary" onclick="F.checkGate()">Check now</button></div>
+        <p class="faint" style="font-size:12px;margin-top:10px">Checking automatically every few seconds.</p>
+      </div>`;
+    this.renderStat(); this.renderRail();
+    this._startGatePoll();
+  },
+
+  checkGate(){ this.refreshGate(()=>this.render()); },
+
+  _startGatePoll(){
+    if(GATE_POLL || !NET.online()) return;
+    const tick=()=>{ GATE_POLL=setTimeout(()=>{
+      this.refreshGate(()=>{
+        if(GATE.paced && (GATE.paused || (Array.isArray(GATE.l1open) && GATE.l1open.indexOf(S.stage)<0))){ GATE_POLL=null; tick(); }
+        else { GATE_POLL=null; this.render(); }
+      });
+    }, 12000 + Math.floor(Math.random()*8000)); }; // 12-20s jitter so 70 clients don't sync
+    tick();
+  },
+  _stopGatePoll(){ if(GATE_POLL){ clearTimeout(GATE_POLL); GATE_POLL=null; } },
+
+  actComplete(){
+    return `<div class="panel">
+      <div class="eyebrow">The journey is complete</div>
+      <h2 style="margin-bottom:10px">From scarcity to a market leader</h2>
+      <p class="muted" style="font-size:14px">You built a firm from a single unmet need and ran it through real competition. Here is every concept you applied, in the order a founder actually meets them.</p>
+      <table><thead><tr><th>Concept</th><th>Your choice</th></tr></thead><tbody>
+        ${S.log.map(l=>`<tr><td>${l.concept}</td><td>${l.choice}</td></tr>`).join('')}
+      </tbody></table>
+      <div class="reinforce" style="margin-top:16px"><div class="tag">The whole arc</div>
+        <p>Scarcity created the market and forced an opportunity-cost choice. Financing set your hurdle rate, which decided your capital budget. Demand drew the ceiling, costs drew the floor, and where marginal revenue met marginal cost set your price. Then rivals arrived and competed that price toward marginal cost, exactly as the market-structure spectrum predicted.</p>
+        <div class="key">Every number on every screen came from a formula you could see. That is the difference between learning economics and trusting a black box.</div>
+        <div class="toolkit" style="margin-top:8px">${S.toolkit.map(c=>`<span class="chip">✓ ${c}</span>`).join('')}</div></div>
+      <div class="row" style="margin-top:14px"><button class="ghost" onclick="F.reset()">Play again from scarcity</button></div>
+    </div>`;
+  },
+
+  boot(){
+    const s=this.load(); if(s&&s._build===BUILD){S=s;} else {S=fresh();}
+    // Read classroom identity written by the Hub (survives refresh, applies to all phases)
+    try{ const raw=localStorage.getItem('econventure_class_v1');
+         if(raw){ const cls=JSON.parse(raw)||{};
+           if(cls.code){ S.class={code:cls.code, sid:cls.sid||'', name:cls.name||'', uid:cls.uid||'', google:cls.google||null}; if(!S.student) S.student={}; if(cls.name) S.student.name=cls.name; if(cls.roll) S.student.id=cls.roll; S.student.section=cls.code; } } }catch(e){}
+    // Honor a "goto concept" directive dropped by another file (e.g. from L2 acts).
+    try{ const raw2=localStorage.getItem('econventure_pending_goto');
+         if(raw2){ const d=JSON.parse(raw2); localStorage.removeItem('econventure_pending_goto');
+           if(d && d.posKind==='concept' && typeof d.pos==='number'){ S.phase='play'; S.stage=Math.max(0,Math.min(TOTAL_IMPLEMENTED-1, d.pos));
+             // Ensure the opening/closing quiz gates DO NOT block a teacher-driven jump: mark the destination's opening done.
+             S.cQ.doneOpen[S.stage]=1; S.cQ.phase=''; S.cQ.qIdx=0; } } }catch(e){}
+    try{localStorage.setItem('_t','1');localStorage.removeItem('_t');}catch(e){S._nostore=true;}
+    this.refreshGate(()=>this.render());
+    try{ setInterval(()=>{ try{ NET.ping(S.phase==='play'?('L1:'+S.stage):S.phase); }catch(e){} },20000); }catch(e){}
+    try{ setInterval(()=>{ try{ NET.cloudSave(); }catch(e){} },30000); }catch(e){}
+    try{ window.addEventListener('beforeunload', ()=>{ try{ NET.cloudSave(); }catch(e){} }); }catch(e){}
+    /* initial push after 1s so the boot state (post-directive-apply) is captured */
+    try{ setTimeout(()=>{ try{ NET.cloudSave(); }catch(e){} },1000); }catch(e){}
+  },
+  applyDirective(d){
+    if(!d || !d.kind) return;
+    if(d.kind==='kick'){
+      try{ localStorage.removeItem('econventure_class_v1'); }catch(e){}
+      alert('Your teacher has removed you from this class. You will be returned to the Hub.');
+      try{ location.href='EconVenture_Hub.html'; }catch(e){}
+      return;
+    }
+    if(d.kind==='goto'){
+      if(d.posKind==='concept'){
+        const target=Math.max(0,Math.min(TOTAL_IMPLEMENTED-1,Number(d.pos)||0));
+        S.phase='play'; S.stage=target;
+        S.cQ.doneOpen[target]=1; S.cQ.phase=''; S.cQ.qIdx=0;
+        this.save(); this.refreshGate(()=>this.render());
+        return;
+      }
+      if(d.posKind==='act'){
+        // Not this file: leave to the Hub / target act to navigate.
+        const files=['EconVenture_L1_Aggregation.html','EconVenture_Founder.html','EconVenture_L2_Act1.html','EconVenture_L2_Act2.html','EconVenture_L2_Act3.html','EconVenture_L2_Act4.html','EconVenture_L2_Act5.html','EconVenture_L2_Act6.html','EconVenture_L2_Act7.html','EconVenture_L2_Act8.html','EconVenture_Live.html'];
+        const tgt=Number(d.pos)||0;
+        if(files[tgt] && tgt!==1){ try{ location.href=files[tgt]; }catch(e){} }
+        // if tgt is 1, that IS the Founder file — no navigation needed
+      }
+    }
+  }
+};
+
+/* ===== onboarding, knowledge check, and graded report ===== */
+F.renderIdentity=function(){
+  // Pull identity written by the Hub if present.
+  let cls={code:'',name:'',roll:'',sid:''};
+  try{ const raw=localStorage.getItem('econventure_class_v1'); if(raw) cls=Object.assign(cls,JSON.parse(raw)); }catch(e){}
+  if(cls.code){ S.class={code:cls.code, sid:cls.sid||'', name:cls.name||''}; S.student={name:cls.name||'',id:cls.roll||'',section:cls.code,team:''}; }
+  const st=S.student||{};
+  const inputs = cls.code
+    ? `<div style="background:rgba(231,189,84,.08);border:1px solid var(--gold);border-radius:11px;padding:12px 14px;margin-top:14px">
+         <div style="font-size:11px;letter-spacing:.6px;color:#f4d787">CLASSROOM · <b>${cls.code}</b>${cls.name?(' · '+cls.name):''}</div>
+         <div style="margin-top:4px;font-weight:600">${(cls.name||st.name||'').replace(/</g,'&lt;')}</div>
+         <div class="faint" style="font-size:12px;margin-top:2px">Roll: ${(cls.roll||st.id||'').replace(/</g,'&lt;')}</div>
+       </div>
+       <p class="faint" style="font-size:11.5px;margin-top:10px">Your teacher opens each concept when the class is ready. To change your name or roll, go back to the Hub and sign out.</p>`
+    : `<div style="margin-top:18px;display:grid;gap:13px">
+        <label class="fld"><span>Your full name</span><input id="f_name" value="${(st.name||'').replace(/"/g,'&quot;')}" placeholder="e.g. Aarav Sharma"></label>
+        <label class="fld"><span>Roll number / Student ID</span><input id="f_id" value="${(st.id||'').replace(/"/g,'&quot;')}" placeholder="e.g. 2026-MBA-118"></label>
+      </div>
+      <p class="faint" style="font-size:11.5px;margin-top:11px">No class code entered. You are practising solo; each concept still requires its opening and closing checks. To join a class, return to the Hub.</p>`;
+  document.getElementById('stage').innerHTML=`
+    <div class="panel">
+      <div class="eyebrow">EconVenture \u00b7 Founder\u2019s Journey</div>
+      <h2 style="margin-bottom:8px">Build a company from a single idea</h2>
+      <p class="muted" style="font-size:14.5px">Over a sequence of short decisions you will found a startup, read its market, control its costs, set a profit-maximizing price, and run it against real rivals. Every concept starts with a quick check and ends with two more, so you and your teacher can see what you learned. About 30 to 45 minutes; progress saves automatically in this browser.</p>
+      ${S._nostore?'<div class="payoff" style="margin-top:12px"><div class="fb"><span class="bad">Heads up:</span> this browser is blocking local storage (often private or incognito mode). The game still works, but your progress will not be saved if you close the tab. Use a normal window if you want to pause and resume.</div></div>':''}
+      ${inputs}
+      <div class="row" style="margin-top:20px"><button class="primary right" onclick="F.beginQuiz('pre')">Start with the pre-course check</button></div>
+    </div>`;
+};
+
+F.beginQuiz=function(which){
+  if(which==='pre'){
+    // Solo path uses DOM inputs; classroom path has identity already set from cls.
+    if(!S.class || !S.class.code){
+      const name=(document.getElementById('f_name')||{value:''}).value.trim();
+      const id=(document.getElementById('f_id')||{value:''}).value.trim();
+      if(!name||!id){ alert('Please enter your name and roll number so your work can be credited.'); return; }
+      S.student={name,id,section:'',team:''};
+    }
+    S.preAns=[];
+  } else { S.postAns=[]; }
+  S.phase=which; S.qIdx=0; this.save(); this.render(); window.scrollTo(0,0);
+};
+
+F.renderQuiz=function(which){
+  const idx=S.qIdx, item=QUIZ[idx];
+  const opts=item.opts.map((o,i)=>`<div class="opt" onclick="F.answerQuiz(${i})"><div class="lab">${o}</div></div>`).join('');
+  document.getElementById('stage').innerHTML=`
+    <div class="panel">
+      <div class="eyebrow">${which==='pre'?'Knowledge check · before you start':'Knowledge check · what you learned'} · question ${idx+1} of ${QUIZ.length}</div>
+      <div class="qprog"><div style="width:${(idx/QUIZ.length)*100}%"></div></div>
+      <h2 style="margin-bottom:16px">${item.q}</h2>
+      <div class="opts">${opts}</div>
+    </div>`;
+};
+
+/* ---- concept-level opening + closing quizzes: gate every one of the 16 concepts ---- */
+F.renderConceptQuiz=function(which){
+  const cIdx=S.stage, bundle=CQUIZ[cIdx]; if(!bundle){ S.cQ.phase=''; return this.render(); }
+  const items = which==='open' ? [bundle.open] : bundle.close;
+  const idx=S.cQ.qIdx, item=items[idx], total=items.length;
+  const conceptName=(STAGES[cIdx]&&STAGES[cIdx].concept)||('Concept '+(cIdx+1));
+  const label = which==='open'
+    ? 'Before we start \u00b7 <b>'+conceptName+'</b>'
+    : 'What did you take away? \u00b7 <b>'+conceptName+'</b>';
+  const opts=item.opts.map((o,i)=>'<div class="opt" onclick="F.answerConceptQuiz('+i+')"><div class="lab">'+o+'</div></div>').join('');
+  document.getElementById('stage').innerHTML=
+    '<div class="panel">'+
+      '<div class="eyebrow">'+label+' \u00b7 question '+(idx+1)+' of '+total+'</div>'+
+      '<div class="qprog"><div style="width:'+((idx/total)*100)+'%"></div></div>'+
+      '<h2 style="margin-bottom:16px">'+item.q+'</h2>'+
+      '<div class="opts">'+opts+'</div>'+
+      '<p class="faint" style="font-size:11.5px;margin-top:12px">'+
+        (which==='open'?'One quick check, then the concept opens.':'Two closing questions, then the next concept unlocks.')+
+      '</p>'+
+    '</div>';
+};
+F.answerConceptQuiz=function(i){
+  const cIdx=S.stage, bundle=CQUIZ[cIdx]; if(!bundle){ return; }
+  if(S.cQ.phase==='cOpen'){
+    const ok = i===bundle.open.a ? 1 : 0;
+    S.cQ.openScore=ok; S.cQ.doneOpen[cIdx]=1; S.cQ.phase=''; S.cQ.qIdx=0;
+    this.save(); try{ NET.logQuiz(cIdx,'pre',ok,1); }catch(e){}
+    this.render(); window.scrollTo(0,0); return;
+  }
+  if(S.cQ.phase==='cClose'){
+    S.cQ.closeAns.push(i);
+    if(S.cQ.qIdx<bundle.close.length-1){ S.cQ.qIdx++; this.save(); this.render(); return; }
+    const score=S.cQ.closeAns.reduce((s,a,k)=>s+(a===bundle.close[k].a?1:0),0);
+    try{ NET.logQuiz(cIdx,'post',score,bundle.close.length); }catch(e){}
+    S.cQ.doneClose[cIdx]=1; S.cQ.phase=''; S.cQ.qIdx=0; S.cQ.closeAns=[];
+    S.stage++;
+    this.save(); this.refreshGate(()=>{ this.render(); window.scrollTo(0,0); });
+    try{ NET.ping('L1:'+S.stage); }catch(e){}
+    return;
+  }
+};
+
+F.answerQuiz=function(i){
+  const which=S.phase, arr= which==='pre'?S.preAns:S.postAns;
+  arr.push(i); S.qIdx++;
+  if(S.qIdx>=QUIZ.length){
+    const score=arr.reduce((s,a,k)=>s+(a===QUIZ[k].a?1:0),0);
+    if(which==='pre'){ S.preScore=score; S.phase='play'; S.stage=0; this.save(); this.refreshGate(()=>{ this.render(); window.scrollTo(0,0); }); return; }
+    else { S.postScore=score; S.phase='report'; }
+    this.save(); this.render(); window.scrollTo(0,0); return;
+  }
+  this.save(); this.render();
+};
+
+F.completionCode=function(){
+  const st=S.student||{};
+  const init=(st.name||'XX').split(/\s+/).map(w=>(w[0]||'')).join('').toUpperCase().slice(0,3)||'XX';
+  const idTail=(st.id||'').replace(/[^A-Za-z0-9]/g,'').toUpperCase().slice(-6)||'000000';
+  let rank=0,n=0,profK=0;
+  const run=S.run;
+  if(run&&run.history&&run.history.length){ const ranked=[...run.firms].sort((a,b)=>b.cash-a.cash); rank=ranked.findIndex(f=>f.id==='you')+1; n=run.firms.length; profK=Math.round(run.history.reduce((s,h)=>s+h.profit,0)/1000); }
+  const core=`${init}-${idTail}-P${S.preScore||0}Q${S.postScore||0}-C${S.toolkit.length}-R${rank}of${n}-${profK}k`;
+  let h=0; for(const ch of core) h=(h*31+ch.charCodeAt(0))%46656;
+  return `EV${BUILD}-${core}-${h.toString(36).toUpperCase().padStart(3,'0')}`;
+};
+
+F.downloadReport=function(){
+  const st=S.student||{}, L=[];
+  L.push('EconVenture — Founder\u2019s Journey — Completion Report');
+  L.push('====================================================');
+  L.push('Name:    '+(st.name||''));
+  L.push('Roll/ID: '+(st.id||''));
+  L.push('Section: '+(st.section||''));
+  L.push('');
+  L.push('Knowledge check before: '+(S.preScore||0)+' / '+QUIZ.length);
+  L.push('Knowledge check after:  '+(S.postScore||0)+' / '+QUIZ.length);
+  const d=(S.postScore||0)-(S.preScore||0); L.push('Learning gain:          '+(d>=0?'+':'')+d);
+  L.push('Concepts completed:     '+S.toolkit.length+' / '+TOTAL_IMPLEMENTED);
+  if(S.run&&S.run.history&&S.run.history.length){ const ranked=[...S.run.firms].sort((a,b)=>b.cash-a.cash); const rank=ranked.findIndex(f=>f.id==='you')+1; const tot=S.run.history.reduce((s,h)=>s+h.profit,0);
+    L.push('Competitive run:        #'+rank+' of '+S.run.firms.length+' in '+E.structOf(S.run.structure).label+', total profit '+inr(tot)); }
+  L.push('');
+  L.push('Decision log:');
+  S.log.forEach(l=>L.push('  - '+l.concept+': '+l.choice));
+  L.push('');
+  L.push('Completion code: '+this.completionCode());
+  L.push('(Submit this file or the code above as your instructor directs.)');
+  const blob=new Blob([L.join('\n')],{type:'text/plain'});
+  const url=URL.createObjectURL(blob), a=document.createElement('a');
+  a.href=url; a.download='EconVenture_'+((st.id||'student').replace(/[^A-Za-z0-9]/g,'')||'student')+'.txt'; document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(()=>URL.revokeObjectURL(url),3000);
+  this.toastMsg('Report downloaded');
+};
+
+F.copyCode=function(){
+  const c=this.completionCode();
+  if(navigator.clipboard&&navigator.clipboard.writeText){ navigator.clipboard.writeText(c).then(()=>this.toastMsg('Code copied')).catch(()=>this.toastMsg(c)); }
+  else this.toastMsg(c);
+};
+
+F.toastMsg=function(m){ const t=document.getElementById('toast'); if(!t)return; t.textContent=m; t.classList.add('on'); clearTimeout(this._tt); this._tt=setTimeout(()=>t.classList.remove('on'),2200); };
+
+F.renderFinalReport=function(){
+  const st=S.student||{}, pre=S.preScore||0, post=S.postScore||0, d=post-pre;
+  let runHtml='', badges=['Completed the Journey'];
+  if(d>0) badges.push('Learning Gain +'+d);
+  if(S.run&&S.run.history&&S.run.history.length){
+    const ranked=[...S.run.firms].sort((a,b)=>b.cash-a.cash); const rank=ranked.findIndex(f=>f.id==='you')+1; const tot=S.run.history.reduce((s,h)=>s+h.profit,0);
+    if(rank===1) badges.push('Market Leader'); if(tot>0) badges.push('Turned a Profit');
+    if(S.run.history.some(h=>h.macro&&h.macro.type==='crisis'&&h.profit>0)) badges.push('Survived the Recession');
+    runHtml=`<tr><td>Competitive run</td><td>#${rank} of ${S.run.firms.length} · ${E.structOf(S.run.structure).label} · profit ${inr(tot)}</td></tr>`;
+  }
+  document.getElementById('stage').innerHTML=`
+    <div class="panel">
+      <div class="eyebrow">Completion report · ${st.section||'unsectioned'}</div>
+      <h2 style="margin-bottom:4px">${st.name||'Student'} — journey complete</h2>
+      <p class="muted" style="font-size:13px">Roll / ID: ${st.id||'—'}${st.team?' · Team: '+st.team:''}</p>
+      <div class="scorebar">
+        <div class="scorebox"><div class="n">${pre}/${QUIZ.length}</div><div class="l">before</div></div>
+        <div class="scorebox"><div class="n">${post}/${QUIZ.length}</div><div class="l">after</div></div>
+        <div class="scorebox"><div class="n ${d>=0?'good':'bad'}">${d>=0?'+':''}${d}</div><div class="l">learning gain</div></div>
+        <div class="scorebox"><div class="n gold">${S.toolkit.length}/${TOTAL_IMPLEMENTED}</div><div class="l">concepts</div></div>
+      </div>
+      <div class="tablewrap"><table><thead><tr><th>Concept</th><th>Your choice</th></tr></thead><tbody>
+        ${S.log.map(l=>`<tr><td>${l.concept}</td><td>${l.choice}</td></tr>`).join('')}${runHtml}
+      </tbody></table></div>
+      ${badges.length?`<div class="toolkit" style="margin-top:12px">${badges.map(b=>`<span class="chip">★ ${b}</span>`).join('')}</div>`:''}
+      <div class="reinforce" style="margin-top:16px"><div class="tag">The whole arc</div>
+        <p>Scarcity created the market and forced an opportunity-cost choice. Financing set your hurdle rate, which decided your capital budget. Demand drew the ceiling, costs drew the floor, and where marginal revenue met marginal cost set your price. Then rivals arrived and competed that price toward marginal cost, exactly as the market-structure spectrum predicted.</p>
+        <div class="key">Every number on every screen came from a formula you could see. That is the difference between learning economics and trusting a black box.</div></div>
+      <h3 style="margin:18px 0 8px">Submit your work</h3>
+      <p class="muted" style="font-size:13px">${NET.online()?'Your result is logged to your class automatically. You can also keep a copy.':'Send this to your instructor the way they asked. Download the full report, or copy the short code to paste into a form.'}</p>
+      <div class="codebox">${this.completionCode()}</div>
+      <div class="row" style="margin-top:12px">
+        <button class="primary" onclick="F.downloadReport()">Download my report</button>
+        <button onclick="F.copyCode()">Copy completion code</button>
+      </div>
+      <h3 style="margin:20px 0 8px">Class tournament</h3>
+      <p class="muted" style="font-size:13px">Everyone plays the same standardized market against the same rivals. Your four-quarter profit is your score on the class leaderboard. ${S.tourScore!=null?`<b>Your score so far: <span class="${S.tourScore>=0?'good':'bad'}">${inr(S.tourScore)}</span>.</b>`:''}</p>
+      <div class="row" style="margin-top:8px">
+        <button class="primary" onclick="F.startTournament()">${S.tourScore!=null?'Play the tournament again':'Enter the class tournament'}</button>
+        <button class="ghost right" onclick="F.reset()">Play the whole journey again</button>
+      </div>
+      <div id="lbwrap" style="margin-top:16px"></div>
+    </div>`;
+    if(NET.online()){ this.submitResult(); this.loadLeaderboard(); }
+};
+
+F.submitResult=function(){
+  const st=S.student||{};
+  let rank=0,n=0,runProfit=0;
+  if(S.run&&S.run.history&&S.run.history.length){ const ranked=[...S.run.firms].sort((a,b)=>b.cash-a.cash); rank=ranked.findIndex(f=>f.id==='you')+1; n=S.run.firms.length; runProfit=S.run.history.reduce((s,h)=>s+h.profit,0); }
+  const payload={ ts:Date.now(), name:st.name||'', id:st.id||'', section:st.section||'', team:st.team||'',
+    pre:S.preScore||0, post:S.postScore||0, gain:(S.postScore||0)-(S.preScore||0), concepts:S.toolkit.length,
+    runRank:rank, runField:n, tourScore:(S.tourScore==null?'':S.tourScore), code:this.completionCode() };
+  NET.submit(payload, r=>{ if(r&&r.error) this.toastMsg('Could not reach the class server'); });
+};
+
+F.loadLeaderboard=function(){
+  const wrap=document.getElementById('lbwrap'); if(!wrap) return;
+  if(!NET.online()){ wrap.innerHTML='<p class="faint" style="font-size:12px">Class standings appear here when the game is opened through your class link.</p>'; return; }
+  wrap.innerHTML='<p class="faint" style="font-size:12px">Loading class standings…</p>';
+  const meId=(S.student||{}).id, meTeam=((S.student||{}).team||'').trim();
+  NET.leaderboard(rows=>{
+    if(!rows||!rows.length){ wrap.innerHTML='<div class="row" style="justify-content:space-between"><span class="faint" style="font-size:12px">No tournament scores posted yet. Be the first.</span><button onclick="F.loadLeaderboard()">Refresh</button></div>'; return; }
+    rows.sort((a,b)=>(b.tourScore||0)-(a.tourScore||0));
+    const myIdx=rows.findIndex(r=>r.id===meId), myRank=myIdx>=0?myIdx+1:null;
+    const teams={};
+    rows.forEach(r=>{ const t=(r.team||'').trim()||'(no team)'; if(!teams[t]||(r.tourScore||0)>teams[t].best) teams[t]={team:t,best:r.tourScore||0}; });
+    const teamArr=Object.values(teams).sort((a,b)=>b.best-a.best);
+    const myTeamRank=meTeam?(teamArr.findIndex(t=>t.team===meTeam)+1):0;
+    const teamRows=teamArr.slice(0,10).map((t,i)=>`<tr style="${meTeam&&t.team===meTeam?'background:#16315a':''}"><td>${i+1}</td><td>${t.team}</td><td style="text-align:right">${inr(t.best)}</td></tr>`).join('');
+    const playerRows=rows.slice(0,10).map((r,i)=>`<tr style="${r.id===meId?'background:#16315a':''}"><td>${i+1}</td><td>${r.name||'—'}</td><td>${r.team||''}</td><td>${r.section||''}</td><td style="text-align:right">${inr(r.tourScore||0)}</td></tr>`).join('');
+    wrap.innerHTML=`
+      <div class="row" style="justify-content:space-between;align-items:center;margin-bottom:8px"><h3 style="margin:0">Class standings</h3><button onclick="F.loadLeaderboard()">Refresh</button></div>
+      ${myRank?`<div class="payoff" style="margin-bottom:10px"><div class="fb">You are <b>#${myRank}</b> of ${rows.length} players${meTeam?`, and team <b>${meTeam}</b> sits <b>#${myTeamRank}</b> of ${teamArr.length}`:''}, scoring <b>${inr(rows[myIdx].tourScore||0)}</b>.</div></div>`:''}
+      <div style="font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--gold);margin:6px 0 4px">Top teams</div>
+      <div class="tablewrap"><table><thead><tr><th>#</th><th>Team</th><th style="text-align:right">Best score</th></tr></thead><tbody>${teamRows}</tbody></table></div>
+      <div style="font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--gold);margin:12px 0 4px">Top players</div>
+      <div class="tablewrap"><table><thead><tr><th>#</th><th>Name</th><th>Team</th><th>Sec</th><th style="text-align:right">Score</th></tr></thead><tbody>${playerRows}</tbody></table></div>`;
+  });
+};
+
+F.startTournament=function(){ S.phase='tournament'; S.run=null; this.save(); this.render(); window.scrollTo(0,0); };
+
+F.renderTournamentDone=function(st){
+  const r=S.run, ranked=[...r.firms].sort((a,b)=>b.cash-a.cash), rank=ranked.findIndex(f=>f.id==='you')+1;
+  const tot=r.history.reduce((s,h)=>s+h.profit,0);
+  S.tourScore=tot; this.save();
+  if(NET.online()) this.submitResult();
+  const standings=ranked.map((f,i)=>`<tr style="${f.is_bot?'':'background:#16315a'}"><td>${i+1}</td><td>${f.name}</td><td style="text-align:right">${inr(f.cash)}</td></tr>`).join('');
+  document.getElementById('stage').innerHTML=`
+    <div class="panel">
+      <div class="eyebrow">Class Tournament · result</div>
+      <h2 style="margin-bottom:6px">Tournament score: <span class="${tot>=0?'good':'bad'}">${inr(tot)}</span></h2>
+      <p class="muted" style="font-size:13px">You finished #${rank} of ${r.firms.length} against the standardized field across four quarters. ${NET.online()?'Your score is posted to the class leaderboard.':'Played offline, so this score is just for you.'}</p>
+      <div class="tablewrap"><table><thead><tr><th>#</th><th>Firm</th><th style="text-align:right">Cash</th></tr></thead><tbody>${standings}</tbody></table></div>
+      <div id="lbwrap" style="margin-top:16px"></div>
+      <div class="row" style="margin-top:16px">
+        <button onclick="F.startTournament()">Try again for a better score</button>
+        <button class="primary right" onclick="F.backToReport()">Back to report</button>
+      </div>
+    </div>`;
+  this.renderStat(); this.renderRail(); this.loadLeaderboard();
+};
+
+F.backToReport=function(){ S.phase='report'; this.save(); this.render(); window.scrollTo(0,0); };
+
+window.addEventListener('DOMContentLoaded',()=>F.boot());
+</script>
+</body>
+</html>
