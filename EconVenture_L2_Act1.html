@@ -186,7 +186,7 @@ svg.chartIn line[stroke="#fff"]{opacity:0;animation:fadeIn .4s var(--ease) .58s 
 /* EconVenture classroom helper — must be identical across every act.
    Enforces the faculty gate for THIS act (network required; fail-closed after a grace period)
    and reports position + completion to the classroom backend. */
-const CLASS_URL='';  /* faculty pastes the same Apps Script /exec URL used by Hub/Founder */
+const CLASS_URL= "https://script.google.com/macros/s/AKfycbzhbpfJRDByctZkOpcxMh9mq5otcRRmYaAvxMAWolbyiy1noAoCLvllgTabSU59Pwm9/exec";  /* faculty pastes the same Apps Script /exec URL used by Hub/Founder */
 const CLS={
   cfg:{ actIdx:-1, actKind:'act', graceMs:15000, pollMs:6000, pingMs:20000 },
   state:{ code:'', sid:'', name:'', gate:null, lastOk:0, tries:0, active:false },
